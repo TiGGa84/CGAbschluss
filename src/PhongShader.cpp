@@ -61,102 +61,102 @@ const char *FragmentShaderCode =
 "}";
 
 PhongShader::PhongShader() :
- DiffuseColor(0.8f,0.8f,0.8f),
- SpecularColor(0.5f,0.5f,0.5f),
- AmbientColor(0.2f,0.2f,0.2f),
- SpecularExp(20.0f),
- LightPos(20.0f,20.0f,20.0f),
- LightColor(1,1,1),
- DiffuseTexture(Texture::defaultTex()),
- UpdateState(0xFFFFFFFF)
+	DiffuseColor(0.8f, 0.8f, 0.8f),
+	SpecularColor(0.5f, 0.5f, 0.5f),
+	AmbientColor(0.2f, 0.2f, 0.2f),
+	SpecularExp(20.0f),
+	LightPos(20.0f, 20.0f, 20.0f),
+	LightColor(1, 1, 1),
+	DiffuseTexture(Texture::defaultTex()),
+	UpdateState(0xFFFFFFFF)
 {
-    ShaderProgram = createShaderProgram(VertexShaderCode, FragmentShaderCode);
-    assignLocations();
+	ShaderProgram = createShaderProgram(VertexShaderCode, FragmentShaderCode);
+	assignLocations();
 }
 void PhongShader::assignLocations()
 {
-    DiffuseColorLoc = glGetUniformLocation(ShaderProgram, "DiffuseColor");
-    AmbientColorLoc = glGetUniformLocation(ShaderProgram, "AmbientColor");
-    SpecularColorLoc = glGetUniformLocation(ShaderProgram, "SpecularColor");
-    SpecularExpLoc = glGetUniformLocation(ShaderProgram, "SpecularExp");
-    DiffuseTexLoc = glGetUniformLocation(ShaderProgram, "DiffuseTexture");
-    LightPosLoc = glGetUniformLocation(ShaderProgram, "LightPos");
-    LightColorLoc = glGetUniformLocation(ShaderProgram, "LightColor");
-    EyePosLoc = glGetUniformLocation(ShaderProgram, "EyePos");
-    ModelMatLoc = glGetUniformLocation(ShaderProgram, "ModelMat");
-    ModelViewProjLoc  = glGetUniformLocation(ShaderProgram, "ModelViewProjMat");
+	DiffuseColorLoc = glGetUniformLocation(ShaderProgram, "DiffuseColor");
+	AmbientColorLoc = glGetUniformLocation(ShaderProgram, "AmbientColor");
+	SpecularColorLoc = glGetUniformLocation(ShaderProgram, "SpecularColor");
+	SpecularExpLoc = glGetUniformLocation(ShaderProgram, "SpecularExp");
+	DiffuseTexLoc = glGetUniformLocation(ShaderProgram, "DiffuseTexture");
+	LightPosLoc = glGetUniformLocation(ShaderProgram, "LightPos");
+	LightColorLoc = glGetUniformLocation(ShaderProgram, "LightColor");
+	EyePosLoc = glGetUniformLocation(ShaderProgram, "EyePos");
+	ModelMatLoc = glGetUniformLocation(ShaderProgram, "ModelMat");
+	ModelViewProjLoc = glGetUniformLocation(ShaderProgram, "ModelViewProjMat");
 }
 void PhongShader::activate(const BaseCamera& Cam) const
 {
-    BaseShader::activate(Cam);
-   
-    // update uniforms if necessary
-    if(UpdateState&DIFF_COLOR_CHANGED)
-        glUniform3f(DiffuseColorLoc, DiffuseColor.R, DiffuseColor.G, DiffuseColor.B);
-    if(UpdateState&AMB_COLOR_CHANGED)
-        glUniform3f(AmbientColorLoc, AmbientColor.R, AmbientColor.G, AmbientColor.B);
-    if(UpdateState&SPEC_COLOR_CHANGED)
-        glUniform3f(SpecularColorLoc, SpecularColor.R, SpecularColor.G, SpecularColor.B);
-    if(UpdateState&SPEC_EXP_CHANGED)
-        glUniform1f(SpecularExpLoc, SpecularExp);
-    
-    DiffuseTexture->activate(0);
-    if(UpdateState&DIFF_TEX_CHANGED && DiffuseTexture)
-        glUniform1i(DiffuseTexLoc, 0);
-    
-    if(UpdateState&LIGHT_COLOR_CHANGED)
-        glUniform3f(LightColorLoc, LightColor.R, LightColor.G, LightColor.B);
-    if(UpdateState&LIGHT_POS_CHANGED)
-        glUniform3f(LightPosLoc, LightPos.X, LightPos.Y, LightPos.Z);
+	BaseShader::activate(Cam);
 
-    // always update matrices
-    Matrix ModelViewProj = Cam.getProjectionMatrix() * Cam.getViewMatrix() * modelTransform();
-    glUniformMatrix4fv(ModelMatLoc, 1, GL_FALSE, modelTransform().m);
-    glUniformMatrix4fv(ModelViewProjLoc, 1, GL_FALSE, ModelViewProj.m);
-    
-    Vector EyePos = Cam.position();
-    glUniform3f(EyePosLoc, EyePos.X, EyePos.Y, EyePos.Z );
-    
-    UpdateState = 0x0;
+	// update uniforms if necessary
+	if (UpdateState&DIFF_COLOR_CHANGED)
+		glUniform3f(DiffuseColorLoc, DiffuseColor.R, DiffuseColor.G, DiffuseColor.B);
+	if (UpdateState&AMB_COLOR_CHANGED)
+		glUniform3f(AmbientColorLoc, AmbientColor.R, AmbientColor.G, AmbientColor.B);
+	if (UpdateState&SPEC_COLOR_CHANGED)
+		glUniform3f(SpecularColorLoc, SpecularColor.R, SpecularColor.G, SpecularColor.B);
+	if (UpdateState&SPEC_EXP_CHANGED)
+		glUniform1f(SpecularExpLoc, SpecularExp);
+
+	DiffuseTexture->activate(0);
+	if (UpdateState&DIFF_TEX_CHANGED && DiffuseTexture)
+		glUniform1i(DiffuseTexLoc, 0);
+
+	if (UpdateState&LIGHT_COLOR_CHANGED)
+		glUniform3f(LightColorLoc, LightColor.R, LightColor.G, LightColor.B);
+	if (UpdateState&LIGHT_POS_CHANGED)
+		glUniform3f(LightPosLoc, LightPos.X, LightPos.Y, LightPos.Z);
+
+	// always update matrices
+	Matrix ModelViewProj = Cam.getProjectionMatrix() * Cam.getViewMatrix() * modelTransform();
+	glUniformMatrix4fv(ModelMatLoc, 1, GL_FALSE, modelTransform().m);
+	glUniformMatrix4fv(ModelViewProjLoc, 1, GL_FALSE, ModelViewProj.m);
+
+	Vector EyePos = Cam.position();
+	glUniform3f(EyePosLoc, EyePos.X, EyePos.Y, EyePos.Z);
+
+	UpdateState = 0x0;
 }
-void PhongShader::diffuseColor( const Color& c)
+void PhongShader::diffuseColor(const Color& c)
 {
-    DiffuseColor = c;
-    UpdateState |= DIFF_COLOR_CHANGED;
+	DiffuseColor = c;
+	UpdateState |= DIFF_COLOR_CHANGED;
 }
-void PhongShader::ambientColor( const Color& c)
+void PhongShader::ambientColor(const Color& c)
 {
-    AmbientColor = c;
-    UpdateState |= AMB_COLOR_CHANGED;
+	AmbientColor = c;
+	UpdateState |= AMB_COLOR_CHANGED;
 }
-void PhongShader::specularColor( const Color& c)
+void PhongShader::specularColor(const Color& c)
 {
-    SpecularColor = c;
-    UpdateState |= SPEC_COLOR_CHANGED;
+	SpecularColor = c;
+	UpdateState |= SPEC_COLOR_CHANGED;
 }
-void PhongShader::specularExp( float exp)
+void PhongShader::specularExp(float exp)
 {
-    SpecularExp = exp;
-    UpdateState |= SPEC_EXP_CHANGED;
+	SpecularExp = exp;
+	UpdateState |= SPEC_EXP_CHANGED;
 }
-void PhongShader::lightPos( const Vector& pos)
+void PhongShader::lightPos(const Vector& pos)
 {
-    LightPos = pos;
-    UpdateState |= LIGHT_POS_CHANGED;
+	LightPos = pos;
+	UpdateState |= LIGHT_POS_CHANGED;
 }
 void PhongShader::lightColor(const Color& c)
 {
-    LightColor = c;
-    UpdateState |= LIGHT_COLOR_CHANGED;
+	LightColor = c;
+	UpdateState |= LIGHT_COLOR_CHANGED;
 }
 
 void PhongShader::diffuseTexture(const Texture* pTex)
 {
-    DiffuseTexture = pTex;
-    if(!DiffuseTexture)
-        DiffuseTexture = Texture::defaultTex();
-    
-    UpdateState |= DIFF_TEX_CHANGED;
+	DiffuseTexture = pTex;
+	if (!DiffuseTexture)
+		DiffuseTexture = Texture::defaultTex();
+
+	UpdateState |= DIFF_TEX_CHANGED;
 }
 
 

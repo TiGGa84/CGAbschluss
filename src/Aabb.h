@@ -15,12 +15,12 @@
 class AABB
 {
 public:
-    Vector Min;
-    Vector Max;
-    AABB();
-    AABB(const Vector& min, const Vector& max);
-    AABB(float minX, float minY, float minZ, float maxX, float maxY, float maxZ);
-    Vector size() const;
+	Vector Min;
+	Vector Max;
+	AABB();
+	AABB(const Vector& min, const Vector& max);
+	AABB(float minX, float minY, float minZ, float maxX, float maxY, float maxZ);
+	Vector size() const;
 };
 
 

@@ -13,70 +13,71 @@
 void PrintOpenGLVersion();
 
 
-int main () {
-    FreeImage_Initialise();
-    // start GL context and O/S window using the GLFW helper library
-    if (!glfwInit ()) {
-        fprintf (stderr, "ERROR: could not start GLFW3\n");
-        return 1;
-    }
-    
+int main() {
+	FreeImage_Initialise();
+	// start GL context and O/S window using the GLFW helper library
+	if (!glfwInit()) {
+		fprintf(stderr, "ERROR: could not start GLFW3\n");
+		return 1;
+	}
+
 #ifdef __APPLE__
-    glfwWindowHint (GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint (GLFW_CONTEXT_VERSION_MINOR, 2);
-    glfwWindowHint (GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #endif
-    
-    const int WindowWidth = 800;
-    const int WindowHeight = 600;
-    
-    GLFWwindow* window = glfwCreateWindow (WindowWidth, WindowHeight, "Computergrafik - Hochschule Osnabrück", NULL, NULL);
-    if (!window) {
-        fprintf (stderr, "ERROR: can not open window with GLFW3\n");
-        glfwTerminate();
-        return 1;
-    }
-    glfwMakeContextCurrent (window);
+
+	const int WindowWidth = 800;
+	const int WindowHeight = 600;
+
+	// TODO Name
+	GLFWwindow* window = glfwCreateWindow(WindowWidth, WindowHeight, "Computergrafik - Hochschule Osnabrück", NULL, NULL);
+	if (!window) {
+		fprintf(stderr, "ERROR: can not open window with GLFW3\n");
+		glfwTerminate();
+		return 1;
+	}
+	glfwMakeContextCurrent(window);
 
 #if WIN32
 	glewExperimental = GL_TRUE;
 	glewInit();
 #endif
 
-    PrintOpenGLVersion();
-    
-    {
-        double lasttime = glfwGetTime();
-        Application App(window);
-        App.start();
-        while (!glfwWindowShouldClose (window)) {
-            // once per frame
-            glfwPollEvents();
-            
-            double time = glfwGetTime();
-            double frametime = time - lasttime;
-            lasttime = time;
-            
-            App.update(time, frametime);
-            
-            App.draw();
-            glfwSwapBuffers (window);
-        }
-        App.end();
-    }
-    
-    glfwTerminate();
-    return 0;
+	PrintOpenGLVersion();
+
+	{
+		double lasttime = glfwGetTime();
+		Application App(window);
+		App.start();
+		while (!glfwWindowShouldClose(window)) {
+			// once per frame
+			glfwPollEvents();
+
+			double time = glfwGetTime();
+			double frametime = time - lasttime;
+			lasttime = time;
+
+			App.update(time, frametime);
+
+			App.draw();
+			glfwSwapBuffers(window);
+		}
+		App.end();
+	}
+
+	glfwTerminate();
+	return 0;
 }
 
 
 void PrintOpenGLVersion()
 {
-    // get version info
-    const GLubyte* renderer = glGetString (GL_RENDERER); // get renderer string
-    const GLubyte* version = glGetString (GL_VERSION); // version as a string
-    printf ("Renderer: %s\n", renderer);
-    printf ("OpenGL version supported %s\n", version);
+	// get version info
+	const GLubyte* renderer = glGetString(GL_RENDERER); // get renderer string
+	const GLubyte* version = glGetString(GL_VERSION); // version as a string
+	printf("Renderer: %s\n", renderer);
+	printf("OpenGL version supported %s\n", version);
 }
 

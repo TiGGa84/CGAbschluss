@@ -30,16 +30,16 @@
 class ConstantShader : public BaseShader
 {
 public:
-    ConstantShader();
-    void color( const Color& c);
-    const Color& color() const { return Col; }
-    virtual void activate(const BaseCamera& Cam) const;
+	ConstantShader();
+	void color(const Color& c);
+	const Color& color() const { return Col; }
+	virtual void activate(const BaseCamera& Cam) const;
 private:
-    Color Col;
-    GLuint ShaderProgram;
-    GLint ColorLoc;
-    GLint ModelViewProjLoc;
-    
+	Color Col;
+	GLuint ShaderProgram;
+	GLint ColorLoc;
+	GLint ModelViewProjLoc;
+
 };
 
 #endif /* ConstantShader_hpp */

@@ -17,30 +17,24 @@
 #include "vertexbuffer.h"
 #include "indexbuffer.h"
 #include "basemodel.h"
-#include "tank.h"
 
 class Application
 {
 public:
-    typedef std::list<BaseModel*> ModelList;
-    Application(GLFWwindow* pWin);
-    void start();
-    void update(double time, double frametime);
-    void draw();
-    void end();
-    
-    void getInput(float &steering, float& throttle);
-    Vector getMouseInput();
-    
-protected:
-    Vector calc3DRay( float x, float y, Vector& Pos);
-    Camera Cam;
-    ModelList Models;
-    GLFWwindow* pWindow;
-    Tank* pTank;
-    Model* pTankTop;
-    Model* pTankBot;
+	typedef std::list<BaseModel*> ModelList;
+	Application(GLFWwindow* pWin);
+	void start();
+	void update(double time, double frametime);
+	void draw();
+	void end();
 
+	void getInput();
+	Vector getMouseInput();
+
+protected:
+	Camera Cam;
+	ModelList Models;
+	GLFWwindow* pWindow;
 };
 
 #endif /* Application_hpp */

@@ -28,19 +28,19 @@
 class BaseShader
 {
 public:
-    BaseShader();
-    virtual ~BaseShader() {}
-    virtual void modelTransform(const Matrix& m) { ModelTransform = m; }
-    virtual const Matrix& modelTransform() const { return ModelTransform; }
-    
-    virtual void activate(const BaseCamera& Cam) const;
-    virtual void deactivate() const;
+	BaseShader();
+	virtual ~BaseShader() {}
+	virtual void modelTransform(const Matrix& m) { ModelTransform = m; }
+	virtual const Matrix& modelTransform() const { return ModelTransform; }
+
+	virtual void activate(const BaseCamera& Cam) const;
+	virtual void deactivate() const;
 protected:
-    GLuint createShaderProgram( const char* VScode, const char* FScode );
-    Matrix ModelTransform;
-    GLuint ShaderProgram;
-    
-    static const BaseShader* ShaderInPipe;
+	GLuint createShaderProgram(const char* VScode, const char* FScode);
+	Matrix ModelTransform;
+	GLuint ShaderProgram;
+
+	static const BaseShader* ShaderInPipe;
 };
 
 #endif /* BaseShader_hpp */

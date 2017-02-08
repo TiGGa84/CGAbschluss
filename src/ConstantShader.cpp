@@ -26,28 +26,28 @@ const char *CFragmentShaderCode =
 "    FragColor = vec4(Color,1);"
 "}";
 
-ConstantShader::ConstantShader() : Col(1.0f,0.0f,0.0f)
+ConstantShader::ConstantShader() : Col(1.0f, 0.0f, 0.0f)
 {
-    ShaderProgram = createShaderProgram( CVertexShaderCode, CFragmentShaderCode );
-    
-    ColorLoc = glGetUniformLocation(ShaderProgram, "Color");
-    assert(ColorLoc>=0);
-    ModelViewProjLoc  = glGetUniformLocation(ShaderProgram, "ModelViewProjMat");
-    assert(ModelViewProjLoc>=0);
-    
+	ShaderProgram = createShaderProgram(CVertexShaderCode, CFragmentShaderCode);
+
+	ColorLoc = glGetUniformLocation(ShaderProgram, "Color");
+	assert(ColorLoc >= 0);
+	ModelViewProjLoc = glGetUniformLocation(ShaderProgram, "ModelViewProjMat");
+	assert(ModelViewProjLoc >= 0);
+
 }
 void ConstantShader::activate(const BaseCamera& Cam) const
 {
-    BaseShader::activate(Cam);
-    
-    glUniform3f(ColorLoc, Col.R, Col.G, Col.B);
-    // always update matrices
-    Matrix ModelView = Cam.getViewMatrix() * ModelTransform;
-    Matrix ModelViewProj = Cam.getProjectionMatrix() * ModelView;
-    glUniformMatrix4fv(ModelViewProjLoc, 1, GL_FALSE, ModelViewProj.m);
+	BaseShader::activate(Cam);
+
+	glUniform3f(ColorLoc, Col.R, Col.G, Col.B);
+	// always update matrices
+	Matrix ModelView = Cam.getViewMatrix() * ModelTransform;
+	Matrix ModelViewProj = Cam.getProjectionMatrix() * ModelView;
+	glUniformMatrix4fv(ModelViewProjLoc, 1, GL_FALSE, ModelViewProj.m);
 }
-void ConstantShader::color( const Color& c)
+void ConstantShader::color(const Color& c)
 {
-    Col = c;
+	Col = c;
 }
 

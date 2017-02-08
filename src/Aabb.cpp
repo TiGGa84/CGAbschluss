@@ -10,19 +10,19 @@
 
 AABB::AABB()
 {
-    
+
 }
 AABB::AABB(const Vector& min, const Vector& max) : Min(min), Max(max)
 {
-    
+
 }
 AABB::AABB(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) : Min(minX, minY, minZ), Max(maxX, maxY, maxZ)
 {
-    
+
 }
 
 Vector AABB::size() const
 {
-    return Max-Min;
+	return Max - Min;
 }
 

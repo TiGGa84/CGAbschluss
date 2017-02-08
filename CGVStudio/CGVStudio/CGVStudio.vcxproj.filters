@@ -49,19 +49,7 @@
     <ClCompile Include="..\..\src\ConstantShader.cpp">
       <Filter>Quelldateien\utils\shader</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\LineBoxModel.cpp">
-      <Filter>Quelldateien\utils\models</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\LinePlaneModel.cpp">
-      <Filter>Quelldateien\utils\models</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\TriangleBoxModel.cpp">
-      <Filter>Quelldateien\utils\models</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\TrianglePlaneModel.cpp">
-      <Filter>Quelldateien\utils\models</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\TriangleSphereModel.cpp">
       <Filter>Quelldateien\utils\models</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\PhongShader.cpp">
@@ -83,9 +71,6 @@
       <Filter>Quelldateien\utils\models</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Scene.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Tank.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -117,19 +102,7 @@
     <ClInclude Include="..\..\src\ConstantShader.h">
       <Filter>Quelldateien\utils\shader</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\LineBoxModel.h">
-      <Filter>Quelldateien\utils\models</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\LinePlaneModel.h">
-      <Filter>Quelldateien\utils\models</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\TriangleBoxModel.h">
-      <Filter>Quelldateien\utils\models</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\TrianglePlaneModel.h">
-      <Filter>Quelldateien\utils\models</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\TriangleSphereModel.h">
       <Filter>Quelldateien\utils\models</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\PhongShader.h">
@@ -151,9 +124,6 @@
       <Filter>Quelldateien\utils\models</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Scene.h">
-      <Filter>Quelldateien</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Tank.h">
       <Filter>Quelldateien</Filter>
     </ClInclude>
   </ItemGroup>

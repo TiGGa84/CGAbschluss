@@ -93,7 +93,6 @@
     <ClCompile Include="..\..\src\color.cpp" />
     <ClCompile Include="..\..\src\ConstantShader.cpp" />
     <ClCompile Include="..\..\src\IndexBuffer.cpp" />
-    <ClCompile Include="..\..\src\LineBoxModel.cpp" />
     <ClCompile Include="..\..\src\LinePlaneModel.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\Matrix.cpp" />
@@ -101,11 +100,7 @@
     <ClCompile Include="..\..\src\PhongShader.cpp" />
     <ClCompile Include="..\..\src\rgbimage.cpp" />
     <ClCompile Include="..\..\src\Scene.cpp" />
-    <ClCompile Include="..\..\src\Tank.cpp" />
     <ClCompile Include="..\..\src\Texture.cpp" />
-    <ClCompile Include="..\..\src\TriangleBoxModel.cpp" />
-    <ClCompile Include="..\..\src\TrianglePlaneModel.cpp" />
-    <ClCompile Include="..\..\src\TriangleSphereModel.cpp" />
     <ClCompile Include="..\..\src\vector.cpp" />
     <ClCompile Include="..\..\src\VertexBuffer.cpp" />
   </ItemGroup>
@@ -118,18 +113,13 @@
     <ClInclude Include="..\..\src\color.h" />
     <ClInclude Include="..\..\src\ConstantShader.h" />
     <ClInclude Include="..\..\src\IndexBuffer.h" />
-    <ClInclude Include="..\..\src\LineBoxModel.h" />
     <ClInclude Include="..\..\src\LinePlaneModel.h" />
     <ClInclude Include="..\..\src\Matrix.h" />
     <ClInclude Include="..\..\src\Model.h" />
     <ClInclude Include="..\..\src\PhongShader.h" />
     <ClInclude Include="..\..\src\rgbimage.h" />
     <ClInclude Include="..\..\src\Scene.h" />
-    <ClInclude Include="..\..\src\Tank.h" />
     <ClInclude Include="..\..\src\Texture.h" />
-    <ClInclude Include="..\..\src\TriangleBoxModel.h" />
-    <ClInclude Include="..\..\src\TrianglePlaneModel.h" />
-    <ClInclude Include="..\..\src\TriangleSphereModel.h" />
     <ClInclude Include="..\..\src\vector.h" />
     <ClInclude Include="..\..\src\VertexBuffer.h" />
   </ItemGroup>

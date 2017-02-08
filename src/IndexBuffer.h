@@ -24,30 +24,30 @@
 class IndexBuffer
 {
 public:
-    IndexBuffer();
-    ~IndexBuffer();
-    
-    void begin();
-    void addIndex( unsigned int Index);
-    void end();
-    
-    void activate();
-    void deactivate();
-    
-    GLenum indexFormat() { return IndexFormat; }
-    unsigned int indexCount() { return IndexCount; }
-    
+	IndexBuffer();
+	~IndexBuffer();
+
+	void begin();
+	void addIndex(unsigned int Index);
+	void end();
+
+	void activate();
+	void deactivate();
+
+	GLenum indexFormat() { return IndexFormat; }
+	unsigned int indexCount() { return IndexCount; }
+
 private:
 
-    std::vector<unsigned int> Indices;
+	std::vector<unsigned int> Indices;
 
-    GLuint IBO;
-    bool BufferInitialized;
-    bool WithinBeginAndEnd;
-    
-    GLenum IndexFormat;
-    unsigned int IndexCount;
-    
+	GLuint IBO;
+	bool BufferInitialized;
+	bool WithinBeginAndEnd;
+
+	GLenum IndexFormat;
+	unsigned int IndexCount;
+
 };
 
 #endif /* IndexBuffer_hpp */
