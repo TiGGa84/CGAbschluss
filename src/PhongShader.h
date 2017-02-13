@@ -9,7 +9,6 @@
 #ifndef PhongShader_hpp
 #define PhongShader_hpp
 
-#include <stdio.h>
 #ifdef WIN32
 #include <GL/glew.h>
 #include <glfw/glfw3.h>
@@ -18,8 +17,7 @@
 #define GLFW_INCLUDE_GLEXT
 #include <glfw/glfw3.h>
 #endif
-#include <iostream>
-#include <assert.h>
+
 #include "color.h"
 #include "vector.h"
 #include "matrix.h"

@@ -8,6 +8,11 @@
 
 #include "BaseShader.h"
 
+#include <iostream>
+#include <sstream>
+#include <fstream>
+#include <assert.h>
+
 const BaseShader* BaseShader::ShaderInPipe = NULL;
 
 BaseShader::BaseShader()
@@ -15,38 +20,30 @@ BaseShader::BaseShader()
 	ModelTransform.identity();
 }
 
-bool BaseShader::load(const char* VertexShaderFile, const char* FragmentShaderFile)
+void BaseShader::load(const char* VertexShaderFile, const char* FragmentShaderFile)
 {
-	unsigned int VSFileSize = 0;
-	unsigned int FSFileSize = 0;
-	char* VSFileData = NULL;
-	char* FSFileData = NULL;
+	std::ifstream vertexFile;
+	std::ifstream fragmentFile;
+	std::stringstream vertexStream;
+	std::stringstream fragmentStream;
+	// throw exceptions
+	vertexFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+	fragmentFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+	// Open files
+	vertexFile.open(VertexShaderFile);
+	fragmentFile.open(FragmentShaderFile);
+	// Read file
+	vertexStream << vertexFile.rdbuf();
+	fragmentStream << fragmentFile.rdbuf();
+	// close files
+	vertexFile.close();
+	fragmentFile.close();
 
-	VSFileData = loadFile(VertexShaderFile, VSFileSize);
-	if (!VSFileData)
-	{
-		std::cout << "Unable to load shader file " << VertexShaderFile << std::endl;
-		return false;
-	}
-
-	FSFileData = loadFile(FragmentShaderFile, FSFileSize);
-	if (!FSFileData)
-	{
-		std::cout << "Unable to load shader file " << FragmentShaderFile << std::endl;
-		return false;
-	}
-
-	ShaderProgram = createShaderProgram(VSFileData, FSFileData);
-
-	delete[] VSFileData;
-	delete[] FSFileData;
-
-	return true;
+	ShaderProgram = createShaderProgram(vertexStream.str().c_str(), fragmentStream.str().c_str());
 }
 
 GLuint BaseShader::createShaderProgram(const char* VScode, const char* FScode)
 {
-	ModelTransform.identity();
 	const unsigned int LogSize = 64 * 1024;
 	char ShaderLog[LogSize];
 	GLsizei WrittenToLog = 0;
@@ -56,9 +53,8 @@ GLuint BaseShader::createShaderProgram(const char* VScode, const char* FScode)
 	GLuint FS = glCreateShader(GL_FRAGMENT_SHADER);
 
 	GLenum Error = glGetError();
-	if (Error != 0)
-	{
-		std::cout << "Unable to create shader objects. Please ensure that the Shader is used for the first time AFTER successful creation of an OpenGL context!";
+	if (Error != 0)	{
+		std::cout << "Unable to create shader objects";
 		throw std::exception();
 	}
 
@@ -67,8 +63,7 @@ GLuint BaseShader::createShaderProgram(const char* VScode, const char* FScode)
 
 	glCompileShader(VS);
 	glGetShaderiv(VS, GL_COMPILE_STATUS, &Success);
-	if (Success == GL_FALSE)
-	{
+	if (Success == GL_FALSE) {
 		sprintf(ShaderLog, "VS:");
 		WrittenToLog += 3;
 		GLsizei Written = 0;
@@ -78,8 +73,7 @@ GLuint BaseShader::createShaderProgram(const char* VScode, const char* FScode)
 
 	glCompileShader(FS);
 	glGetShaderiv(FS, GL_COMPILE_STATUS, &Success);
-	if (Success == GL_FALSE)
-	{
+	if (Success == GL_FALSE) {
 		sprintf(&ShaderLog[WrittenToLog], "FS:");
 		WrittenToLog += 3;
 		GLsizei Written = 0;
@@ -87,15 +81,17 @@ GLuint BaseShader::createShaderProgram(const char* VScode, const char* FScode)
 		WrittenToLog += Written;
 	}
 
-	if (WrittenToLog > 0)
-	{
+	if (WrittenToLog > 0) {
 		// compilation failed
 		std::cout << ShaderLog;
 		throw std::exception();
 	}
 
 	ShaderProgram = glCreateProgram();
-	assert(ShaderProgram);
+	if (ShaderProgram == 0)	{
+		std::cout << "Unable to create shader programm";
+		throw std::exception();
+	}
 
 	glAttachShader(ShaderProgram, VS);
 	glDeleteShader(VS);
@@ -118,30 +114,6 @@ GLuint BaseShader::createShaderProgram(const char* VScode, const char* FScode)
 		throw std::exception();
 	}
 	return ShaderProgram;
-}
-
-char* BaseShader::loadFile(const char* File, unsigned int& Filesize)
-{
-	FILE* pFile = fopen(File, "rb");
-	if (!pFile)
-	{
-		printf("Unable to open file %s", File);
-		return NULL;
-	}
-
-	fseek(pFile, 0, SEEK_END);
-	Filesize = (unsigned int)ftell(pFile);
-	fseek(pFile, 0, SEEK_SET);
-
-	if (Filesize <= 0)
-		return NULL;
-
-	char* pBuf = new char[Filesize + 1];
-	fread(pBuf, Filesize, 1, pFile);
-	fclose(pFile);
-	pBuf[Filesize] = 0;
-	return pBuf;
-
 }
 
 void BaseShader::activate(const BaseCamera& Cam) const

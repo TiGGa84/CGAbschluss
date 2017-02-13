@@ -8,57 +8,13 @@
 
 #include "PhongShader.h"
 
+#include <assert.h>
 
-
-const char *VertexShaderCode =
-"#version 400\n"
-"layout(location=0) in vec4 VertexPos;"
-"layout(location=1) in vec4 VertexNormal;"
-"layout(location=2) in vec2 VertexTexcoord;"
-"out vec3 Position;"
-"out vec3 Normal;"
-"out vec2 Texcoord;"
-"uniform mat4 ModelMat;"
-"uniform mat4 ModelViewProjMat;"
-"void main()"
-"{"
-"    Position = (ModelMat * VertexPos).xyz;"
-"    Normal =  (ModelMat * VertexNormal).xyz;"
-"    Texcoord = VertexTexcoord;"
-"    gl_Position = ModelViewProjMat * VertexPos;"
-"}";
-
-
-const char *FragmentShaderCode =
-"#version 400\n"
-"uniform vec3 EyePos;"
-"uniform vec3 LightPos;"
-"uniform vec3 LightColor;"
-"uniform vec3 DiffuseColor;"
-"uniform vec3 SpecularColor;"
-"uniform vec3 AmbientColor;"
-"uniform float SpecularExp;"
-"uniform sampler2D DiffuseTexture;"
-"in vec3 Position;"
-"in vec3 Normal;"
-"in vec2 Texcoord;"
-"out vec4 FragColor;"
-"float sat( in float a)"
-"{"
-"    return clamp(a, 0.0, 1.0);"
-"}"
-"void main()"
-"{"
-"    vec4 DiffTex = texture( DiffuseTexture, Texcoord);"
-"    if(DiffTex.a <0.3f) discard;"
-"    vec3 N = normalize(Normal);"
-"    vec3 L = normalize(LightPos-Position);"
-"    vec3 E = normalize(EyePos-Position);"
-"    vec3 R = reflect(-L,N);"
-"    vec3 DiffuseComponent = LightColor * DiffuseColor * sat(dot(N,L));"
-"    vec3 SpecularComponent = LightColor * SpecularColor * pow( sat(dot(R,E)), SpecularExp);"
-"    FragColor = vec4((DiffuseComponent + AmbientColor)*DiffTex.rgb + SpecularComponent ,DiffTex.a);"
-"}";
+#ifdef WIN32
+#define ASSET_DIRECTORY "../../assets/"
+#else
+#define ASSET_DIRECTORY "../assets/"
+#endif
 
 PhongShader::PhongShader() :
 	DiffuseColor(0.8f, 0.8f, 0.8f),
@@ -68,11 +24,12 @@ PhongShader::PhongShader() :
 	LightPos(20.0f, 20.0f, 20.0f),
 	LightColor(1, 1, 1),
 	DiffuseTexture(Texture::defaultTex()),
-	UpdateState(0xFFFFFFFF)
+	UpdateState(0xFFFFFFFF) 
 {
-	ShaderProgram = createShaderProgram(VertexShaderCode, FragmentShaderCode);
+	load(ASSET_DIRECTORY"vsphong.glsl", ASSET_DIRECTORY"fsphong.glsl");
 	assignLocations();
 }
+
 void PhongShader::assignLocations()
 {
 	DiffuseColorLoc = glGetUniformLocation(ShaderProgram, "DiffuseColor");

@@ -9,7 +9,6 @@
 #ifndef BaseShader_hpp
 #define BaseShader_hpp
 
-#include <stdio.h>
 #ifdef WIN32
 #include <GL/glew.h>
 #include <glfw/glfw3.h>
@@ -18,8 +17,7 @@
 #define GLFW_INCLUDE_GLEXT
 #include <glfw/glfw3.h>
 #endif
-#include <iostream>
-#include <assert.h>
+
 #include "color.h"
 #include "vector.h"
 #include "matrix.h"
@@ -36,7 +34,7 @@ public:
 	virtual void activate(const BaseCamera& Cam) const;
 	virtual void deactivate() const;
 
-	bool load(const char* VertexShaderFile, const char* FragmentShaderFile);
+	void load(const char* VertexShaderFile, const char* FragmentShaderFile);
 	GLint getParameterID(const char* ParamenterName) const;
 	GLuint getBlockID(const char* BlockName) const;
 
@@ -49,7 +47,6 @@ public:
 
 	GLuint openGLProgramID() { return ShaderProgram; }
 protected:
-	char* loadFile(const char* File, unsigned int& Filesize);
 	GLuint createShaderProgram(const char* VScode, const char* FScode);
 	Matrix ModelTransform;
 	GLuint ShaderProgram;
