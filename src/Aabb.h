@@ -9,7 +9,6 @@
 #ifndef Aabb_hpp
 #define Aabb_hpp
 
-#include <stdio.h>
 #include "vector.h"
 
 class AABB

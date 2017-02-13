@@ -8,6 +8,8 @@
 
 #include "BaseModel.h"
 
+#include <iostream>
+
 BaseModel::BaseModel() : pShader(NULL), DeleteShader(false)
 {
 	Transform.identity();

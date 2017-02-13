@@ -7,20 +7,19 @@
 //
 
 #include "Model.h"
-#include "phongshader.h"
+#include "PhongShader.h"
+
 #include <list>
 #include <assert.h>
-#include <fstream>
-
-#define MODEL_BOX_SIZE 5.0f
+#include <iostream>
 
 Model::Model() : pMeshes(NULL), MeshCount(0), pMaterials(NULL), MaterialCount(0)
 {
 }
 
-Model::Model(const char* ModelFile, bool FitSize) : pMeshes(NULL), MeshCount(0), pMaterials(NULL), MaterialCount(0)
+Model::Model(const char* ModelFile, bool FitSize, float Size) : pMeshes(NULL), MeshCount(0), pMaterials(NULL), MaterialCount(0)
 {
-	bool ret = load(ModelFile, FitSize);
+	bool ret = load(ModelFile, FitSize, Size);
 	if (!ret) throw std::exception();
 }
 
@@ -31,21 +30,14 @@ Model::~Model()
 	deleteNodes(&RootNode);
 }
 
-void Model::deleteNodes(Node* pNode)
+bool Model::load(const char* ModelFile, bool FitSize, float Size)
 {
-	if (!pNode)
-		return;
-	for (unsigned int i = 0; i < pNode->ChildCount; ++i)
-		deleteNodes(&(pNode->Children[i]));
-	if (pNode->ChildCount > 0)
-		delete[] pNode->Children;
-	if (pNode->MeshCount > 0)
-		delete[] pNode->Meshes;
-}
+	Assimp::Importer importer;
 
-bool Model::load(const char* ModelFile, bool FitSize)
-{
-	const aiScene* pScene = aiImportFile(ModelFile, aiProcessPreset_TargetRealtime_Fast | aiProcess_TransformUVCoords | aiProcess_FlipUVs);
+	const aiScene* pScene = importer.ReadFile(ModelFile,
+		aiProcessPreset_TargetRealtime_Fast |
+		aiProcess_TransformUVCoords |
+		aiProcess_FlipUVs);
 
 	if (pScene == NULL || pScene->mNumMeshes <= 0) return false;
 
@@ -57,22 +49,20 @@ bool Model::load(const char* ModelFile, bool FitSize)
 	if (pos != std::string::npos)
 		Path.resize(pos + 1);
 
-	loadMeshes(pScene, FitSize);
+	loadMeshes(pScene, FitSize, Size);
 	loadMaterials(pScene);
 	loadNodes(pScene);
-
-	aiReleaseImport(pScene);
 
 	return true;
 }
 
-void Model::loadMeshes(const aiScene* pScene, bool FitSize)
+void Model::loadMeshes(const aiScene* pScene, bool FitSize, float Size)
 {
 	float factor = 1.0f;
 	if (FitSize) {
 		calcBoundingBox(pScene, BoundingBox);
 		Vector size = BoundingBox.size();
-		factor = MODEL_BOX_SIZE / std::max({ size.X, size.Y, size.Z });
+		factor = Size / std::max({ size.X, size.Y, size.Z });
 	}
 
 	MeshCount = pScene->mNumMeshes;
@@ -211,6 +201,18 @@ void Model::copyNodesRecursive(const aiNode* paiNode, Node* pNode)
 		copyNodesRecursive(paiNode->mChildren[i], &(pNode->Children[i]));
 		pNode->Children[i].Parent = pNode;
 	}
+}
+
+void Model::deleteNodes(Node* pNode)
+{
+	if (!pNode)
+		return;
+	for (unsigned int i = 0; i < pNode->ChildCount; ++i)
+		deleteNodes(&(pNode->Children[i]));
+	if (pNode->ChildCount > 0)
+		delete[] pNode->Children;
+	if (pNode->MeshCount > 0)
+		delete[] pNode->Meshes;
 }
 
 void Model::applyMaterial(unsigned int index)

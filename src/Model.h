@@ -9,25 +9,25 @@
 #ifndef Model_hpp
 #define Model_hpp
 
-#include <stdio.h>
 #include "basemodel.h"
-#include <assimp/cimport.h>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
 #include "vertexbuffer.h"
 #include "indexbuffer.h"
 #include "texture.h"
 #include "aabb.h"
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 #include <string>
 
 class Model : public BaseModel
 {
 public:
 	Model();
-	Model(const char* ModelFile, bool FitSize = true);
+	Model(const char* ModelFile, bool FitSize = false, float Size = 1.0);
 	virtual ~Model();
 
-	bool load(const char* ModelFile, bool FitSize = true);
+	bool load(const char* ModelFile, bool FitSize = false, float Size = 1.0);
 	virtual void draw(const BaseCamera& Cam);
 	const AABB& boundingBox() const { return BoundingBox; }
 
@@ -62,10 +62,9 @@ protected: // protected types
 	};
 
 protected: // protected methods
-	void loadMeshes(const aiScene* pScene, bool FitSize);
+	void loadMeshes(const aiScene* pScene, bool FitSize, float Size);
 	void loadMaterials(const aiScene* pScene);
 	void calcBoundingBox(const aiScene* pScene, AABB& Box);
-
 	void loadNodes(const aiScene* pScene);
 	void copyNodesRecursive(const aiNode* paiNode, Node* pNode);
 	Matrix convertMat(const aiMatrix4x4& m);
