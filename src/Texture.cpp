@@ -7,16 +7,15 @@
 //
 
 #include "Texture.h"
-#include "rgbimage.h"
-#include "color.h"
-#include <assert.h>
-#include <stdint.h>
-#include <exception>
-#include <algorithm>
 #include "FreeImage.h"
 
+#include <assert.h>
+#include <exception>
+#include <iostream>
+#include <algorithm>
+
+
 Texture* Texture::pDefaultTex = NULL;
-Texture* Texture::pDefaultNormalTex = NULL;
 Texture::SharedTexMap Texture::SharedTextures;
 
 Texture* Texture::defaultTex()
@@ -31,23 +30,6 @@ Texture* Texture::defaultTex()
 	delete[] data;
 
 	return pDefaultTex;
-}
-
-Texture* Texture::defaultNormalTex()
-{
-	if (pDefaultNormalTex)
-		return pDefaultNormalTex;
-
-	unsigned char data[4 * 4 * 4] = {
-		127,127,255,255, 127,127,255,255, 127,127,255,255, 127,127,255,255,
-		127,127,255,255, 127,127,255,255, 127,127,255,255, 127,127,255,255,
-		127,127,255,255, 127,127,255,255, 127,127,255,255, 127,127,255,255,
-		127,127,255,255, 127,127,255,255, 127,127,255,255, 127,127,255,255,
-	};
-
-	pDefaultNormalTex = new Texture(4, 4, data);
-
-	return pDefaultNormalTex;
 }
 
 const Texture* Texture::LoadShared(const char* Filename)
@@ -97,16 +79,9 @@ void Texture::ReleaseShared(const Texture* pTex)
 	}
 }
 
+Texture::Texture() : m_TextureID(0), CurrentTextureUnit(0), Width(0), Height(0) {}
 
-
-Texture::Texture() : m_TextureID(0), m_pImage(NULL), CurrentTextureUnit(0), Width(0), Height(0)
-{
-
-}
-
-
-
-Texture::Texture(unsigned int width, unsigned int height, unsigned char* data) : m_TextureID(0), m_pImage(NULL), CurrentTextureUnit(0), Width(0), Height(0)
+Texture::Texture(unsigned int width, unsigned int height, unsigned char* data) : m_TextureID(0), CurrentTextureUnit(0), Width(0), Height(0)
 {
 	bool Result = create(width, height, data);
 	if (!Result)
@@ -116,7 +91,7 @@ Texture::Texture(unsigned int width, unsigned int height, unsigned char* data) :
 }
 
 Texture::Texture(unsigned int width, unsigned int height, GLint InternalFormat, GLint Format, GLint ComponentSize, GLint MinFilter, GLint MagFilter, GLint AddressMode, bool GenMipMaps)
-	: m_TextureID(0), m_pImage(NULL), CurrentTextureUnit(0), Width(0), Height(0)
+	: m_TextureID(0), CurrentTextureUnit(0), Width(0), Height(0)
 {
 	bool Result = create(width, height, InternalFormat, Format, ComponentSize, MinFilter, MagFilter, AddressMode, GenMipMaps);
 	if (!Result)
@@ -125,24 +100,11 @@ Texture::Texture(unsigned int width, unsigned int height, GLint InternalFormat, 
 	Height = height;
 }
 
-Texture::Texture(const char* Filename) : m_TextureID(0), m_pImage(NULL), CurrentTextureUnit(0), Width(0), Height(0)
+Texture::Texture(const char* Filename) : m_TextureID(0), CurrentTextureUnit(0), Width(0), Height(0)
 {
 	bool Result = load(Filename);
 	if (!Result)
 		throw std::exception();
-
-	Width = getRGBImage()->width();
-	Height = getRGBImage()->height();
-}
-
-Texture::Texture(const RGBImage& img) : m_TextureID(0), m_pImage(NULL), CurrentTextureUnit(0), Width(0), Height(0)
-{
-	bool Result = create(img);
-	if (!Result)
-		throw std::exception();
-
-	Width = getRGBImage()->width();
-	Height = getRGBImage()->height();
 }
 
 Texture::~Texture()
@@ -157,9 +119,6 @@ void Texture::release()
 		glDeleteTextures(1, &m_TextureID);
 		m_TextureID = -1;
 	}
-	if (m_pImage)
-		delete m_pImage;
-	m_pImage = NULL;
 }
 
 bool Texture::isValid() const
@@ -210,7 +169,7 @@ bool Texture::load(const char* Filename)
 	unsigned int bpp = FreeImage_GetBPP(pBitmap);
 	assert(bpp == 32 || bpp == 16 || bpp == 24);
 
-	unsigned char* data = new unsigned char[Width* Height * 4];
+	unsigned char* data = new unsigned char[Width * Height * 4];
 	unsigned char* dataPtr = data - 1;
 
 	if (data == NULL)
@@ -236,11 +195,6 @@ bool Texture::load(const char* Filename)
 
 	FreeImage_Unload(pBitmap);
 
-	if (m_pImage)
-		delete m_pImage;
-
-	m_pImage = createImage(data, Width, Height);
-
 	glGenTextures(1, &m_TextureID);
 
 	glBindTexture(GL_TEXTURE_2D, m_TextureID);
@@ -251,8 +205,6 @@ bool Texture::load(const char* Filename)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glBindTexture(GL_TEXTURE_2D, 0);
-	Width = m_pImage->width();
-	Height = m_pImage->height();
 
 	delete[] data;
 	return true;
@@ -261,11 +213,6 @@ bool Texture::load(const char* Filename)
 bool Texture::create(unsigned int width, unsigned int height, unsigned char* data)
 {
 	release();
-
-	if (data)
-		m_pImage = createImage(data, width, height);
-	else
-		m_pImage = NULL;
 
 	glGenTextures(1, &m_TextureID);
 
@@ -308,53 +255,6 @@ bool Texture::create(unsigned int width, unsigned int height, GLint InternalForm
 	return true;
 }
 
-bool Texture::create(const RGBImage& img)
-{
-	if (img.width() <= 0 || img.height() <= 0)
-		return false;
-
-	release();
-
-	const unsigned int w = img.width();
-	const unsigned int h = img.height();
-	unsigned char* data = new unsigned char[w*h * 4];
-
-	unsigned int k = 0;
-	for (unsigned int i = 0; i < h; i++)
-		for (unsigned int j = 0; j < w; j++)
-		{
-			Color c = img.getPixelColor(j, i);
-			data[k++] = RGBImage::convertColorChannel(c.R);
-			data[k++] = RGBImage::convertColorChannel(c.G);
-			data[k++] = RGBImage::convertColorChannel(c.B);
-			data[k++] = RGBImage::convertColorChannel(1.0f);
-		}
-
-	bool success = create(w, h, data);
-	delete[] data;
-
-	Width = w;
-	Height = h;
-
-	return success;
-}
-
-
-RGBImage* Texture::createImage(unsigned char* Data, unsigned int width, unsigned int height)
-{
-	// create CPU accessible image
-	RGBImage* pImage = new RGBImage(width, height);
-	assert(pImage);
-	for (unsigned int i = 0; i < height; i++)
-		for (unsigned int j = 0; j < width; j++)
-		{
-			Color c((float)*(Data) / 255.0f, (float)*(Data + 1) / 255.0f, (float)*(Data + 2) / 255.0f);
-			pImage->setPixelColor(j, i, c);
-			Data += 4;
-		}
-	return pImage;
-}
-
 void Texture::activate(int slot) const
 {
 	if (m_TextureID == 0 || slot < 0 || slot > 7)
@@ -373,9 +273,4 @@ void Texture::deactivate() const
 		glActiveTexture(GL_TEXTURE0 + CurrentTextureUnit - 1);
 	CurrentTextureUnit = 0;
 
-}
-
-const RGBImage* Texture::getRGBImage() const
-{
-	return m_pImage;
 }

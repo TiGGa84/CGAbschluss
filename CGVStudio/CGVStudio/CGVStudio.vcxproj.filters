@@ -61,9 +61,6 @@
     <ClCompile Include="..\..\src\vector.cpp">
       <Filter>Quelldateien\utils\yourclasses</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\rgbimage.cpp">
-      <Filter>Quelldateien\utils\yourclasses</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Model.cpp">
       <Filter>Quelldateien\utils\models</Filter>
     </ClCompile>
@@ -112,9 +109,6 @@
       <Filter>Quelldateien\utils\yourclasses</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\vector.h">
-      <Filter>Quelldateien\utils\yourclasses</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\rgbimage.h">
       <Filter>Quelldateien\utils\yourclasses</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Model.h">
