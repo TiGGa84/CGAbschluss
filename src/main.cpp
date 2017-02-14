@@ -6,7 +6,7 @@
 #define GLFW_INCLUDE_GLEXT
 #include <glfw/glfw3.h>
 #endif
-#include <stdio.h>
+#include <iostream>
 #include "Application.h"
 #include "freeimage.h"
 
@@ -17,24 +17,21 @@ int main() {
 	FreeImage_Initialise();
 	// start GL context and O/S window using the GLFW helper library
 	if (!glfwInit()) {
-		fprintf(stderr, "ERROR: could not start GLFW3\n");
+		std::cerr << "ERROR: could not start GLFW3\n" << std::endl;
 		return 1;
 	}
 
-#ifdef __APPLE__
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#endif
 
 	const int WindowWidth = 800;
 	const int WindowHeight = 600;
 
-	// TODO Name
-	GLFWwindow* window = glfwCreateWindow(WindowWidth, WindowHeight, "Computergrafik - Hochschule Osnabrück", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(WindowWidth, WindowHeight, "Light Rider", NULL, NULL);
 	if (!window) {
-		fprintf(stderr, "ERROR: can not open window with GLFW3\n");
+		std::cerr << "ERROR: can not open window with GLFW3\n" << std::endl;
 		glfwTerminate();
 		return 1;
 	}
@@ -44,6 +41,9 @@ int main() {
 	glewExperimental = GL_TRUE;
 	glewInit();
 #endif
+
+	// vsync
+	glfwSwapInterval(1);
 
 	PrintOpenGLVersion();
 
