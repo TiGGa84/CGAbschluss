@@ -29,7 +29,6 @@ public:
 	void end();
 
 	void getInput();
-	Vector getMouseInput();
 
 protected:
 	Camera Cam;

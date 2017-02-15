@@ -123,6 +123,10 @@
     <ClInclude Include="..\..\src\vector.h" />
     <ClInclude Include="..\..\src\VertexBuffer.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\assets\fsphong.glsl" />
+    <None Include="..\..\assets\vsphong.glsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

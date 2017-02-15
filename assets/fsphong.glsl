@@ -15,6 +15,7 @@ uniform vec3 SpecularColor;
 uniform vec3 AmbientColor;
 uniform float SpecularExp;
 uniform sampler2D DiffuseTexture;
+uniform sampler2D EmitTexture;
 
 float sat( in float a)
 {
@@ -23,13 +24,14 @@ float sat( in float a)
 
 void main()
 {
-    vec4 DiffTex = texture( DiffuseTexture, Texcoord);
-    if(DiffTex.a <0.3f) discard;
+    vec4 DiffTex = texture(DiffuseTexture, Texcoord);
+    vec4 EmitTex = texture(EmitTexture, Texcoord);
+
     vec3 N = normalize(Normal);
-    vec3 L = normalize(LightPos-Position);
-    vec3 E = normalize(EyePos-Position);
+    vec3 L = normalize(LightPos - Position);
+    vec3 E = normalize(EyePos - Position);
     vec3 R = reflect(-L,N);
     vec3 DiffuseComponent = LightColor * DiffuseColor * sat(dot(N,L));
-    vec3 SpecularComponent = LightColor * SpecularColor * pow( sat(dot(R,E)), SpecularExp);
-    FragColor = vec4((DiffuseComponent + AmbientColor)*DiffTex.rgb + SpecularComponent ,DiffTex.a);
+    vec3 SpecularComponent = LightColor * SpecularColor * pow(sat(dot(R,E)), SpecularExp);
+    FragColor = vec4((DiffuseComponent + AmbientColor) * DiffTex.rgb + SpecularComponent + EmitTex.rgb, DiffTex.a);
 }

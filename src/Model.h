@@ -41,12 +41,13 @@ protected: // protected types
 	};
 	struct Material
 	{
-		Material() : DiffTex(NULL), DiffColor(1, 1, 1), SpecColor(0.3f, 0.3f, 0.3f), AmbColor(0, 0, 0), SpecExp(10) {}
+		Material() : DiffTex(NULL), EmitTex(NULL), DiffColor(1, 1, 1), SpecColor(0.3f, 0.3f, 0.3f), AmbColor(0, 0, 0), SpecExp(10) {}
 		Color DiffColor;
 		Color SpecColor;
 		Color AmbColor;
 		float SpecExp;
 		const Texture* DiffTex;
+		const Texture* EmitTex;
 	};
 	struct Node
 	{

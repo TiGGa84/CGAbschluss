@@ -129,8 +129,7 @@ void Model::loadMaterials(const aiScene* pScene)
 		m.SpecColor = Color(spec.r, spec.g, spec.b);
 		m.AmbColor = Color(amb.r, amb.g, amb.b);
 
-		if (aim.GetTextureCount(aiTextureType_DIFFUSE) == 1) {
-
+		if (aim.GetTextureCount(aiTextureType_DIFFUSE) >= 1) {
 			aiString aiTexName;
 			aim.Get(AI_MATKEY_TEXTURE(aiTextureType_DIFFUSE, 0), aiTexName);
 
@@ -138,6 +137,15 @@ void Model::loadMaterials(const aiScene* pScene)
 			std::string texPath = Path + texName;
 
 			m.DiffTex = Texture::LoadShared(texPath.c_str());
+		}
+		if (aim.GetTextureCount(aiTextureType_EMISSIVE) >= 1) {
+			aiString aiTexName;
+			aim.Get(AI_MATKEY_TEXTURE(aiTextureType_EMISSIVE, 0), aiTexName);
+
+			std::string texName(aiTexName.C_Str());
+			std::string texPath = Path + texName;
+
+			m.EmitTex = Texture::LoadShared(texPath.c_str());
 		}
 	}
 
@@ -232,6 +240,7 @@ void Model::applyMaterial(unsigned int index)
 	pPhong->specularExp(pMat->SpecExp);
 	pPhong->specularColor(pMat->SpecColor);
 	pPhong->diffuseTexture(pMat->DiffTex);
+	pPhong->emitTexture(pMat->EmitTex);
 }
 
 void Model::draw(const BaseCamera& Cam)

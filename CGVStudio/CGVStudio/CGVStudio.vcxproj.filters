@@ -17,6 +17,9 @@
     <Filter Include="Quelldateien\utils\yourclasses">
       <UniqueIdentifier>{c817caf9-5b5a-4c75-ba93-0eb97e38e4d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shader">
+      <UniqueIdentifier>{7e5cc3e7-3c0f-499d-9629-58c11a0d085d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp">
@@ -120,5 +123,13 @@
     <ClInclude Include="..\..\src\Scene.h">
       <Filter>Quelldateien</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\assets\fsphong.glsl">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\..\assets\vsphong.glsl">
+      <Filter>shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

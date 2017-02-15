@@ -24,7 +24,7 @@ PhongShader::PhongShader() :
 	LightPos(20.0f, 20.0f, 20.0f),
 	LightColor(1, 1, 1),
 	DiffuseTexture(Texture::defaultTex()),
-	UpdateState(0xFFFFFFFF) 
+	UpdateState(0xFFFFFFFF)
 {
 	load(ASSET_DIRECTORY"vsphong.glsl", ASSET_DIRECTORY"fsphong.glsl");
 	assignLocations();
@@ -37,6 +37,7 @@ void PhongShader::assignLocations()
 	SpecularColorLoc = glGetUniformLocation(ShaderProgram, "SpecularColor");
 	SpecularExpLoc = glGetUniformLocation(ShaderProgram, "SpecularExp");
 	DiffuseTexLoc = glGetUniformLocation(ShaderProgram, "DiffuseTexture");
+	EmitTexLoc = glGetUniformLocation(ShaderProgram, "EmitTexture");
 	LightPosLoc = glGetUniformLocation(ShaderProgram, "LightPos");
 	LightColorLoc = glGetUniformLocation(ShaderProgram, "LightColor");
 	EyePosLoc = glGetUniformLocation(ShaderProgram, "EyePos");
@@ -48,22 +49,25 @@ void PhongShader::activate(const BaseCamera& Cam) const
 	BaseShader::activate(Cam);
 
 	// update uniforms if necessary
-	if (UpdateState&DIFF_COLOR_CHANGED)
+	if (UpdateState & DIFF_COLOR_CHANGED)
 		glUniform3f(DiffuseColorLoc, DiffuseColor.R, DiffuseColor.G, DiffuseColor.B);
-	if (UpdateState&AMB_COLOR_CHANGED)
+	if (UpdateState & AMB_COLOR_CHANGED)
 		glUniform3f(AmbientColorLoc, AmbientColor.R, AmbientColor.G, AmbientColor.B);
-	if (UpdateState&SPEC_COLOR_CHANGED)
+	if (UpdateState & SPEC_COLOR_CHANGED)
 		glUniform3f(SpecularColorLoc, SpecularColor.R, SpecularColor.G, SpecularColor.B);
-	if (UpdateState&SPEC_EXP_CHANGED)
+	if (UpdateState & SPEC_EXP_CHANGED)
 		glUniform1f(SpecularExpLoc, SpecularExp);
 
 	DiffuseTexture->activate(0);
-	if (UpdateState&DIFF_TEX_CHANGED && DiffuseTexture)
+	if (UpdateState & DIFF_TEX_CHANGED && DiffuseTexture)
 		glUniform1i(DiffuseTexLoc, 0);
+	EmitTexture->activate(1);
+	if (UpdateState & EMIT_TEX_CHANGED)
+		glUniform1i(EmitTexLoc, 1);
 
-	if (UpdateState&LIGHT_COLOR_CHANGED)
+	if (UpdateState & LIGHT_COLOR_CHANGED)
 		glUniform3f(LightColorLoc, LightColor.R, LightColor.G, LightColor.B);
-	if (UpdateState&LIGHT_POS_CHANGED)
+	if (UpdateState & LIGHT_POS_CHANGED)
 		glUniform3f(LightPosLoc, LightPos.X, LightPos.Y, LightPos.Z);
 
 	// always update matrices
@@ -110,13 +114,13 @@ void PhongShader::lightColor(const Color& c)
 void PhongShader::diffuseTexture(const Texture* pTex)
 {
 	DiffuseTexture = pTex;
-	if (!DiffuseTexture)
-		DiffuseTexture = Texture::defaultTex();
-
+	if (!DiffuseTexture) DiffuseTexture = Texture::defaultTex();
 	UpdateState |= DIFF_TEX_CHANGED;
 }
 
-
-
-
-
+void PhongShader::emitTexture(const Texture * pTex)
+{
+	EmitTexture = pTex;
+	if (!EmitTexture) EmitTexture = Texture::defaultTex();
+	UpdateState |= EMIT_TEX_CHANGED;
+}

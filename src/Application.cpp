@@ -16,12 +16,7 @@
 #include <glfw/glfw3.h>
 #endif
 #include "lineplanemodel.h"
-#include "triangleplanemodel.h"
-#include "trianglespheremodel.h"
-#include "lineboxmodel.h"
-#include "triangleboxmodel.h"
 #include "model.h"
-#include "scene.h"
 
 #ifdef WIN32
 #define ASSET_DIRECTORY "../../assets/"
@@ -34,7 +29,6 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
 {
 	BaseModel* pModel;
 	ConstantShader* pConstShader;
-	PhongShader* pPhongShader;
 
 	// create LineGrid model with constant color shader
 	pModel = new LinePlaneModel(10, 10, 10, 10);
@@ -42,6 +36,14 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
 	pConstShader->color(Color(1, 1, 1));
 	pModel->shader(pConstShader, true);
 	Models.push_back(pModel);
+	
+	Matrix Trans;
+	pModel = new Model(ASSET_DIRECTORY"grid.obj");
+	pModel->shader(new PhongShader(), true);
+	Trans.translation(0, 0, 0);
+	pModel->transform(Trans);
+	Models.push_back(pModel);
+	
 }
 void Application::start()
 {
