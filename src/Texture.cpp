@@ -47,7 +47,7 @@ Texture * Texture::defaultEmitTex()
 	return pDefaultEmitTex;
 }
 
-const Texture* Texture::LoadShared(const char* Filename)
+const Texture* Texture::LoadShared(const char* Filename, bool SRGB)
 {
 	std::string path = Filename;
 
@@ -62,7 +62,7 @@ const Texture* Texture::LoadShared(const char* Filename)
 	}
 
 	Texture* pTex = new Texture();
-	if (!pTex->load(Filename))
+	if (!pTex->load(Filename, SRGB))
 	{
 		delete pTex;
 		std::cout << "WARNING: Texture " << Filename << " not loaded (not found).\n";
@@ -99,27 +99,13 @@ Texture::Texture() : m_TextureID(0), CurrentTextureUnit(0), Width(0), Height(0) 
 Texture::Texture(unsigned int width, unsigned int height, unsigned char* data) : m_TextureID(0), CurrentTextureUnit(0), Width(0), Height(0)
 {
 	bool Result = create(width, height, data);
-	if (!Result)
-		throw std::exception();
-	Width = width;
-	Height = height;
+	if (!Result) throw std::exception();
 }
 
-Texture::Texture(unsigned int width, unsigned int height, GLint InternalFormat, GLint Format, GLint ComponentSize, GLint MinFilter, GLint MagFilter, GLint AddressMode, bool GenMipMaps)
-	: m_TextureID(0), CurrentTextureUnit(0), Width(0), Height(0)
+Texture::Texture(const char* Filename, bool SRGB) : m_TextureID(0), CurrentTextureUnit(0), Width(0), Height(0)
 {
-	bool Result = create(width, height, InternalFormat, Format, ComponentSize, MinFilter, MagFilter, AddressMode, GenMipMaps);
-	if (!Result)
-		throw std::exception();
-	Width = width;
-	Height = height;
-}
-
-Texture::Texture(const char* Filename) : m_TextureID(0), CurrentTextureUnit(0), Width(0), Height(0)
-{
-	bool Result = load(Filename);
-	if (!Result)
-		throw std::exception();
+	bool Result = load(Filename, SRGB);
+	if (!Result) throw std::exception();
 }
 
 Texture::~Texture()
@@ -155,7 +141,7 @@ GLuint Texture::ID() const
 	return m_TextureID;
 }
 
-bool Texture::load(const char* Filename)
+bool Texture::load(const char* Filename, bool SRGB)
 {
 	release();
 	FREE_IMAGE_FORMAT ImageFormat = FreeImage_GetFileType(Filename, 0);
@@ -211,9 +197,8 @@ bool Texture::load(const char* Filename)
 	FreeImage_Unload(pBitmap);
 
 	glGenTextures(1, &m_TextureID);
-
 	glBindTexture(GL_TEXTURE_2D, m_TextureID);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, Width, Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	glTexImage2D(GL_TEXTURE_2D, 0, SRGB ? GL_SRGB_ALPHA : GL_RGBA, Width, Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
@@ -238,7 +223,6 @@ bool Texture::create(unsigned int width, unsigned int height, unsigned char* dat
 	release();
 
 	glGenTextures(1, &m_TextureID);
-
 	glBindTexture(GL_TEXTURE_2D, m_TextureID);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
@@ -249,31 +233,6 @@ bool Texture::create(unsigned int width, unsigned int height, unsigned char* dat
 	glBindTexture(GL_TEXTURE_2D, 0);
 	Width = width;
 	Height = height;
-
-	return true;
-}
-
-bool Texture::create(unsigned int width, unsigned int height, GLint InternalFormat, GLint Format, GLint ComponentSize, GLint MinFilter, GLint MagFilter, GLint AddressMode, bool GenMipMaps)
-{
-	release();
-
-	glGenTextures(1, &m_TextureID);
-
-	glBindTexture(GL_TEXTURE_2D, m_TextureID);
-	glTexImage2D(GL_TEXTURE_2D, 0, InternalFormat, width, height, 0, Format, ComponentSize, NULL);
-	if (GenMipMaps)
-		glGenerateMipmap(GL_TEXTURE_2D);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, MagFilter);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, MinFilter);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, AddressMode);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, AddressMode);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	Width = width;
-	Height = height;
-
-	if (glGetError() != 0)
-		return false;
 
 	return true;
 }

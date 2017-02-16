@@ -3,7 +3,7 @@
 #include <iostream>
 #include <exception>
 
-PostBlur::PostBlur() : Iterations(10)
+PostBlur::PostBlur() : Iterations(5)
 {
 	Shader.load("vspost.glsl", "fsblur.glsl");
 	DirLoc = Shader.getParameterID("horizontal");
@@ -49,10 +49,7 @@ void PostBlur::addInputTexID(GLuint textureBuffer)
 
 GLuint PostBlur::getOutputTexID()
 {
-	if (Iterations == 0) {
-		return StartColorbufferID;
-	}
-	return ColorbufferID[Iterations % 2];
+	return ColorbufferID[0];
 }
 
 void PostBlur::process()
@@ -62,8 +59,9 @@ void PostBlur::process()
 	Shader.activate(Camera(NULL));
 
 	glActiveTexture(GL_TEXTURE0);
+
 	bool horizontal = true;
-	for (GLuint i = 0; i < Iterations; i++)
+	for (GLuint i = 0; i < Iterations * 2; i++)
 	{
 		// Zwischen Framebuffern und horizontalen / vertikalen Passes tauschen
 		glBindFramebuffer(GL_FRAMEBUFFER, FramebufferID[horizontal]);

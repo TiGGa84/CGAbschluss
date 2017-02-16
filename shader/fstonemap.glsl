@@ -10,7 +10,7 @@ uniform sampler2D bloomTex;
 
 void main()
 {             
-    const float gamma = 1.1;
+    const float gamma = 2.2;
 	const float exposure = 1.0;
 
     vec3 hdrColor = texture(colorTex, Texcoord).rgb;

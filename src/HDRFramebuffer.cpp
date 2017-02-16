@@ -29,7 +29,7 @@ void HDRFramebuffer::createBuffer(unsigned int width, unsigned int height)
 	// depth buffer zum rendern (keine Textur, da kein samplen notwendig)
 	glGenRenderbuffers(1, &DepthbufferID);
 	glBindRenderbuffer(GL_RENDERBUFFER, DepthbufferID);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT32, width, height);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, width, height);
 	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 	// An Framebuffer binden
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, DepthbufferID);

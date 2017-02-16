@@ -20,12 +20,10 @@ class Texture
 public:
 	Texture();
 	Texture(unsigned int width, unsigned int height, unsigned char* data);
-	Texture(unsigned int width, unsigned int height, GLint InternalFormat, GLint Format, GLint ComponentSize, GLint MinFilter, GLint MagFilter, GLint AddressMode, bool GenMipMaps);
-	Texture(const char* Filename);
+	Texture(const char* Filename, bool SRGB = true);
 	~Texture();
-	bool load(const char* Filename);
+	bool load(const char* Filename, bool SRGB = true);
 	bool create(unsigned int width, unsigned int height, unsigned char* data);
-	bool create(unsigned int width, unsigned int height, GLint InternalFormat, GLint Format, GLint ComponentSize, GLint MinFilter, GLint MagFilter, GLint AddressMode, bool GenMipMaps);
 	void activate(int slot = 0) const;
 	void deactivate() const;
 	bool isValid() const;
@@ -34,7 +32,7 @@ public:
 	GLuint ID() const;
 	static Texture* defaultTex();
 	static Texture* defaultEmitTex();
-	static const Texture* LoadShared(const char* Filename);
+	static const Texture* LoadShared(const char* Filename, bool SRGB = true);
 	static void ReleaseShared(const Texture* pTex);
 
 protected:

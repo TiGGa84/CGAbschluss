@@ -14,7 +14,7 @@ uniform vec3 EyePos;
 uniform vec3 DiffuseColor;
 uniform vec3 SpecularColor;
 uniform vec3 AmbientColor;
-uniform vec3 EmitColor = vec3(6.0);
+uniform vec3 EmitColor = vec3(1.0);
 uniform float SpecularExp;
 uniform sampler2D DiffuseTexture;
 uniform sampler2D EmitTexture;
@@ -35,11 +35,13 @@ void main()
     vec3 R = reflect(-L,N);
     vec3 DiffuseComponent = LightColor * DiffuseColor * sat(dot(N,L));
     vec3 SpecularComponent = LightColor * SpecularColor * pow(sat(dot(R,E)), SpecularExp);
+	vec3 EmitComponent = EmitTex.rgb * EmitColor;
 
-    FragColor = vec4((DiffuseComponent + AmbientColor) * DiffTex.rgb + SpecularComponent + EmitTex.rgb * EmitColor, 1.0);
-    BloomColor = vec4(0, 0, 0, 1);
+    FragColor = vec4((DiffuseComponent + AmbientColor) * DiffTex.rgb + SpecularComponent + EmitComponent, 1.0);
 
-	// sehr helle Werte in bloom Buffer schreiben
+	// Emissive Farbe in Bloom Buffer schreiben
+    BloomColor = vec4(EmitComponent, 1.0);
+	// sehr helle Werte in Bloom Buffer schreiben
     float brightness = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
     if(brightness > 1.0) BloomColor = FragColor;
 }
