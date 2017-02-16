@@ -13,6 +13,8 @@
 #include <fstream>
 #include <assert.h>
 
+#define SHADER_DIRECTORY "../../shader/"
+
 const BaseShader* BaseShader::ShaderInPipe = NULL;
 
 BaseShader::BaseShader()
@@ -20,7 +22,7 @@ BaseShader::BaseShader()
 	ModelTransform.identity();
 }
 
-void BaseShader::load(const char* VertexShaderFile, const char* FragmentShaderFile)
+void BaseShader::load(std::string VertexShaderFile, std::string FragmentShaderFile)
 {
 	std::ifstream vertexFile;
 	std::ifstream fragmentFile;
@@ -30,8 +32,8 @@ void BaseShader::load(const char* VertexShaderFile, const char* FragmentShaderFi
 	vertexFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 	fragmentFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 	// Open files
-	vertexFile.open(VertexShaderFile);
-	fragmentFile.open(FragmentShaderFile);
+	vertexFile.open(SHADER_DIRECTORY + VertexShaderFile);
+	fragmentFile.open(SHADER_DIRECTORY + FragmentShaderFile);
 	// Read file
 	vertexStream << vertexFile.rdbuf();
 	fragmentStream << fragmentFile.rdbuf();

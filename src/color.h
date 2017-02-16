@@ -1,8 +1,6 @@
 #ifndef __SimpleRayTracer__color__
 #define __SimpleRayTracer__color__
 
-#include <iostream>
-
 class Color
 {
 public:

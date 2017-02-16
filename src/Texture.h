@@ -9,14 +9,8 @@
 #ifndef __RealtimeRending__Texture__
 #define __RealtimeRending__Texture__
 
-#ifdef WIN32
 #include <GL/glew.h>
 #include <glfw/glfw3.h>
-#else
-#define GLFW_INCLUDE_GLCOREARB
-#define GLFW_INCLUDE_GLEXT
-#include <glfw/glfw3.h>
-#endif
 
 #include <string>
 #include <map>
@@ -39,6 +33,7 @@ public:
 	unsigned int height() const;
 	GLuint ID() const;
 	static Texture* defaultTex();
+	static Texture* defaultEmitTex();
 	static const Texture* LoadShared(const char* Filename);
 	static void ReleaseShared(const Texture* pTex);
 
@@ -49,6 +44,7 @@ protected:
 	unsigned int Height;
 	mutable int CurrentTextureUnit;
 	static Texture* pDefaultTex;
+	static Texture* pDefaultEmitTex;
 
 	struct TexEntry
 	{

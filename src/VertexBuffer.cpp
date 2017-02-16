@@ -7,7 +7,9 @@
 //
 
 #include "VertexBuffer.h"
+
 #include <assert.h>
+#include <iostream>
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 

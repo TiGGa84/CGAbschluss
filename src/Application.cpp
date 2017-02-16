@@ -7,26 +7,31 @@
 //
 
 #include "Application.h"
-#ifdef WIN32
+
 #include <GL/glew.h>
 #include <glfw/glfw3.h>
-#else
-#define GLFW_INCLUDE_GLCOREARB
-#define GLFW_INCLUDE_GLEXT
-#include <glfw/glfw3.h>
-#endif
+
 #include "lineplanemodel.h"
 #include "model.h"
 
-#ifdef WIN32
 #define ASSET_DIRECTORY "../../assets/"
-#else
-#define ASSET_DIRECTORY "../assets/"
-#endif
 
 
 Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
 {
+	Cam.setPosition(Vector(0.0f, 2.0f, 5.0f));
+
+	int w = 0, h = 0;
+	glfwGetFramebufferSize(pWin, &w, &h);
+
+	HDRBuffer.createBuffer(w, h);
+	Blur.createBuffer(w, h);
+
+	Blur.addInputTexID(HDRBuffer.getOutputBloomTexID());
+	
+	Tonemap.addInputColorTexID(HDRBuffer.getOutputColorTexID());
+	Tonemap.addInputBloomTexID(Blur.getOutputTexID());
+
 	BaseModel* pModel;
 	ConstantShader* pConstShader;
 
@@ -35,24 +40,21 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
 	pConstShader = new ConstantShader();
 	pConstShader->color(Color(1, 1, 1));
 	pModel->shader(pConstShader, true);
-	Models.push_back(pModel);
+	//Models.push_back(pModel);
 	
-	Matrix Trans;
 	pModel = new Model(ASSET_DIRECTORY"grid.obj");
 	pModel->shader(new PhongShader(), true);
-	Trans.translation(0, 0, 0);
-	pModel->transform(Trans);
 	Models.push_back(pModel);
 	
 }
 void Application::start()
 {
-	glEnable(GL_DEPTH_TEST); // enable depth-testing
-	glDepthFunc(GL_LESS); // depth-testing interprets a smaller value as "closer"
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 
@@ -65,16 +67,21 @@ void Application::update(double time, double frametime)
 
 void Application::draw()
 {
-	// 1. clear screen
+	HDRBuffer.activate();
+
+	glEnable(GL_DEPTH_TEST);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// 2. setup shaders and draw models
 	for (ModelList::iterator it = Models.begin(); it != Models.end(); ++it)
 	{
 		(*it)->draw(Cam);
 	}
 
-	// 3. check once per frame for opengl errors
+	HDRBuffer.deactivate();
+
+	Blur.process();
+	Tonemap.process();
+
 	GLenum Error = glGetError();
 	assert(Error == 0);
 }

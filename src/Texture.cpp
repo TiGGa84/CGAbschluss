@@ -16,6 +16,7 @@
 
 
 Texture* Texture::pDefaultTex = NULL;
+Texture* Texture::pDefaultEmitTex = NULL;
 Texture::SharedTexMap Texture::SharedTextures;
 
 Texture* Texture::defaultTex()
@@ -30,6 +31,20 @@ Texture* Texture::defaultTex()
 	delete[] data;
 
 	return pDefaultTex;
+}
+
+Texture * Texture::defaultEmitTex()
+{
+	if (pDefaultEmitTex)
+		return pDefaultEmitTex;
+
+	unsigned char* data = new unsigned char[4 * 4 * 4];
+	assert(data);
+	std::memset(data, 0, 4 * 4 * 4);
+	pDefaultEmitTex = new Texture(4, 4, data);
+	delete[] data;
+
+	return pDefaultEmitTex;
 }
 
 const Texture* Texture::LoadShared(const char* Filename)

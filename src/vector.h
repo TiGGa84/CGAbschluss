@@ -1,8 +1,6 @@
 #ifndef __SimpleRayTracer__vector__
 #define __SimpleRayTracer__vector__
 
-#include <iostream>
-
 class Vector
 {
 public:

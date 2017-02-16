@@ -94,12 +94,16 @@
     <ClCompile Include="..\..\src\Camera.cpp" />
     <ClCompile Include="..\..\src\color.cpp" />
     <ClCompile Include="..\..\src\ConstantShader.cpp" />
+    <ClCompile Include="..\..\src\HDRFramebuffer.cpp" />
     <ClCompile Include="..\..\src\IndexBuffer.cpp" />
     <ClCompile Include="..\..\src\LinePlaneModel.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\Matrix.cpp" />
     <ClCompile Include="..\..\src\Model.cpp" />
     <ClCompile Include="..\..\src\PhongShader.cpp" />
+    <ClCompile Include="..\..\src\PostEffect.cpp" />
+    <ClCompile Include="..\..\src\PostBlur.cpp" />
+    <ClCompile Include="..\..\src\PostTonemap.cpp" />
     <ClCompile Include="..\..\src\Scene.cpp" />
     <ClCompile Include="..\..\src\Texture.cpp" />
     <ClCompile Include="..\..\src\vector.cpp" />
@@ -113,19 +117,26 @@
     <ClInclude Include="..\..\src\Camera.h" />
     <ClInclude Include="..\..\src\color.h" />
     <ClInclude Include="..\..\src\ConstantShader.h" />
+    <ClInclude Include="..\..\src\HDRFramebuffer.h" />
     <ClInclude Include="..\..\src\IndexBuffer.h" />
     <ClInclude Include="..\..\src\LinePlaneModel.h" />
     <ClInclude Include="..\..\src\Matrix.h" />
     <ClInclude Include="..\..\src\Model.h" />
     <ClInclude Include="..\..\src\PhongShader.h" />
+    <ClInclude Include="..\..\src\PostEffect.h" />
+    <ClInclude Include="..\..\src\PostBlur.h" />
+    <ClInclude Include="..\..\src\PostTonemap.h" />
     <ClInclude Include="..\..\src\Scene.h" />
     <ClInclude Include="..\..\src\Texture.h" />
     <ClInclude Include="..\..\src\vector.h" />
     <ClInclude Include="..\..\src\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\assets\fsphong.glsl" />
-    <None Include="..\..\assets\vsphong.glsl" />
+    <None Include="..\..\shader\fsblur.glsl" />
+    <None Include="..\..\shader\fsphong.glsl" />
+    <None Include="..\..\shader\fstonemap.glsl" />
+    <None Include="..\..\shader\vsphong.glsl" />
+    <None Include="..\..\shader\vspost.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

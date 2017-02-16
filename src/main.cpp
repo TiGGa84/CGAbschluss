@@ -1,11 +1,7 @@
-#ifdef WIN32
+
 #include <GL/glew.h>
 #include <glfw/glfw3.h>
-#else
-#define GLFW_INCLUDE_GLCOREARB
-#define GLFW_INCLUDE_GLEXT
-#include <glfw/glfw3.h>
-#endif
+
 #include <iostream>
 #include "Application.h"
 #include "freeimage.h"
@@ -21,8 +17,8 @@ int main() {
 		return 1;
 	}
 
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
@@ -37,10 +33,8 @@ int main() {
 	}
 	glfwMakeContextCurrent(window);
 
-#if WIN32
 	glewExperimental = GL_TRUE;
 	glewInit();
-#endif
 
 	// vsync
 	glfwSwapInterval(1);

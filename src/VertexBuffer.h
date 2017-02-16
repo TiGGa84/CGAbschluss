@@ -8,19 +8,14 @@
 
 #ifndef VertexBuffer_hpp
 #define VertexBuffer_hpp
-#ifdef WIN32
+
 #include <GL/glew.h>
 #include <glfw/glfw3.h>
-#else
-#define GLFW_INCLUDE_GLCOREARB
-#define GLFW_INCLUDE_GLEXT
-#include <glfw/glfw3.h>
-#endif
-#include <iostream>
-#include <vector>
-#include <stdio.h>
+
 #include "vector.h"
 #include "color.h"
+
+#include <vector>
 
 class VertexBuffer
 {

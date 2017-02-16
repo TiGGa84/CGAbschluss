@@ -10,12 +10,6 @@
 
 #include <assert.h>
 
-#ifdef WIN32
-#define ASSET_DIRECTORY "../../assets/"
-#else
-#define ASSET_DIRECTORY "../assets/"
-#endif
-
 PhongShader::PhongShader() :
 	DiffuseColor(0.8f, 0.8f, 0.8f),
 	SpecularColor(0.5f, 0.5f, 0.5f),
@@ -24,9 +18,10 @@ PhongShader::PhongShader() :
 	LightPos(20.0f, 20.0f, 20.0f),
 	LightColor(1, 1, 1),
 	DiffuseTexture(Texture::defaultTex()),
+	EmitTexture(Texture::defaultEmitTex()),
 	UpdateState(0xFFFFFFFF)
 {
-	load(ASSET_DIRECTORY"vsphong.glsl", ASSET_DIRECTORY"fsphong.glsl");
+	load("vsphong.glsl", "fsphong.glsl");
 	assignLocations();
 }
 
@@ -121,6 +116,6 @@ void PhongShader::diffuseTexture(const Texture* pTex)
 void PhongShader::emitTexture(const Texture * pTex)
 {
 	EmitTexture = pTex;
-	if (!EmitTexture) EmitTexture = Texture::defaultTex();
+	if (!EmitTexture) EmitTexture = Texture::defaultEmitTex();
 	UpdateState |= EMIT_TEX_CHANGED;
 }

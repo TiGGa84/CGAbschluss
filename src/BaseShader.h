@@ -9,19 +9,15 @@
 #ifndef BaseShader_hpp
 #define BaseShader_hpp
 
-#ifdef WIN32
 #include <GL/glew.h>
 #include <glfw/glfw3.h>
-#else
-#define GLFW_INCLUDE_GLCOREARB
-#define GLFW_INCLUDE_GLEXT
-#include <glfw/glfw3.h>
-#endif
 
 #include "color.h"
 #include "vector.h"
 #include "matrix.h"
 #include "camera.h"
+
+#include <string>
 
 class BaseShader
 {
@@ -34,7 +30,7 @@ public:
 	virtual void activate(const BaseCamera& Cam) const;
 	virtual void deactivate() const;
 
-	void load(const char* VertexShaderFile, const char* FragmentShaderFile);
+	void load(std::string VertexShaderFile, std::string FragmentShaderFile);
 	GLint getParameterID(const char* ParamenterName) const;
 	GLuint getBlockID(const char* BlockName) const;
 

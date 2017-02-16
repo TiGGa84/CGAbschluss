@@ -9,14 +9,15 @@
 #ifndef Application_hpp
 #define Application_hpp
 
-#include <stdio.h>
+#include "Camera.h"
+#include "PhongShader.h"
+#include "ConstantShader.h"
+#include "BaseModel.h"
+#include "HDRFramebuffer.h"
+#include "PostTonemap.h"
+#include "PostBlur.h"
+
 #include <list>
-#include "camera.h"
-#include "phongshader.h"
-#include "constantshader.h"
-#include "vertexbuffer.h"
-#include "indexbuffer.h"
-#include "basemodel.h"
 
 class Application
 {
@@ -34,6 +35,10 @@ protected:
 	Camera Cam;
 	ModelList Models;
 	GLFWwindow* pWindow;
+
+	HDRFramebuffer HDRBuffer;
+	PostTonemap Tonemap;
+	PostBlur Blur;
 };
 
 #endif /* Application_hpp */
