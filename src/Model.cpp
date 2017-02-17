@@ -119,15 +119,19 @@ void Model::loadMaterials(const aiScene* pScene)
 		aiColor3D spec;
 		aiColor3D amb;
 		float exp = 0.0f;
+		aiColor3D emit;
 
 		aim.Get(AI_MATKEY_COLOR_DIFFUSE, diff);
 		aim.Get(AI_MATKEY_COLOR_SPECULAR, spec);
 		aim.Get(AI_MATKEY_COLOR_AMBIENT, amb);
 		aim.Get(AI_MATKEY_SHININESS, exp);
+		aim.Get(AI_MATKEY_COLOR_EMISSIVE, emit);
 
 		m.DiffColor = Color(diff.r, diff.g, diff.b);
 		m.SpecColor = Color(spec.r, spec.g, spec.b);
 		m.AmbColor = Color(amb.r, amb.g, amb.b);
+		m.SpecExp = exp;
+		m.EmitColor = Color(emit.r, emit.g, emit.b);
 
 		if (aim.GetTextureCount(aiTextureType_DIFFUSE) >= 1) {
 			aiString aiTexName;
@@ -235,10 +239,11 @@ void Model::applyMaterial(unsigned int index)
 	}
 
 	Material* pMat = &pMaterials[index];
-	pPhong->ambientColor(pMat->AmbColor);
 	pPhong->diffuseColor(pMat->DiffColor);
-	pPhong->specularExp(pMat->SpecExp);
 	pPhong->specularColor(pMat->SpecColor);
+	pPhong->specularExp(pMat->SpecExp);
+	pPhong->ambientColor(pMat->AmbColor);
+	pPhong->emitColor(pMat->EmitColor);
 	pPhong->diffuseTexture(pMat->DiffTex);
 	pPhong->emitTexture(pMat->EmitTex);
 }

@@ -41,11 +41,19 @@ protected: // protected types
 	};
 	struct Material
 	{
-		Material() : DiffTex(NULL), EmitTex(NULL), DiffColor(1, 1, 1), SpecColor(0.3f, 0.3f, 0.3f), AmbColor(0, 0, 0), SpecExp(10) {}
+		Material() : 
+			DiffTex(NULL),
+			EmitTex(NULL),
+			DiffColor(1, 1, 1),
+			SpecColor(0.5f, 0.5f, 0.5f),
+			AmbColor(0.2f, 0.2f, 0.2f),
+			SpecExp(10.0f),
+			EmitColor(1.0f, 1.0f, 1.0f) {}
 		Color DiffColor;
 		Color SpecColor;
 		Color AmbColor;
 		float SpecExp;
+		Color EmitColor;
 		const Texture* DiffTex;
 		const Texture* EmitTex;
 	};

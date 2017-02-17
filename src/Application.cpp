@@ -13,13 +13,14 @@
 
 #include "lineplanemodel.h"
 #include "model.h"
+#include "ShaderLightMapper.h"
 
 #define ASSET_DIRECTORY "../../assets/"
 
 
 Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
 {
-	Cam.setPosition(Vector(0.0f, 2.0f, 5.0f));
+	Cam.setPosition(Vector(0.0f, 2.0f, -5.0f));
 
 	int w = 0, h = 0;
 	glfwGetFramebufferSize(pWin, &w, &h);
@@ -42,9 +43,47 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
 	pModel->shader(pConstShader, true);
 	//Models.push_back(pModel);
 	
-	pModel = new Model(ASSET_DIRECTORY"grid.obj");
+	pModel = new Model(ASSET_DIRECTORY"grid.dae");
 	pModel->shader(new PhongShader(), true);
 	Models.push_back(pModel);
+	
+	Matrix m;
+
+	pModel = new Model(ASSET_DIRECTORY "plane.dae");
+	pModel->shader(new PhongShader(), true);
+	m.translation(0, 1, 0);
+	pModel->transform(m);
+	Models.push_back(pModel);
+
+	
+	// directional lights
+	DirectionalLight* dl = new DirectionalLight();
+	dl->direction(Vector(1, -1, 1));
+	dl->color(Color(0.1, 0.1, 0.1));
+	ShaderLightMapper::instance().addLight(dl);
+	
+	// point lights
+	PointLight* pl = new PointLight();
+	pl->position(Vector(0, 3, -10));
+	pl->color(Color(3.0f, 2.0f, 0.0f));
+	ShaderLightMapper::instance().addLight(pl);
+
+	// spot lights
+	SpotLight* sl = new SpotLight();
+	sl->position(Vector(0, 2, 0));
+	sl->color(Color(0.0f, 1.0f, 2.0f));
+	sl->direction(Vector(4, -4, 0));
+	sl->innerRadius(45);
+	sl->outerRadius(50);
+	ShaderLightMapper::instance().addLight(sl);
+
+	sl = new SpotLight();
+	sl->position(Vector(0, 3, 10));
+	sl->color(Color(0.0f, 1.0f, 0.0f));
+	sl->direction(Vector(0, -4, 0));
+	sl->innerRadius(50);
+	sl->outerRadius(60);
+	ShaderLightMapper::instance().addLight(sl);
 	
 }
 void Application::start()
@@ -67,6 +106,8 @@ void Application::update(double time, double frametime)
 
 void Application::draw()
 {
+
+	ShaderLightMapper::instance().activate();
 	HDRBuffer.activate();
 
 	glEnable(GL_DEPTH_TEST);

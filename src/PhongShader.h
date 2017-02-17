@@ -28,19 +28,17 @@ public:
 	void ambientColor(const Color& c);
 	void specularColor(const Color& c);
 	void specularExp(float exp);
+	void emitColor(const Color& c);
 	void diffuseTexture(const Texture* pTex);
 	void emitTexture(const Texture* pTex);
-	void lightPos(const Vector& pos);
-	void lightColor(const Color& c);
 	//getter
 	const Color& diffuseColor() const { return DiffuseColor; }
 	const Color& ambientColor() const { return AmbientColor; }
 	const Color& specularColor() const { return SpecularColor; }
 	float specularExp() const { return SpecularExp; }
+	const Color& emitColor() const { return EmitColor; };
 	const Texture* diffuseTexture() const { return DiffuseTexture; }
 	const Texture* emitTexture() const { return EmitTexture; }
-	const Vector& lightPos() const { return LightPos; }
-	const Color& lightColor() const { return LightColor; }
 
 	virtual void activate(const BaseCamera& Cam) const;
 private:
@@ -50,8 +48,7 @@ private:
 	Color SpecularColor;
 	Color AmbientColor;
 	float SpecularExp;
-	Vector LightPos;
-	Color LightColor;
+	Color EmitColor;
 	const Texture* DiffuseTexture;
 	const Texture* EmitTexture;
 
@@ -59,8 +56,7 @@ private:
 	GLint SpecularColorLoc;
 	GLint AmbientColorLoc;
 	GLint SpecularExpLoc;
-	GLint LightPosLoc;
-	GLint LightColorLoc;
+	GLint EmitColorLoc;
 	GLint ModelMatLoc;
 	GLint ModelViewProjLoc;
 	GLint EyePosLoc;
@@ -75,10 +71,9 @@ private:
 		AMB_COLOR_CHANGED = 1 << 1,
 		SPEC_COLOR_CHANGED = 1 << 2,
 		SPEC_EXP_CHANGED = 1 << 3,
-		LIGHT_POS_CHANGED = 1 << 4,
-		LIGHT_COLOR_CHANGED = 1 << 5,
-		DIFF_TEX_CHANGED = 1 << 6,
-		EMIT_TEX_CHANGED = 1 << 7
+		EMIT_COLOR_CHANGED = 1 << 4,
+		DIFF_TEX_CHANGED = 1 << 5,
+		EMIT_TEX_CHANGED = 1 << 6
 	};
 
 };
