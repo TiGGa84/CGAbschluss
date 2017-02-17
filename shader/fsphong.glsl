@@ -32,7 +32,7 @@ struct Light
 	vec3 SpotRadius;
 };
 
-layout (std140, binding = 0) uniform Lights 
+layout (std140) uniform Lights 
 {
 	Light lights[MAX_LIGHTS];
     int LightCount;
