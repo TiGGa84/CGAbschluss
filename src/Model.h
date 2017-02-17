@@ -48,7 +48,7 @@ protected: // protected types
 			SpecColor(0.5f, 0.5f, 0.5f),
 			AmbColor(0.2f, 0.2f, 0.2f),
 			SpecExp(10.0f),
-			EmitColor(1.0f, 1.0f, 1.0f) {}
+			EmitColor(0, 0, 0) {}
 		Color DiffColor;
 		Color SpecColor;
 		Color AmbColor;

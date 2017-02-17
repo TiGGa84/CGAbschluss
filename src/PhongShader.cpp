@@ -15,7 +15,7 @@ PhongShader::PhongShader() :
 	SpecularColor(0.5f, 0.5f, 0.5f),
 	AmbientColor(0.2f, 0.2f, 0.2f),
 	SpecularExp(10.0f),
-	EmitColor(1.0f, 1.0f, 1.0f),
+	EmitColor(0, 0, 0),
 	DiffuseTexture(Texture::defaultTex()),
 	EmitTexture(Texture::defaultEmitTex()),
 	UpdateState(0xFFFFFFFF)

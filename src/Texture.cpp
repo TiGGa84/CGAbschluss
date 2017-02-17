@@ -40,7 +40,7 @@ Texture * Texture::defaultEmitTex()
 
 	unsigned char* data = new unsigned char[4 * 4 * 4];
 	assert(data);
-	std::memset(data, 0, 4 * 4 * 4);
+	std::memset(data, 255, 4 * 4 * 4);
 	pDefaultEmitTex = new Texture(4, 4, data);
 	delete[] data;
 
