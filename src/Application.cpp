@@ -55,6 +55,24 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
 	pModel->transform(m);
 	Models.push_back(pModel);
 
+	pModel = new Model(ASSET_DIRECTORY "NotDelorean.dae");
+	pModel->shader(new PhongShader(), true);
+	m.translation(0, 1, 0);
+	pModel->transform(m);
+	Models.push_back(pModel);
+
+	pModel = new Model(ASSET_DIRECTORY "Vorderachse.dae");
+	pModel->shader(new PhongShader(), true);
+	m.translation(0, 1, 0);
+	pModel->transform(m);
+	Models.push_back(pModel);
+
+	pModel = new Model(ASSET_DIRECTORY "Hinterachse.dae");
+	pModel->shader(new PhongShader(), true);
+	m.translation(0, 1, 0);
+	pModel->transform(m);
+	Models.push_back(pModel);
+
 	
 	// directional lights
 	DirectionalLight* dl = new DirectionalLight();
