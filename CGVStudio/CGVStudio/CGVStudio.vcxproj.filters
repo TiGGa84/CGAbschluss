@@ -97,6 +97,9 @@
     <ClCompile Include="..\..\src\Score.cpp">
       <Filter>Quelldateien\utils\models</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Track.cpp">
+      <Filter>Quelldateien\utils\models</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Camera.h">
@@ -166,6 +169,9 @@
       <Filter>Quelldateien\utils\models</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Score.h">
+      <Filter>Quelldateien\utils\models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Track.h">
       <Filter>Quelldateien\utils\models</Filter>
     </ClInclude>
   </ItemGroup>

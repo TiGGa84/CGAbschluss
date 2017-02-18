@@ -13,6 +13,7 @@
 #include "PhongShader.h"
 #include "ConstantShader.h"
 #include "BaseModel.h"
+#include "Track.h"
 #include "HDRFramebuffer.h"
 #include "PostTonemap.h"
 #include "PostBlur.h"
@@ -35,6 +36,8 @@ protected:
 	Camera Cam;
 	ModelList Models;
 	GLFWwindow* pWindow;
+
+	Track* track;
 
 	HDRFramebuffer HDRBuffer;
 	PostTonemap Tonemap;

@@ -53,6 +53,8 @@ bool Model::load(const char* ModelFile, bool FitSize, float Size)
 	loadMaterials(pScene);
 	loadNodes(pScene);
 
+	applyMaterialOnDraw = MaterialCount > 1;
+
 	return true;
 }
 
@@ -232,7 +234,7 @@ void Model::applyMaterial(unsigned int index)
 	if (index >= MaterialCount)
 		return;
 
-	PhongShader* pPhong = dynamic_cast<PhongShader*>(shader());
+	PhongShader* pPhong = dynamic_cast<PhongShader*>(pShader);
 	if (!pPhong) {
 		//std::cout << "Model::applyMaterial(): WARNING Invalid shader-type. Please apply PhongShader for rendering models.\n";
 		return;
@@ -276,7 +278,7 @@ void Model::draw(const BaseCamera& Cam)
 			Mesh& mesh = pMeshes[pNode->Meshes[i]];
 			mesh.VB.activate();
 			mesh.IB.activate();
-			applyMaterial(mesh.MaterialIdx);
+			if (applyMaterialOnDraw) applyMaterial(mesh.MaterialIdx);
 			pShader->activate(Cam);
 			glDrawElements(GL_TRIANGLES, mesh.IB.indexCount(), mesh.IB.indexFormat(), 0);
 			mesh.IB.deactivate();
@@ -286,6 +288,16 @@ void Model::draw(const BaseCamera& Cam)
 			DrawNodes.push_back(&(pNode->Children[i]));
 
 		DrawNodes.pop_front();
+	}
+}
+
+void Model::shader(BaseShader* shader, bool deleteOnDestruction)
+{
+	BaseModel::shader(shader, deleteOnDestruction);
+
+	PhongShader* pPhong = dynamic_cast<PhongShader*>(pShader);
+	if (pPhong && !applyMaterialOnDraw) {
+		applyMaterial(0);
 	}
 }
 

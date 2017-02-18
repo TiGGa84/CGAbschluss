@@ -30,7 +30,8 @@ public:
 	bool load(const char* ModelFile, bool FitSize = false, float Size = 1.0);
 	virtual void draw(const BaseCamera& Cam);
 	const AABB& boundingBox() const { return BoundingBox; }
-
+	virtual void shader(BaseShader* shader, bool deleteOnDestruction = false);
+	virtual BaseShader* shader() const { return pShader; }
 protected: // protected types
 	struct Mesh
 	{
@@ -87,6 +88,7 @@ protected: // protected member variables
 	Material* pMaterials;
 	unsigned int MaterialCount;
 	AABB BoundingBox;
+	bool applyMaterialOnDraw;
 
 	std::string Filepath; // stores pathname and filename
 	std::string Path; // stores path without filename

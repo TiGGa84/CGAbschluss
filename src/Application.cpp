@@ -28,6 +28,7 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
 
 	HDRBuffer.createBuffer(w, h);
 	Blur.createBuffer(w, h);
+	Blur.setIterations(3);
 
 	Blur.addInputTexID(HDRBuffer.getOutputBloomTexID());
 	
@@ -35,20 +36,22 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
 	Tonemap.addInputBloomTexID(Blur.getOutputTexID());
 
 	BaseModel* pModel;
-	ConstantShader* pConstShader;
-
-	// create LineGrid model with constant color shader
-	pModel = new LinePlaneModel(10, 10, 10, 10);
-	pConstShader = new ConstantShader();
-	pConstShader->color(Color(1, 1, 1));
-	pModel->shader(pConstShader, true);
-	//Models.push_back(pModel);
 	
 	pModel = new Model(ASSET_DIRECTORY"grid.dae");
 	pModel->shader(new PhongShader(), true);
 	Models.push_back(pModel);
 	
 	Matrix m;
+
+	float speed = 3;
+
+	Model* block = new Model(ASSET_DIRECTORY"block.dae");
+	block->shader(new PhongShader(), true);
+
+	track = new Track(block, speed, 30);
+	m.translation(0, 1, 0);
+	track->transform(m);
+	Models.push_back(track);
 
 	pModel = new Model(ASSET_DIRECTORY "plane.dae");
 	pModel->shader(new PhongShader(), true);
@@ -123,7 +126,7 @@ void Application::update(double time, double frametime)
 {
 
 	Cam.update();
-
+	track->update(frametime);
 }
 
 void Application::draw()
