@@ -55,7 +55,7 @@ void Track::draw(const BaseCamera & Cam)
 			if (zPos < 0 || zPos > renderLimit) continue;
 			
 			Matrix matPos;
-			matPos.translation((float)o.x, 0, (float)zPos);
+			matPos.translation((float)o.x, 0, (float)-zPos);
 			model->transform(matPos * transform());
 
 			dynamic_cast<PhongShader*>(model->shader())->emitColor(o.emitColor);
