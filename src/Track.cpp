@@ -18,26 +18,9 @@ Track::Track(Model* model, double speed, int renderLimit) :
 	sectorQueLength(0)
 {
 
-
-
-	/*Sector* s = new Sector(5);
-	Color emit;
-	RGBQUAD c;
-	for (unsigned int i = 0; i < height; ++i)
-	{
-		for (unsigned int j = 0; j < width; ++j)
-		{
-			FreeImage_GetPixelColor(pBitmap, j, i, &c);
-			if (c.rgbReserved == 0) continue;
-			emit.R = c.rgbRed / 255.0f;
-			emit.G = c.rgbGreen / 255.0f;
-			emit.B = c.rgbBlue / 255.0f;
-			s->obstacles.push_back(Obstacle(i, j - 1, emit));
-		}
-	}
-	FreeImage_Unload(pBitmap);
-
-	sectors.push_back(s);*/
+	Sector* s = new Sector(5);
+	sectorQueLength += s->length;
+	sectorQue.push_back(s);
 
 	readSector(ASSET_DIRECTORY"lane1.png");
 	readSector(ASSET_DIRECTORY"lane2.png");
