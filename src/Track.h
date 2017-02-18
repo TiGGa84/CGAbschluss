@@ -52,6 +52,7 @@ protected:
 		int length;
 		std::vector<Obstacle> obstacles;
 	};
+	Sector* emptySector;
 
 	// Alle geladenen Sektoren
 	std::vector<Sector*> sectors;

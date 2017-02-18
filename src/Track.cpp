@@ -18,9 +18,9 @@ Track::Track(Model* model, double speed, int renderLimit) :
 	sectorQueLength(0)
 {
 
-	Sector* s = new Sector(5);
-	sectorQueLength += s->length;
-	sectorQue.push_back(s);
+	emptySector = new Sector(5);
+	sectorQueLength += emptySector->length;
+	sectorQue.push_back(emptySector);
 
 	readSector(ASSET_DIRECTORY"lane1.png");
 	readSector(ASSET_DIRECTORY"lane2.png");
@@ -33,6 +33,7 @@ Track::Track(Model* model, double speed, int renderLimit) :
 Track::~Track()
 {
 	delete model;
+	delete emptySector;
 	for (Sector* s : sectors) delete s;
 }
 
