@@ -94,6 +94,7 @@
     <ClCompile Include="..\..\src\Camera.cpp" />
     <ClCompile Include="..\..\src\color.cpp" />
     <ClCompile Include="..\..\src\ConstantShader.cpp" />
+    <ClCompile Include="..\..\src\Digit.cpp" />
     <ClCompile Include="..\..\src\HDRFramebuffer.cpp" />
     <ClCompile Include="..\..\src\IndexBuffer.cpp" />
     <ClCompile Include="..\..\src\LinePlaneModel.cpp" />
@@ -105,6 +106,7 @@
     <ClCompile Include="..\..\src\PostBlur.cpp" />
     <ClCompile Include="..\..\src\PostTonemap.cpp" />
     <ClCompile Include="..\..\src\Scene.cpp" />
+    <ClCompile Include="..\..\src\Score.cpp" />
     <ClCompile Include="..\..\src\ShaderLightMapper.cpp" />
     <ClCompile Include="..\..\src\Texture.cpp" />
     <ClCompile Include="..\..\src\vector.cpp" />
@@ -118,6 +120,7 @@
     <ClInclude Include="..\..\src\Camera.h" />
     <ClInclude Include="..\..\src\color.h" />
     <ClInclude Include="..\..\src\ConstantShader.h" />
+    <ClInclude Include="..\..\src\Digit.h" />
     <ClInclude Include="..\..\src\HDRFramebuffer.h" />
     <ClInclude Include="..\..\src\IndexBuffer.h" />
     <ClInclude Include="..\..\src\LinePlaneModel.h" />
@@ -128,6 +131,7 @@
     <ClInclude Include="..\..\src\PostBlur.h" />
     <ClInclude Include="..\..\src\PostTonemap.h" />
     <ClInclude Include="..\..\src\Scene.h" />
+    <ClInclude Include="..\..\src\Score.h" />
     <ClInclude Include="..\..\src\ShaderLightMapper.h" />
     <ClInclude Include="..\..\src\Texture.h" />
     <ClInclude Include="..\..\src\vector.h" />

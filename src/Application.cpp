@@ -14,6 +14,7 @@
 #include "lineplanemodel.h"
 #include "model.h"
 #include "ShaderLightMapper.h"
+#include "Score.h"
 
 #define ASSET_DIRECTORY "../../assets/"
 
@@ -72,6 +73,9 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
 	m.translation(0, 1, 0);
 	pModel->transform(m);
 	Models.push_back(pModel);
+
+	//Test der Ziffernanzeige. Im Moment kann man während der Laufzeit die Zahl nicht ändern.
+	new Score(&Models, 0, 0, 1, 3, 12345);
 
 	
 	// directional lights

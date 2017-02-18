@@ -91,6 +91,12 @@
     <ClCompile Include="..\..\src\ShaderLightMapper.cpp">
       <Filter>Quelldateien\utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Digit.cpp">
+      <Filter>Quelldateien\utils\models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Score.cpp">
+      <Filter>Quelldateien\utils\models</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Camera.h">
@@ -155,6 +161,12 @@
     </ClInclude>
     <ClInclude Include="..\..\src\ShaderLightMapper.h">
       <Filter>Quelldateien\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Digit.h">
+      <Filter>Quelldateien\utils\models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Score.h">
+      <Filter>Quelldateien\utils\models</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
