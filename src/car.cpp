@@ -7,7 +7,6 @@ Car::Car()
 {
 	carMat.identity();
 	wheelAngle = 0;
-	currentLane = 0;
 	desiredLane = 0;
 	currentPos = 0.0f;
 }
@@ -47,7 +46,7 @@ void Car::aim(const Vector& Target)
 void Car::update(float frametime, Application& app)
 {
 	float carOffsetY = 1.0f;
-	float wheelSpeed = -5.0f;
+	float wheelSpeed = -50.0f;
 
 	Matrix steerMat;
 	steerMat.translation(0, 0, 0);
@@ -55,33 +54,25 @@ void Car::update(float frametime, Application& app)
 	if (desiredLane+0.00001f < currentPos) {
 		change = -0.1f;
 		currentPos += change;
-		//currentLane--;
 	}
 	else if (desiredLane-0.0001f > currentPos) {
 		change = 0.1f;
 		currentPos += change;
-		//currentLane++;
 	}
 
 	steerMat.translation(change, 0, 0);
-		
-	
-	
 
 	carMat *= steerMat;
 	chassis->transform(carMat);
 
-	//cannon->transform(CarMat);
-
-	//Vector i = app.getMouseInput();
-
 	Vector CarPos = carMat.translation();
 
-	//float angle = std::atan2(i.X - CarPos.X, i.Z - CarPos.Z);
-	if (wheelAngle > -360) {
-		wheelAngle += wheelSpeed * frametime;
-
+	if (wheelAngle <= -360) {
+		wheelAngle += 360;
+		
 	}
+	wheelAngle += wheelSpeed * frametime;
+	std::cout << wheelAngle << std::endl;
 	Matrix chassisMat;
 	chassisMat.translation(CarPos);
 	Matrix carOffset;
@@ -89,9 +80,9 @@ void Car::update(float frametime, Application& app)
 	Matrix wheelsMat;
 	wheelsMat.translation(CarPos);
 	Matrix frontOffset;
-	frontOffset.translation(0, carOffsetY+0.30242, -1.39375f);
+	frontOffset.translation(0, carOffsetY+0.12474f, -0.57477f);
 	Matrix rearOffset;
-	rearOffset.translation(0, carOffsetY+0.35, 1.30618f);
+	rearOffset.translation(0, carOffsetY+0.14376f, 0.50472f);
 
 	Matrix wheelsRotMat;
 	wheelsRotMat.rotationX(wheelAngle);
