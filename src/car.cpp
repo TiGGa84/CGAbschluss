@@ -9,6 +9,7 @@ Car::Car()
 	wheelAngle = 0;
 	currentLane = 0;
 	desiredLane = 0;
+	currentPos = 0.0f;
 }
 
 Car::~Car()
@@ -49,14 +50,19 @@ void Car::update(float frametime, Application& app)
 
 	Matrix throttleMat;
 	throttleMat.translation(0, 0, 0);
-	if (desiredLane < currentLane) {
-		throttleMat.translation(-1, 0, 0);
-		currentLane--;
+	float change = 0.0f;
+	if (desiredLane+0.00001f < currentPos) {
+		change = -0.1f;
+		currentPos += change;
+		//currentLane--;
 	}
-	else if (desiredLane > currentLane) {
-		throttleMat.translation(1, 0, 0);
-		currentLane++;
+	else if (desiredLane-0.0001f > currentPos) {
+		change = 0.1f;
+		currentPos += change;
+		//currentLane++;
 	}
+
+	throttleMat.translation(change, 0, 0);
 		
 	
 	

@@ -24,4 +24,5 @@ protected:
 	float wheelAngle;
 	int currentLane;
 	int desiredLane;
+	float currentPos;
 };
