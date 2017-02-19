@@ -46,11 +46,11 @@ void Car::aim(const Vector& Target)
 
 void Car::update(float frametime, Application& app)
 {
-	//Matrix steerMat;
-	//steerMat.rotationY(steering * frametime * -1);
+	float carOffsetY = 1.0f;
+	float wheelSpeed = -5.0f;
 
-	Matrix throttleMat;
-	throttleMat.translation(0, 0, 0);
+	Matrix steerMat;
+	steerMat.translation(0, 0, 0);
 	float change = 0.0f;
 	if (desiredLane+0.00001f < currentPos) {
 		change = -0.1f;
@@ -63,12 +63,12 @@ void Car::update(float frametime, Application& app)
 		//currentLane++;
 	}
 
-	throttleMat.translation(change, 0, 0);
+	steerMat.translation(change, 0, 0);
 		
 	
 	
 
-	carMat *= throttleMat;
+	carMat *= steerMat;
 	chassis->transform(carMat);
 
 	//cannon->transform(CarMat);
@@ -78,19 +78,27 @@ void Car::update(float frametime, Application& app)
 	Vector CarPos = carMat.translation();
 
 	//float angle = std::atan2(i.X - CarPos.X, i.Z - CarPos.Z);
-	if (wheelAngle < 360) {
-		wheelAngle += 0.1f * frametime;
+	if (wheelAngle > -360) {
+		wheelAngle += wheelSpeed * frametime;
 
 	}
-	
+	Matrix chassisMat;
+	chassisMat.translation(CarPos);
+	Matrix carOffset;
+	carOffset.translation(0, carOffsetY, 0);
 	Matrix wheelsMat;
 	wheelsMat.translation(CarPos);
+	Matrix frontOffset;
+	frontOffset.translation(0, carOffsetY+0.30242, -1.39375f);
+	Matrix rearOffset;
+	rearOffset.translation(0, carOffsetY+0.35, 1.30618f);
 
 	Matrix wheelsRotMat;
 	wheelsRotMat.rotationX(wheelAngle);
-	frontWheels->transform(wheelsMat * wheelsRotMat);
+	chassis->transform(chassisMat * carOffset);
+	frontWheels->transform(wheelsMat* frontOffset * wheelsRotMat);
 
-	rearWheels->transform(wheelsMat * wheelsRotMat);
+	rearWheels->transform(wheelsMat * rearOffset * wheelsRotMat);
 	
 }
 
