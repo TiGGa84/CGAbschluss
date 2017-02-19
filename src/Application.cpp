@@ -20,6 +20,8 @@
 
 #define ASSET_DIRECTORY "../../assets/"
 
+#define CARSPEED 3.0f
+
 
 Application::Application(GLFWwindow* pWin) :
 	pWindow(pWin),
@@ -43,86 +45,43 @@ Application::Application(GLFWwindow* pWin) :
 	Tonemap.addInputBloomTexID(Blur.getOutputTexID());
 
 	BaseModel* pModel;
+	Matrix m;
 	
 	pModel = new Model(ASSET_DIRECTORY"grid.dae");
 	pModel->shader(new PhongShader(), true);
+	m.translation(0, -0.1f, 0);
+	pModel->transform(m);
 	Models.push_back(pModel);
 	
-	Matrix m;
-
-	float speed = 3;
+	pModel = new Model(ASSET_DIRECTORY"street.dae");
+	pModel->shader(new PhongShader(), true);
+	Models.push_back(pModel);
 
 	Model* block = new Model(ASSET_DIRECTORY"block.dae");
 	block->shader(new PhongShader(), true);
 
-	track = new Track(block, speed, 30);
-	m.translation(0, 1, 0);
+	track = new Track(block, CARSPEED, 40);
+	m.translation(0, 0, 4.0f);
 	track->transform(m);
 	Models.push_back(track);
+	
+	car = new Car();
+	car->shader(new PhongShader(), true);
+	car->loadModels(ASSET_DIRECTORY "NotDelorean.dae", ASSET_DIRECTORY "Vorderachse.dae", ASSET_DIRECTORY "Hinterachse.dae");
+	m.translation(0, 0, 0);
+	car->transform(m);
+	Models.push_back(car);
 
+	score = new Score(1.0f, 0.1f, 0.05f);
+	HUDModels.push_back(score);
+	
+	/*
 	pModel = new Model(ASSET_DIRECTORY "plane.dae");
 	pModel->shader(new PhongShader(), true);
 	m.translation(0, 1, 0);
 	pModel->transform(m);
 	Models.push_back(pModel);
-	
-	car = new Car();
-	car->shader(new PhongShader(), true);
-	car->loadModels(ASSET_DIRECTORY "NotDelorean.dae", ASSET_DIRECTORY "Vorderachse.dae", ASSET_DIRECTORY "Hinterachse.dae");
-	m.translation(0, 1, 0);
-	car->transform(m);
-	Models.push_back(car);
-	/*
-	pModel = new Model(ASSET_DIRECTORY "NotDelorean.dae");
-	pModel->shader(new PhongShader(), true);
-	m.translation(0, 1, 0);
-	pModel->transform(m);
-	Models.push_back(pModel);
-
-	pModel = new Model(ASSET_DIRECTORY "Vorderachse.dae");
-	pModel->shader(new PhongShader(), true);
-	m.translation(0, 1, 0);
-	pModel->transform(m);
-	Models.push_back(pModel);
-
-	pModel = new Model(ASSET_DIRECTORY "Hinterachse.dae");
-	pModel->shader(new PhongShader(), true);
-	m.translation(0, 1, 0);
-	pModel->transform(m);
-	Models.push_back(pModel);
 	*/
-
-	score = new Score(1.0f, 0.1f, 0.05f);
-	HUDModels.push_back(score);
-	
-	// directional lights
-	DirectionalLight* dl = new DirectionalLight();
-	dl->direction(Vector(1, -1, 1));
-	dl->color(Color(0.1, 0.1, 0.1));
-	ShaderLightMapper::instance().addLight(dl);
-	
-	// point lights
-	PointLight* pl = new PointLight();
-	pl->position(Vector(0, 3, -10));
-	pl->color(Color(3.0f, 2.0f, 0.0f));
-	ShaderLightMapper::instance().addLight(pl);
-
-	// spot lights
-	SpotLight* sl = new SpotLight();
-	sl->position(Vector(0, 2, 0));
-	sl->color(Color(0.0f, 1.0f, 2.0f));
-	sl->direction(Vector(4, -4, 0));
-	sl->innerRadius(45);
-	sl->outerRadius(50);
-	ShaderLightMapper::instance().addLight(sl);
-
-	sl = new SpotLight();
-	sl->position(Vector(0, 3, 10));
-	sl->color(Color(0.0f, 1.0f, 0.0f));
-	sl->direction(Vector(0, -4, 0));
-	sl->innerRadius(50);
-	sl->outerRadius(60);
-	ShaderLightMapper::instance().addLight(sl);
 	
 }
 void Application::start()

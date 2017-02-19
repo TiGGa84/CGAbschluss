@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 2.78.0 commit date:2016-10-24, commit time:12:20, hash:e8299c8</authoring_tool>
+    </contributor>
+    <created>2017-02-19T17:04:06</created>
+    <modified>2017-02-19T17:04:06</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_images/>
+  <library_effects>
+    <effect id="street-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.01002163 0.01002163 0.01002163 1</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.01599473 0.01599473 0.01599473 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">100</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="street_glow-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">2 2 2 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">1 0.8054414 0.1216836 1</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_materials>
+    <material id="street-material" name="street">
+      <instance_effect url="#street-effect"/>
+    </material>
+    <material id="street_glow-material" name="street_glow">
+      <instance_effect url="#street_glow-effect"/>
+    </material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="Plane_001-mesh" name="Plane.001">
+      <mesh>
+        <source id="Plane_001-mesh-positions">
+          <float_array id="Plane_001-mesh-positions-array" count="420">-0.4865413 -3.51968 0 -0.486541 17.51968 0 -1.494009 -3.51968 0 -1.494008 17.51968 0 -1.520176 -3.51968 0 -1.520176 17.51968 0 -0.5134591 -3.51968 0 -0.5134587 17.51968 0 -1.520176 -3.51968 0.07564908 -1.520176 17.51968 0.07564908 -1.595636 -3.51968 0.07564908 -1.595635 17.51968 0.07564908 -1.595636 -3.51968 -0.1902184 -1.595635 17.51968 -0.1902184 0.486541 -3.51968 0 0.4865413 17.51968 0 1.494008 -3.51968 0 1.494009 17.51968 0 1.520176 -3.51968 0 1.520177 17.51968 0 0.5134587 -3.51968 0 0.5134591 17.51968 0 1.520176 -3.51968 0.07564908 1.520177 17.51968 0.07564908 1.595635 -3.51968 0.07564908 1.595636 17.51968 0.07564908 1.595635 -3.51968 -0.1902184 1.595636 17.51968 -0.1902184 -0.4865413 17.51968 0 -0.486541 38.55904 0 -1.494009 17.51968 0 -1.494008 38.55904 0 -1.520176 17.51968 0 -1.520176 38.55904 0 -0.5134591 17.51968 0 -0.5134587 38.55904 0 -1.520176 17.51968 0.07564908 -1.520176 38.55904 0.07564908 -1.595636 17.51968 0.07564908 -1.595635 38.55904 0.07564908 -1.595636 17.51968 -0.1902184 -1.595635 38.55904 -0.1902184 0.486541 17.51968 0 0.4865413 38.55904 0 1.494008 17.51968 0 1.494009 38.55904 0 1.520176 17.51968 0 1.520177 38.55904 0 0.5134587 17.51968 0 0.5134591 38.55904 0 1.520176 17.51968 0.07564908 1.520177 38.55904 0.07564908 1.595635 17.51968 0.07564908 1.595636 38.55904 0.07564908 1.595635 17.51968 -0.1902184 1.595636 38.55904 -0.1902184 -0.4865413 38.55904 0 -0.486541 59.5984 0 -1.494009 38.55904 0 -1.494008 59.5984 0 -1.520176 38.55904 0 -1.520176 59.5984 0 -0.5134591 38.55904 0 -0.5134587 59.5984 0 -1.520176 38.55904 0.07564908 -1.520176 59.5984 0.07564908 -1.595636 38.55904 0.07564908 -1.595635 59.5984 0.07564908 -1.595636 38.55904 -0.1902184 -1.595635 59.5984 -0.1902184 0.486541 38.55904 0 0.4865413 59.5984 0 1.494008 38.55904 0 1.494009 59.5984 0 1.520176 38.55904 0 1.520177 59.5984 0 0.5134587 38.55904 0 0.5134591 59.5984 0 1.520176 38.55904 0.07564908 1.520177 59.5984 0.07564908 1.595635 38.55904 0.07564908 1.595636 59.5984 0.07564908 1.595635 38.55904 -0.1902184 1.595636 59.5984 -0.1902184 -0.4865413 59.5984 0 -0.486541 80.63776 0 -1.494009 59.5984 0 -1.494008 80.63776 0 -1.520176 59.5984 0 -1.520176 80.63776 0 -0.5134591 59.5984 0 -0.5134587 80.63776 0 -1.520176 59.5984 0.07564908 -1.520176 80.63776 0.07564908 -1.595636 59.5984 0.07564908 -1.595635 80.63776 0.07564908 -1.595636 59.5984 -0.1902184 -1.595635 80.63776 -0.1902184 0.486541 59.5984 0 0.4865413 80.63776 0 1.494008 59.5984 0 1.494009 80.63776 0 1.520176 59.5984 0 1.520177 80.63776 0 0.5134587 59.5984 0 0.5134591 80.63776 0 1.520176 59.5984 0.07564908 1.520177 80.63776 0.07564908 1.595635 59.5984 0.07564908 1.595636 80.63776 0.07564908 1.595635 59.5984 -0.1902184 1.595636 80.63776 -0.1902184 -0.4865413 80.63776 0 -0.486541 101.6771 0 -1.494009 80.63776 0 -1.494008 101.6771 0 -1.520176 80.63776 0 -1.520176 101.6771 0 -0.5134591 80.63776 0 -0.5134587 101.6771 0 -1.520176 80.63776 0.07564908 -1.520176 101.6771 0.07564908 -1.595636 80.63776 0.07564908 -1.595635 101.6771 0.07564908 -1.595636 80.63776 -0.1902184 -1.595635 101.6771 -0.1902184 0.486541 80.63776 0 0.4865413 101.6771 0 1.494008 80.63776 0 1.494009 101.6771 0 1.520176 80.63776 0 1.520177 101.6771 0 0.5134587 80.63776 0 0.5134591 101.6771 0 1.520176 80.63776 0.07564908 1.520177 101.6771 0.07564908 1.595635 80.63776 0.07564908 1.595636 101.6771 0.07564908 1.595635 80.63776 -0.1902184 1.595636 101.6771 -0.1902184</float_array>
+          <technique_common>
+            <accessor source="#Plane_001-mesh-positions-array" count="140" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Plane_001-mesh-normals">
+          <float_array id="Plane_001-mesh-normals-array" count="57">0 0 1 1 0 0 -1 0 0 -1 0 0 1 0 0 1 0 0 -1 0 0 -1 0 0 1 0 0 1 0 0 -1 0 0 -1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 -1 0 0 1 0 0</float_array>
+          <technique_common>
+            <accessor source="#Plane_001-mesh-normals-array" count="19" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Plane_001-mesh-vertices">
+          <input semantic="POSITION" source="#Plane_001-mesh-positions"/>
+        </vertices>
+        <polylist material="street-material" count="90">
+          <input semantic="VERTEX" source="#Plane_001-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Plane_001-mesh-normals" offset="1"/>
+          <vcount>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </vcount>
+          <p>6 0 3 0 2 0 5 1 8 1 4 1 9 0 10 0 8 0 11 2 12 2 10 2 17 0 20 0 16 0 22 3 19 3 18 3 24 0 23 0 22 0 26 4 25 4 24 4 15 0 0 0 14 0 34 0 31 0 30 0 33 1 36 1 32 1 37 0 38 0 36 0 39 2 40 2 38 2 45 0 48 0 44 0 50 3 47 3 46 3 52 0 51 0 50 0 54 4 53 4 52 4 43 0 28 0 42 0 62 0 59 0 58 0 61 1 64 1 60 1 65 0 66 0 64 0 67 2 68 2 66 2 73 0 76 0 72 0 78 3 75 3 74 3 80 0 79 0 78 0 82 4 81 4 80 4 71 0 56 0 70 0 90 0 87 0 86 0 89 5 92 5 88 5 93 0 94 0 92 0 95 6 96 6 94 6 101 0 104 0 100 0 106 7 103 7 102 7 108 0 107 0 106 0 110 8 109 8 108 8 99 0 84 0 98 0 118 0 115 0 114 0 117 9 120 9 116 9 121 0 122 0 120 0 123 10 124 10 122 10 129 0 132 0 128 0 134 11 131 11 130 11 136 0 135 0 134 0 138 12 137 12 136 12 127 0 112 0 126 0 6 0 7 0 3 0 5 13 9 13 8 13 9 0 11 0 10 0 11 6 13 6 12 6 17 0 21 0 20 0 22 3 23 3 19 3 24 0 25 0 23 0 26 14 27 14 25 14 15 0 1 0 0 0 34 0 35 0 31 0 33 13 37 13 36 13 37 0 39 0 38 0 39 6 41 6 40 6 45 0 49 0 48 0 50 3 51 3 47 3 52 0 53 0 51 0 54 14 55 14 53 14 43 0 29 0 28 0 62 0 63 0 59 0 61 13 65 13 64 13 65 0 67 0 66 0 67 6 69 6 68 6 73 0 77 0 76 0 78 3 79 3 75 3 80 0 81 0 79 0 82 14 83 14 81 14 71 0 57 0 56 0 90 0 91 0 87 0 89 15 93 15 92 15 93 0 95 0 94 0 95 6 97 6 96 6 101 0 105 0 104 0 106 7 107 7 103 7 108 0 109 0 107 0 110 8 111 8 109 8 99 0 85 0 84 0 118 0 119 0 115 0 117 16 121 16 120 16 121 0 123 0 122 0 123 17 125 17 124 17 129 0 133 0 132 0 134 11 135 11 131 11 136 0 137 0 135 0 138 18 139 18 137 18 127 0 113 0 112 0</p>
+        </polylist>
+        <polylist material="street_glow-material" count="40">
+          <input semantic="VERTEX" source="#Plane_001-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Plane_001-mesh-normals" offset="1"/>
+          <vcount>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </vcount>
+          <p>0 0 7 0 6 0 3 0 4 0 2 0 21 0 14 0 20 0 18 0 17 0 16 0 28 0 35 0 34 0 31 0 32 0 30 0 49 0 42 0 48 0 46 0 45 0 44 0 56 0 63 0 62 0 59 0 60 0 58 0 77 0 70 0 76 0 74 0 73 0 72 0 84 0 91 0 90 0 87 0 88 0 86 0 105 0 98 0 104 0 102 0 101 0 100 0 112 0 119 0 118 0 115 0 116 0 114 0 133 0 126 0 132 0 130 0 129 0 128 0 0 0 1 0 7 0 3 0 5 0 4 0 21 0 15 0 14 0 18 0 19 0 17 0 28 0 29 0 35 0 31 0 33 0 32 0 49 0 43 0 42 0 46 0 47 0 45 0 56 0 57 0 63 0 59 0 61 0 60 0 77 0 71 0 70 0 74 0 75 0 73 0 84 0 85 0 91 0 87 0 89 0 88 0 105 0 99 0 98 0 102 0 103 0 101 0 112 0 113 0 119 0 115 0 117 0 116 0 133 0 127 0 126 0 130 0 131 0 129 0</p>
+        </polylist>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_controllers/>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="street" name="street" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#Plane_001-mesh" name="street">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="street-material" target="#street-material"/>
+              <instance_material symbol="street_glow-material" target="#street_glow-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>
