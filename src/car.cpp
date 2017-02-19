@@ -45,7 +45,7 @@ void Car::aim(const Vector& Target)
 
 void Car::update(float frametime, Application& app)
 {
-	float carOffsetY = 1.0f;
+	float carOffsetY = 0.0f;
 	float wheelSpeed = -50.0f;
 
 	Matrix steerMat;
