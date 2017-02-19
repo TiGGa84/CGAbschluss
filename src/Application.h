@@ -52,6 +52,9 @@ protected:
 	HDRFramebuffer HDRBuffer;
 	PostTonemap Tonemap;
 	PostBlur Blur;
+
+	bool leftKeyPressedOnce;
+	bool rightKeyPressedOnce;
 };
 
 #endif /* Application_hpp */

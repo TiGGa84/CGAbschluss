@@ -33,8 +33,10 @@ bool Car::loadModels(const char* ChassisFile, const char* FrontWheelFile, const 
 
 void Car::steer(int steer)
 {
+	
 	if (desiredLane > -1 && steer < 0) desiredLane--;
 	else if (desiredLane < 1 && steer > 0) desiredLane++;
+	std::cout << "Desired Lane: " << desiredLane << std::endl << "Steer: " << steer << std::endl;
 }
 
 void Car::aim(const Vector& Target)
@@ -44,7 +46,6 @@ void Car::aim(const Vector& Target)
 
 void Car::update(float frametime, Application& app)
 {
-	std::cout << "Desired Lane: " << desiredLane << std::endl << "Current Lane: " << currentLane << std::endl;
 	//Matrix steerMat;
 	//steerMat.rotationY(steering * frametime * -1);
 

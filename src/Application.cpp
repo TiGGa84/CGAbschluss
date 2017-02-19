@@ -26,6 +26,8 @@ Application::Application(GLFWwindow* pWin) :
 	Cam(pWin),
 	HUDCam(pWin)
 {
+	leftKeyPressedOnce = false;
+	rightKeyPressedOnce = false;
 	Cam.setPosition(Vector(0.0f, 2.0f, 5.0f));
 
 	int w = 0, h = 0;
@@ -191,6 +193,20 @@ void Application::getInput() {
 	bool leftDown = glfwGetKey(pWindow, GLFW_KEY_LEFT) == GLFW_PRESS || glfwGetKey(pWindow, GLFW_KEY_A) == GLFW_PRESS;
 	bool rightDown = glfwGetKey(pWindow, GLFW_KEY_RIGHT) == GLFW_PRESS || glfwGetKey(pWindow, GLFW_KEY_D) == GLFW_PRESS;
 
-	if (leftDown) car->steer(-1);
-	else if (rightDown) car->steer(1);
+	if (leftDown && !leftKeyPressedOnce) {
+		car->steer(-1);
+		leftKeyPressedOnce = true;
+		std::cout << "Left" << std::endl;
+	}
+	if (rightDown && !rightKeyPressedOnce) {
+		car->steer(1);
+		rightKeyPressedOnce = true;
+		std::cout << "Right" << std::endl;
+	}
+	if (!leftDown) {
+		leftKeyPressedOnce = false;
+	}
+	if (!rightDown) {
+		rightKeyPressedOnce = false;
+	}
 }
