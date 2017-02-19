@@ -63,7 +63,14 @@ Application::Application(GLFWwindow* pWin) :
 	m.translation(0, 1, 0);
 	pModel->transform(m);
 	Models.push_back(pModel);
-
+	
+	car = new Car();
+	car->shader(new PhongShader(), true);
+	car->loadModels(ASSET_DIRECTORY "NotDelorean.dae", ASSET_DIRECTORY "Vorderachse.dae", ASSET_DIRECTORY "Hinterachse.dae");
+	m.translation(0, 1, 0);
+	car->transform(m);
+	Models.push_back(car);
+	/*
 	pModel = new Model(ASSET_DIRECTORY "NotDelorean.dae");
 	pModel->shader(new PhongShader(), true);
 	m.translation(0, 1, 0);
@@ -81,6 +88,7 @@ Application::Application(GLFWwindow* pWin) :
 	m.translation(0, 1, 0);
 	pModel->transform(m);
 	Models.push_back(pModel);
+	*/
 
 	score = new Score(1.0f, 0.1f, 0.05f);
 	HUDModels.push_back(score);
@@ -125,10 +133,11 @@ void Application::start()
 
 void Application::update(double time, double frametime)
 {
-
+	getInput();
 	Cam.update();
 	track->update(frametime);
 	score->setNumber((unsigned int)time);
+	car->update(frametime, *this);
 }
 
 void Application::draw()
@@ -179,7 +188,9 @@ void Application::end()
 
 void Application::getInput() {
 
-	//bool leftDown = glfwGetKey(pWindow, GLFW_KEY_LEFT) == GLFW_PRESS || glfwGetKey(pWindow, GLFW_KEY_A) == GLFW_PRESS;
-	//bool rightDown = glfwGetKey(pWindow, GLFW_KEY_RIGHT) == GLFW_PRESS || glfwGetKey(pWindow, GLFW_KEY_D) == GLFW_PRESS;
+	bool leftDown = glfwGetKey(pWindow, GLFW_KEY_LEFT) == GLFW_PRESS || glfwGetKey(pWindow, GLFW_KEY_A) == GLFW_PRESS;
+	bool rightDown = glfwGetKey(pWindow, GLFW_KEY_RIGHT) == GLFW_PRESS || glfwGetKey(pWindow, GLFW_KEY_D) == GLFW_PRESS;
 
+	if (leftDown) car->steer(-1);
+	else if (rightDown) car->steer(1);
 }

@@ -19,6 +19,7 @@
 #include "HDRFramebuffer.h"
 #include "PostTonemap.h"
 #include "PostBlur.h"
+#include "Car.h"
 
 #include <list>
 
@@ -46,6 +47,7 @@ protected:
 	
 	Track* track;
 	Score* score;
+	Car* car;
 
 	HDRFramebuffer HDRBuffer;
 	PostTonemap Tonemap;
