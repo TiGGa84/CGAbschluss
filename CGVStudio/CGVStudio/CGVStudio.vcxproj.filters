@@ -34,9 +34,6 @@
     <ClCompile Include="..\..\src\IndexBuffer.cpp">
       <Filter>Quelldateien\utils</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Application.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Matrix.cpp">
       <Filter>Quelldateien\utils</Filter>
     </ClCompile>
@@ -91,14 +88,23 @@
     <ClCompile Include="..\..\src\ShaderLightMapper.cpp">
       <Filter>Quelldateien\utils</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Digit.cpp">
-      <Filter>Quelldateien\utils\models</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Score.cpp">
       <Filter>Quelldateien\utils\models</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Track.cpp">
       <Filter>Quelldateien\utils\models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\HUDCamera.cpp">
+      <Filter>Quelldateien\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\HUDShader.cpp">
+      <Filter>Quelldateien\utils\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\HUDElement.cpp">
+      <Filter>Quelldateien\utils\models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Application.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -165,13 +171,22 @@
     <ClInclude Include="..\..\src\ShaderLightMapper.h">
       <Filter>Quelldateien\utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Digit.h">
-      <Filter>Quelldateien\utils\models</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Score.h">
       <Filter>Quelldateien\utils\models</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Track.h">
+      <Filter>Quelldateien\utils\models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BaseCamera.h">
+      <Filter>Quelldateien\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\HUDCamera.h">
+      <Filter>Quelldateien\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\HUDShader.h">
+      <Filter>Quelldateien\utils\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\HUDElement.h">
       <Filter>Quelldateien\utils\models</Filter>
     </ClInclude>
   </ItemGroup>
@@ -189,6 +204,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="..\..\shader\vspost.glsl">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\..\shader\fshud.glsl">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\..\shader\vshud.glsl">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

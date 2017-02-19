@@ -54,8 +54,6 @@ GLuint PostBlur::getOutputTexID()
 
 void PostBlur::process()
 {
-	glDisable(GL_DEPTH_TEST);
-
 	Shader.activate(Camera(NULL));
 
 	glActiveTexture(GL_TEXTURE0);

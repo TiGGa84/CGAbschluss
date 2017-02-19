@@ -15,13 +15,18 @@
 #include "model.h"
 #include "ShaderLightMapper.h"
 #include "Score.h"
+#include "HUDElement.h"
+#include "HUDShader.h"
 
 #define ASSET_DIRECTORY "../../assets/"
 
 
-Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
+Application::Application(GLFWwindow* pWin) :
+	pWindow(pWin),
+	Cam(pWin),
+	HUDCam(pWin)
 {
-	Cam.setPosition(Vector(0.0f, 2.0f, -5.0f));
+	Cam.setPosition(Vector(0.0f, 2.0f, 5.0f));
 
 	int w = 0, h = 0;
 	glfwGetFramebufferSize(pWin, &w, &h);
@@ -77,9 +82,8 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
 	pModel->transform(m);
 	Models.push_back(pModel);
 
-	//Test der Ziffernanzeige. Im Moment kann man während der Laufzeit die Zahl nicht ändern.
-	new Score(&Models, 0, 0, 1, 3, 12345);
-
+	score = new Score(1.0f, 0.1f, 0.05f);
+	HUDModels.push_back(score);
 	
 	// directional lights
 	DirectionalLight* dl = new DirectionalLight();
@@ -113,12 +117,9 @@ Application::Application(GLFWwindow* pWin) : pWindow(pWin), Cam(pWin)
 }
 void Application::start()
 {
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 
@@ -127,6 +128,7 @@ void Application::update(double time, double frametime)
 
 	Cam.update();
 	track->update(frametime);
+	score->setNumber((unsigned int)time);
 }
 
 void Application::draw()
@@ -135,6 +137,7 @@ void Application::draw()
 	ShaderLightMapper::instance().activate();
 	HDRBuffer.activate();
 
+	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -145,8 +148,23 @@ void Application::draw()
 
 	HDRBuffer.deactivate();
 
+	glDisable(GL_DEPTH_TEST);
+
 	Blur.process();
 	Tonemap.process();
+
+	GLenum Error = glGetError();
+	assert(Error == 0);
+}
+void Application::drawHUD()
+{
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+
+	for (ModelList::iterator it = HUDModels.begin(); it != HUDModels.end(); ++it)
+	{
+		(*it)->draw(HUDCam);
+	}
 
 	GLenum Error = glGetError();
 	assert(Error == 0);

@@ -46,7 +46,6 @@ protected:
 	GLuint createShaderProgram(const char* VScode, const char* FScode);
 	Matrix ModelTransform;
 	GLuint ShaderProgram;
-	GLuint LightUniformBuffer;
 
 	static const BaseShader* ShaderInPipe;
 };

@@ -6,30 +6,14 @@
 //  Copyright (c) 2014 Philipp Lensing. All rights reserved.
 //
 
-#ifndef __RealtimeRending__Camera__
-#define __RealtimeRending__Camera__
+#pragma once
 
-#include <iostream>
-#ifdef WIN32
 #include <GL/glew.h>
 #include <glfw/glfw3.h>
-#else
-#define GLFW_INCLUDE_GLCOREARB
-#define GLFW_INCLUDE_GLEXT
-#include <glfw/glfw3.h>
-#endif
-#include "vector.h"
-#include "matrix.h"
 
-class BaseCamera
-{
-public:
-	virtual void update() = 0;
-	virtual const Matrix& getViewMatrix() const = 0;
-	virtual const Matrix& getProjectionMatrix() const = 0;
-	virtual Vector position() const = 0;
-	virtual ~BaseCamera() {};
-};
+#include "BaseCamera.h"
+#include "vector.h"
+#include "Matrix.h"
 
 class Camera : public BaseCamera
 {
@@ -76,6 +60,3 @@ protected:
 private:
 
 };
-
-
-#endif /* defined(__RealtimeRending__Camera__) */

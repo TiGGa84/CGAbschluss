@@ -10,10 +10,12 @@
 #define Application_hpp
 
 #include "Camera.h"
+#include "HUDCamera.h"
 #include "PhongShader.h"
 #include "ConstantShader.h"
 #include "BaseModel.h"
 #include "Track.h"
+#include "Score.h"
 #include "HDRFramebuffer.h"
 #include "PostTonemap.h"
 #include "PostBlur.h"
@@ -28,16 +30,22 @@ public:
 	void start();
 	void update(double time, double frametime);
 	void draw();
+	void drawHUD();
 	void end();
 
 	void getInput();
 
 protected:
 	Camera Cam;
-	ModelList Models;
+	HUDCamera HUDCam;
+
 	GLFWwindow* pWindow;
 
+	ModelList Models;
+	ModelList HUDModels;
+	
 	Track* track;
+	Score* score;
 
 	HDRFramebuffer HDRBuffer;
 	PostTonemap Tonemap;

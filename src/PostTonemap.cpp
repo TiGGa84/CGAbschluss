@@ -21,7 +21,6 @@ void PostTonemap::addInputBloomTexID(GLuint textureBuffer)
 
 void PostTonemap::process()
 {
-	glDisable(GL_DEPTH_TEST);
 	// Post Process Shader ausführen
 	Shader.activate(Camera(NULL));
 	// Input Texturen

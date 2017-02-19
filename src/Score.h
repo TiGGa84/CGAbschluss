@@ -1,15 +1,24 @@
 #pragma once
 
-#include <stdio.h>
-#include <list>
-
 #include "BaseModel.h"
+#include "HUDElement.h"
+#include "HUDShader.h"
 
-class Score
+#include <vector>
+
+class Score : public BaseModel
 {
 public:
-	Score(std::list<BaseModel*>* models, float x, float y, float scaleX, float scaleY, unsigned int num);
-	virtual ~Score() {}
-private:
+	Score(float x, float y, float lineheight);
+	virtual ~Score();
+
+	void setNumber(unsigned int n);
+	void setPosition(float x, float y);
+
+	virtual void draw(const BaseCamera& Cam);
+protected:
 	int number[10];
+	float width;
+	HUDElement* rect;
+	HUDShader* hShader;
 };

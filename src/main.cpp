@@ -56,6 +56,8 @@ int main() {
 			App.update(time, frametime);
 
 			App.draw();
+			App.drawHUD();
+
 			glfwSwapBuffers(window);
 		}
 		App.end();
