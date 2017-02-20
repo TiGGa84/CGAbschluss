@@ -4,11 +4,11 @@
 
 
 HUDElement::HUDElement(float x, float y, float sizeX, float sizeY, const Texture* pTex) :
-	pTexture(pTex),
 	scale(Vector(1, 1, 1)),
 	offset(Vector(0, 0, 0))
 {
 	setPosition(x, y);
+	setTexture(pTex);
 
 	if (sizeY == 0) {
 		float factor = sizeX / pTex->width();
@@ -60,6 +60,7 @@ void HUDElement::setPosition(float x, float y)
 void HUDElement::setTexture(const Texture * pTex)
 {
 	pTexture = pTex;
+	pTexture->clampToEdge();
 }
 
 void HUDElement::setTextureScale(float x, float y)

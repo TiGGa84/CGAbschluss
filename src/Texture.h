@@ -24,6 +24,7 @@ public:
 	~Texture();
 	bool load(const char* Filename, bool SRGB = true);
 	bool create(unsigned int width, unsigned int height, unsigned char* data);
+	void clampToEdge() const;
 	void activate(int slot = 0) const;
 	void deactivate() const;
 	bool isValid() const;

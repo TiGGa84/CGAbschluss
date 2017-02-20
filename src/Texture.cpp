@@ -237,6 +237,14 @@ bool Texture::create(unsigned int width, unsigned int height, unsigned char* dat
 	return true;
 }
 
+void Texture::clampToEdge() const
+{
+	glBindTexture(GL_TEXTURE_2D, m_TextureID);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
 void Texture::activate(int slot) const
 {
 	if (m_TextureID == 0 || slot < 0 || slot > 7)
