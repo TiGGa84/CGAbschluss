@@ -22,7 +22,6 @@
 #define ASSET_DIRECTORY "../../assets/"
 
 using namespace std;
-using namespace irrklang;
 
 
 
@@ -31,7 +30,6 @@ MainMenu::MainMenu(GLFWwindow* pWin, GamestateManager* gm) :
 	HUDCam(pWin),
 	gm(gm) {
 
-	se = 0;
 }
 
 void MainMenu::initModels() {
@@ -55,10 +53,6 @@ void MainMenu::initModels() {
 	HUDElement* help = new HUDElement(0.4f, 0.2f, 0.55f, 0.0f, Texture::LoadShared(ASSET_DIRECTORY "Help.png"));
 	help->shader(new HUDShader(), true);
 	HUDModels.push_back(help);
-
-	se = createIrrKlangDevice();
-	ISound* snd = se->play2D(ASSET_DIRECTORY "Stringed Disco.mp3", true, false, true);
-	if (snd) snd->setVolume(0.4f);
 }
 
 void MainMenu::start()
@@ -91,7 +85,6 @@ void MainMenu::draw()
 }
 void MainMenu::end()
 {
-	if(se != 0) se->drop();
 	for (ModelList::iterator it = HUDModels.begin(); it != HUDModels.end(); ++it)
 		delete *it;
 

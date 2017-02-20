@@ -23,7 +23,6 @@
 #define CARSPEED 4.0f
 
 using namespace std;
-using namespace irrklang;
 
 
 Application::Application(GLFWwindow* pWin, GamestateManager* gm) :
@@ -32,7 +31,6 @@ Application::Application(GLFWwindow* pWin, GamestateManager* gm) :
 	HUDCam(pWin),
 	gm(gm)
 {
-	se = 0;
 	leftKeyPressedOnce = false;
 	rightKeyPressedOnce = false;
 	Cam.setPosition(Vector(0.0f, 2.0f, 5.0f));
@@ -96,10 +94,6 @@ void Application::initModels() {
 
 	score = new Score(1.0f, 0.015f, 0.04f);
 	HUDModels.push_back(score);
-
-	se = createIrrKlangDevice();
-	ISound* snd = se->play2D(ASSET_DIRECTORY "Neon and Kickboxing.mp3", true, false, true);
-	if (snd) snd->setVolume(0.4f);
 }
 
 void Application::start()
@@ -160,7 +154,6 @@ void Application::drawHUD()
 }
 void Application::end()
 {
-	if(se != 0) se->drop();
 	for (ModelList::iterator it = Models.begin(); it != Models.end(); ++it)
 		delete *it;
 

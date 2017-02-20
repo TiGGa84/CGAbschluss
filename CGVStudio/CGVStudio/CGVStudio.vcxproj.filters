@@ -121,6 +121,9 @@
     <ClCompile Include="..\..\src\Scenery.cpp">
       <Filter>Quelldateien\utils\models</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\SoundManager.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Camera.h">
@@ -218,6 +221,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\Scenery.h">
       <Filter>Quelldateien\utils\models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\SoundManager.h">
+      <Filter>Quelldateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

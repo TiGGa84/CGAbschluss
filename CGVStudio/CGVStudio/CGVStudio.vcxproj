@@ -115,6 +115,7 @@
     <ClCompile Include="..\..\src\Scenery.cpp" />
     <ClCompile Include="..\..\src\Score.cpp" />
     <ClCompile Include="..\..\src\ShaderLightMapper.cpp" />
+    <ClCompile Include="..\..\src\SoundManager.cpp" />
     <ClCompile Include="..\..\src\Texture.cpp" />
     <ClCompile Include="..\..\src\Track.cpp" />
     <ClCompile Include="..\..\src\vector.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="..\..\src\Scenery.h" />
     <ClInclude Include="..\..\src\Score.h" />
     <ClInclude Include="..\..\src\ShaderLightMapper.h" />
+    <ClInclude Include="..\..\src\SoundManager.h" />
     <ClInclude Include="..\..\src\Texture.h" />
     <ClInclude Include="..\..\src\Track.h" />
     <ClInclude Include="..\..\src\vector.h" />

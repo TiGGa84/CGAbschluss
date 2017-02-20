@@ -7,12 +7,14 @@
 #include "freeimage.h"
 #include "GamestateManager.h"
 #include "MainMenu.h"
+#include "SoundManager.h"
 
 void PrintOpenGLVersion();
 
 
 int main() {
 	GamestateManager* gm = new GamestateManager();
+	SoundManager* sm = new SoundManager();
 	FreeImage_Initialise();
 	// start GL context and O/S window using the GLFW helper library
 	if (!glfwInit()) {
@@ -61,6 +63,7 @@ int main() {
 			switch (gm->getGameState()) {
 			case 0:
 				Menu.initModels();
+				sm->playMenuMusic();
 				gm->setGameState(1);
 				break;
 			case 1:
@@ -68,7 +71,9 @@ int main() {
 				Menu.draw();
 				break;
 			case 2:
+				sm->stopAllSounds();
 				App.initModels();
+				sm->playDrivingMusic();
 				gm->setGameState(3);
 				break;
 			case 3:
@@ -87,6 +92,7 @@ int main() {
 		App.end();
 	}
 	delete gm;
+	delete sm;
 	glfwTerminate();
 	return 0;
 }
