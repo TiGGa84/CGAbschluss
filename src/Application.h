@@ -22,8 +22,11 @@
 #include "PostBlur.h"
 #include "Car.h"
 #include "GamestateManager.h"
+#include "irrKlang.h"
 
 #include <list>
+
+#pragma comment(lib, "irrKlang.lib")
 
 class Application
 {
@@ -41,6 +44,7 @@ public:
 	void getInput();
 
 protected:
+	irrklang::ISoundEngine* se;
 	GamestateManager* gm;
 	Camera Cam;
 	HUDCamera HUDCam;

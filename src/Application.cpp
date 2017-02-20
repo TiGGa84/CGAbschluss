@@ -22,6 +22,9 @@
 
 #define CARSPEED 4.0f
 
+using namespace std;
+using namespace irrklang;
+
 
 Application::Application(GLFWwindow* pWin, GamestateManager* gm) :
 	pWindow(pWin),
@@ -92,6 +95,9 @@ void Application::initModels() {
 
 	score = new Score(1.0f, 0.015f, 0.04f);
 	HUDModels.push_back(score);
+
+	se = createIrrKlangDevice();
+	se->play2D(ASSET_DIRECTORY "Neon and Kickboxing.mp3", true);
 }
 
 void Application::start()
@@ -152,6 +158,7 @@ void Application::drawHUD()
 }
 void Application::end()
 {
+	se->drop();
 	for (ModelList::iterator it = Models.begin(); it != Models.end(); ++it)
 		delete *it;
 
@@ -171,12 +178,10 @@ void Application::getInput() {
 	if (leftDown && !leftKeyPressedOnce) {
 		car->steer(-1);
 		leftKeyPressedOnce = true;
-		std::cout << "Left" << std::endl;
 	}
 	if (rightDown && !rightKeyPressedOnce) {
 		car->steer(1);
 		rightKeyPressedOnce = true;
-		std::cout << "Right" << std::endl;
 	}
 	if (!leftDown) {
 		leftKeyPressedOnce = false;
