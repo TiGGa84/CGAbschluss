@@ -4,8 +4,11 @@
 #include "BaseModel.h"
 #include "GamestateManager.h"
 #include "RainbowShader.h"
+#include "irrKlang.h"
 
 #include <list>
+
+#pragma comment(lib, "irrKlang.lib")
 
 class MainMenu
 {
@@ -22,6 +25,7 @@ public:
 	void getInput();
 
 protected:
+	irrklang::ISoundEngine* se;
 	GLFWwindow* pWindow;
 	GamestateManager* gm;
 

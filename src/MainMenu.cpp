@@ -14,9 +14,17 @@
 #include "HUDElement.h"
 #include "HUDShader.h"
 
+
+
 #include <cassert>
 
+
 #define ASSET_DIRECTORY "../../assets/"
+
+using namespace std;
+using namespace irrklang;
+
+
 
 MainMenu::MainMenu(GLFWwindow* pWin, GamestateManager* gm) :
 	pWindow(pWin),
@@ -44,6 +52,9 @@ void MainMenu::initModels() {
 	HUDElement* help = new HUDElement(0.4f, 0.2f, 0.55f, 0.0f, Texture::LoadShared(ASSET_DIRECTORY "Help.png"));
 	help->shader(new HUDShader(), true);
 	HUDModels.push_back(help);
+
+	se = createIrrKlangDevice();
+	se->play2D(ASSET_DIRECTORY "Stringed Disco.mp3", true);
 }
 
 void MainMenu::start()
@@ -76,6 +87,7 @@ void MainMenu::draw()
 }
 void MainMenu::end()
 {
+	se->drop();
 	for (ModelList::iterator it = HUDModels.begin(); it != HUDModels.end(); ++it)
 		delete *it;
 
