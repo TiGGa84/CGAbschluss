@@ -29,7 +29,10 @@ using namespace irrklang;
 MainMenu::MainMenu(GLFWwindow* pWin, GamestateManager* gm) :
 	pWindow(pWin),
 	HUDCam(pWin),
-	gm(gm){}
+	gm(gm) {
+
+	se = 0;
+}
 
 void MainMenu::initModels() {
 
@@ -54,7 +57,8 @@ void MainMenu::initModels() {
 	HUDModels.push_back(help);
 
 	se = createIrrKlangDevice();
-	se->play2D(ASSET_DIRECTORY "Stringed Disco.mp3", true);
+	ISound* snd = se->play2D(ASSET_DIRECTORY "Stringed Disco.mp3", true, false, true);
+	if (snd) snd->setVolume(0.4f);
 }
 
 void MainMenu::start()
@@ -87,7 +91,7 @@ void MainMenu::draw()
 }
 void MainMenu::end()
 {
-	se->drop();
+	if(se != 0) se->drop();
 	for (ModelList::iterator it = HUDModels.begin(); it != HUDModels.end(); ++it)
 		delete *it;
 
