@@ -26,7 +26,7 @@
               <color sid="diffuse">0.01002163 0.01002163 0.01002163 1</color>
             </diffuse>
             <specular>
-              <color sid="specular">0.01599473 0.01599473 0.01599473 1</color>
+              <color sid="specular">0 0 0 1</color>
             </specular>
             <shininess>
               <float sid="shininess">100</float>
