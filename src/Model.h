@@ -30,8 +30,7 @@ public:
 	bool load(const char* ModelFile, bool FitSize = false, float Size = 1.0);
 	virtual void draw(const BaseCamera& Cam);
 	const AABB& boundingBox() const { return BoundingBox; }
-	virtual void shader(BaseShader* shader, bool deleteOnDestruction = false);
-	virtual BaseShader* shader() const { return pShader; }
+	void overrideEmit(Color& c);
 protected: // protected types
 	struct Mesh
 	{
@@ -42,7 +41,7 @@ protected: // protected types
 	};
 	struct Material
 	{
-		Material() : 
+		Material() :
 			DiffTex(NULL),
 			EmitTex(NULL),
 			DiffColor(1, 1, 1),
@@ -88,7 +87,8 @@ protected: // protected member variables
 	Material* pMaterials;
 	unsigned int MaterialCount;
 	AABB BoundingBox;
-	bool applyMaterialOnDraw;
+	Color EmitColorOverride;
+	bool hasEmitOverride;
 
 	std::string Filepath; // stores pathname and filename
 	std::string Path; // stores path without filename

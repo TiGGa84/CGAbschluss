@@ -13,11 +13,19 @@
 #include <assert.h>
 #include <iostream>
 
-Model::Model() : pMeshes(NULL), MeshCount(0), pMaterials(NULL), MaterialCount(0)
-{
-}
+Model::Model() :
+	pMeshes(NULL),
+	MeshCount(0),
+	pMaterials(NULL),
+	MaterialCount(0),
+	hasEmitOverride(false) {}
 
-Model::Model(const char* ModelFile, bool FitSize, float Size) : pMeshes(NULL), MeshCount(0), pMaterials(NULL), MaterialCount(0)
+Model::Model(const char* ModelFile, bool FitSize, float Size) :
+	pMeshes(NULL),
+	MeshCount(0),
+	pMaterials(NULL),
+	MaterialCount(0),
+	hasEmitOverride(false)
 {
 	bool ret = load(ModelFile, FitSize, Size);
 	if (!ret) throw std::exception();
@@ -52,8 +60,6 @@ bool Model::load(const char* ModelFile, bool FitSize, float Size)
 	loadMeshes(pScene, FitSize, Size);
 	loadMaterials(pScene);
 	loadNodes(pScene);
-
-	applyMaterialOnDraw = MaterialCount > 1;
 
 	return true;
 }
@@ -248,6 +254,8 @@ void Model::applyMaterial(unsigned int index)
 	pPhong->emitColor(pMat->EmitColor);
 	pPhong->diffuseTexture(pMat->DiffTex);
 	pPhong->emitTexture(pMat->EmitTex);
+
+	if (hasEmitOverride) pPhong->emitColor(EmitColorOverride);
 }
 
 void Model::draw(const BaseCamera& Cam)
@@ -278,7 +286,7 @@ void Model::draw(const BaseCamera& Cam)
 			Mesh& mesh = pMeshes[pNode->Meshes[i]];
 			mesh.VB.activate();
 			mesh.IB.activate();
-			if (applyMaterialOnDraw) applyMaterial(mesh.MaterialIdx);
+			applyMaterial(mesh.MaterialIdx);
 			pShader->activate(Cam);
 			glDrawElements(GL_TRIANGLES, mesh.IB.indexCount(), mesh.IB.indexFormat(), 0);
 			mesh.IB.deactivate();
@@ -291,14 +299,10 @@ void Model::draw(const BaseCamera& Cam)
 	}
 }
 
-void Model::shader(BaseShader* shader, bool deleteOnDestruction)
+void Model::overrideEmit(Color & c)
 {
-	BaseModel::shader(shader, deleteOnDestruction);
-
-	PhongShader* pPhong = dynamic_cast<PhongShader*>(pShader);
-	if (pPhong && !applyMaterialOnDraw) {
-		applyMaterial(0);
-	}
+	hasEmitOverride = true;
+	EmitColorOverride = c;
 }
 
 Matrix Model::convertMat(const aiMatrix4x4& m)

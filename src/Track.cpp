@@ -27,6 +27,7 @@ Track::Track(Model* model, double speed, int renderLimit) :
 	readSector(ASSET_DIRECTORY"lane3.png");
 	readSector(ASSET_DIRECTORY"lane4.png");
 	readSector(ASSET_DIRECTORY"lane5.png");
+	readSector(ASSET_DIRECTORY"lane6.png");
 
 }
 
@@ -53,14 +54,14 @@ void Track::draw(const BaseCamera & Cam)
 			double zPos = currentSectorOffset - overflowStart + o.z;
 			// Clip
 			if (zPos < 0 || zPos > renderLimit) continue;
-			
+
 			Matrix matPos;
 			matPos.translation((float)o.x, 0, (float)-zPos);
 			model->transform(matPos * transform());
 
-			dynamic_cast<PhongShader*>(model->shader())->emitColor(o.emitColor);
+			model->overrideEmit(o.emitColor);
+
 			model->draw(Cam);
-			
 		}
 
 		currentSectorOffset += s->length;
