@@ -110,6 +110,7 @@
     <ClCompile Include="..\..\src\PostEffect.cpp" />
     <ClCompile Include="..\..\src\PostBlur.cpp" />
     <ClCompile Include="..\..\src\PostTonemap.cpp" />
+    <ClCompile Include="..\..\src\RainbowShader.cpp" />
     <ClCompile Include="..\..\src\Scene.cpp" />
     <ClCompile Include="..\..\src\Score.cpp" />
     <ClCompile Include="..\..\src\ShaderLightMapper.cpp" />
@@ -142,6 +143,7 @@
     <ClInclude Include="..\..\src\PostEffect.h" />
     <ClInclude Include="..\..\src\PostBlur.h" />
     <ClInclude Include="..\..\src\PostTonemap.h" />
+    <ClInclude Include="..\..\src\RainbowShader.h" />
     <ClInclude Include="..\..\src\Scene.h" />
     <ClInclude Include="..\..\src\Score.h" />
     <ClInclude Include="..\..\src\ShaderLightMapper.h" />
@@ -154,6 +156,7 @@
     <None Include="..\..\shader\fsblur.glsl" />
     <None Include="..\..\shader\fshud.glsl" />
     <None Include="..\..\shader\fsphong.glsl" />
+    <None Include="..\..\shader\fsrainbow.glsl" />
     <None Include="..\..\shader\fstonemap.glsl" />
     <None Include="..\..\shader\vshud.glsl" />
     <None Include="..\..\shader\vsphong.glsl" />

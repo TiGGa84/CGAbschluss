@@ -1,14 +1,9 @@
 #pragma once
 
-#include "Camera.h"
 #include "HUDCamera.h"
-#include "PhongShader.h"
-#include "ConstantShader.h"
 #include "BaseModel.h"
-#include "HDRFramebuffer.h"
-#include "PostTonemap.h"
-#include "PostBlur.h"
 #include "GamestateManager.h"
+#include "RainbowShader.h"
 
 #include <list>
 
@@ -20,7 +15,6 @@ public:
 	void start();
 	void update(double time, double frametime);
 	void draw();
-	void drawHUD();
 	void end();
 
 	void initModels();
@@ -28,16 +22,12 @@ public:
 	void getInput();
 
 protected:
+	GLFWwindow* pWindow;
 	GamestateManager* gm;
-	Camera Cam;
+
 	HUDCamera HUDCam;
 
-	GLFWwindow* pWindow;
-
-	ModelList Models;
 	ModelList HUDModels;
 
-	HDRFramebuffer HDRBuffer;
-	PostTonemap Tonemap;
-	PostBlur Blur;
+	RainbowShader* rainbow;
 };

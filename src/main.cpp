@@ -66,7 +66,6 @@ int main() {
 			case 1:
 				Menu.update(time, frametime);
 				Menu.draw();
-				Menu.drawHUD();
 				break;
 			case 2:
 				App.initModels();

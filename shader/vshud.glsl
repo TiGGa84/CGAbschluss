@@ -4,8 +4,8 @@ layout(location = 1) in vec2 VertexTexcoord;
 
 out vec2 Texcoord;
 
-uniform vec2 TexScale;
-uniform vec2 TexOffset;
+uniform vec2 TexScale = vec2(1);
+uniform vec2 TexOffset = vec2(0);
 uniform mat4 Mat;
 
 void main()
