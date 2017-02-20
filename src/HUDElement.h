@@ -7,7 +7,7 @@
 class HUDElement : public BaseModel
 {
 public:
-	HUDElement(float x, float y, float sizeX, float sizeY, const Texture* pTex);
+	HUDElement(float x, float y, float sizeX, float sizeY = 0, const Texture* pTex = Texture::defaultTex());
 
 	virtual void draw(const BaseCamera& Cam);
 	void setPosition(float x, float y);

@@ -10,6 +10,11 @@ HUDElement::HUDElement(float x, float y, float sizeX, float sizeY, const Texture
 {
 	setPosition(x, y);
 
+	if (sizeY == 0) {
+		float factor = sizeX / pTex->width();
+		sizeY = factor * pTex->height();
+	}
+
 	// Viereck mit UV Koordinaten
 	// Draw als Strip ohne Indexbuffer
 	VB.begin();
@@ -33,10 +38,11 @@ HUDElement::HUDElement(float x, float y, float sizeX, float sizeY, const Texture
 void HUDElement::draw(const BaseCamera & Cam)
 {
 	HUDShader* shader = dynamic_cast<HUDShader*>(pShader);
-	if (!shader) return;
-	shader->Tex(pTexture);
-	shader->TexOffset(offset);
-	shader->TexScale(scale);
+	if (shader) {
+		shader->Tex(pTexture);
+		shader->TexOffset(offset);
+		shader->TexScale(scale);
+	}
 
 	BaseModel::draw(Cam);
 	VB.activate();

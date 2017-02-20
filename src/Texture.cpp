@@ -165,8 +165,8 @@ bool Texture::load(const char* Filename, bool SRGB)
 	FREE_IMAGE_TYPE Type = FreeImage_GetImageType(pBitmap);
 	assert(Type == FIT_BITMAP);
 
-	unsigned int Width = FreeImage_GetWidth(pBitmap);
-	unsigned int Height = FreeImage_GetHeight(pBitmap);
+	Width = FreeImage_GetWidth(pBitmap);
+	Height = FreeImage_GetHeight(pBitmap);
 	unsigned int bpp = FreeImage_GetBPP(pBitmap);
 	assert(bpp == 32 || bpp == 16 || bpp == 24);
 
