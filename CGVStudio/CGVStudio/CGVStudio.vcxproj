@@ -95,6 +95,7 @@
     <ClCompile Include="..\..\src\car.cpp" />
     <ClCompile Include="..\..\src\color.cpp" />
     <ClCompile Include="..\..\src\ConstantShader.cpp" />
+    <ClCompile Include="..\..\src\GamestateManager.cpp" />
     <ClCompile Include="..\..\src\HDRFramebuffer.cpp" />
     <ClCompile Include="..\..\src\HUDCamera.cpp" />
     <ClCompile Include="..\..\src\HUDElement.cpp" />
@@ -102,6 +103,7 @@
     <ClCompile Include="..\..\src\IndexBuffer.cpp" />
     <ClCompile Include="..\..\src\LinePlaneModel.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
+    <ClCompile Include="..\..\src\MainMenu.cpp" />
     <ClCompile Include="..\..\src\Matrix.cpp" />
     <ClCompile Include="..\..\src\Model.cpp" />
     <ClCompile Include="..\..\src\PhongShader.cpp" />
@@ -126,12 +128,14 @@
     <ClInclude Include="..\..\src\Car.h" />
     <ClInclude Include="..\..\src\color.h" />
     <ClInclude Include="..\..\src\ConstantShader.h" />
+    <ClInclude Include="..\..\src\GamestateManager.h" />
     <ClInclude Include="..\..\src\HDRFramebuffer.h" />
     <ClInclude Include="..\..\src\HUDCamera.h" />
     <ClInclude Include="..\..\src\HUDElement.h" />
     <ClInclude Include="..\..\src\HUDShader.h" />
     <ClInclude Include="..\..\src\IndexBuffer.h" />
     <ClInclude Include="..\..\src\LinePlaneModel.h" />
+    <ClInclude Include="..\..\src\MainMenu.h" />
     <ClInclude Include="..\..\src\Matrix.h" />
     <ClInclude Include="..\..\src\Model.h" />
     <ClInclude Include="..\..\src\PhongShader.h" />

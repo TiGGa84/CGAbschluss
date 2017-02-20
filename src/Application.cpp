@@ -23,10 +23,11 @@
 #define CARSPEED 3.0f
 
 
-Application::Application(GLFWwindow* pWin) :
+Application::Application(GLFWwindow* pWin, GamestateManager* gm) :
 	pWindow(pWin),
 	Cam(pWin),
-	HUDCam(pWin)
+	HUDCam(pWin),
+	gm(gm)
 {
 	leftKeyPressedOnce = false;
 	rightKeyPressedOnce = false;
@@ -44,15 +45,18 @@ Application::Application(GLFWwindow* pWin) :
 	Tonemap.addInputColorTexID(HDRBuffer.getOutputColorTexID());
 	Tonemap.addInputBloomTexID(Blur.getOutputTexID());
 
+}
+
+void Application::initModels() {
 	BaseModel* pModel;
 	Matrix m;
-	
+
 	pModel = new Model(ASSET_DIRECTORY"grid.dae");
 	pModel->shader(new PhongShader(), true);
 	m.translation(0, -0.1f, 0);
 	pModel->transform(m);
 	Models.push_back(pModel);
-	
+
 	pModel = new Model(ASSET_DIRECTORY"street.dae");
 	pModel->shader(new PhongShader(), true);
 	Models.push_back(pModel);
@@ -64,7 +68,7 @@ Application::Application(GLFWwindow* pWin) :
 	m.translation(0, 0, 4.0f);
 	track->transform(m);
 	Models.push_back(track);
-	
+
 	car = new Car();
 	car->shader(new PhongShader(), true);
 	car->loadModels(ASSET_DIRECTORY "NotDelorean.dae", ASSET_DIRECTORY "Vorderachse.dae", ASSET_DIRECTORY "Hinterachse.dae");
@@ -79,16 +83,8 @@ Application::Application(GLFWwindow* pWin) :
 
 	score = new Score(1.0f, 0.015f, 0.04f);
 	HUDModels.push_back(score);
-	
-	/*
-	pModel = new Model(ASSET_DIRECTORY "plane.dae");
-	pModel->shader(new PhongShader(), true);
-	m.translation(0, 1, 0);
-	pModel->transform(m);
-	Models.push_back(pModel);
-	*/
-	
 }
+
 void Application::start()
 {
 	glEnable(GL_CULL_FACE);
@@ -150,6 +146,11 @@ void Application::end()
 		delete *it;
 
 	Models.clear();
+
+	for (ModelList::iterator it = HUDModels.begin(); it != HUDModels.end(); ++it)
+		delete *it;
+
+	HUDModels.clear();
 }
 
 void Application::getInput() {

@@ -5,11 +5,14 @@
 #include <iostream>
 #include "Application.h"
 #include "freeimage.h"
+#include "GamestateManager.h"
+#include "MainMenu.h"
 
 void PrintOpenGLVersion();
 
 
 int main() {
+	GamestateManager* gm = new GamestateManager();
 	FreeImage_Initialise();
 	// start GL context and O/S window using the GLFW helper library
 	if (!glfwInit()) {
@@ -43,7 +46,9 @@ int main() {
 
 	{
 		double lasttime = glfwGetTime();
-		Application App(window);
+		MainMenu Menu(window, gm);
+		Application App(window, gm);
+		Menu.start();
 		App.start();
 		while (!glfwWindowShouldClose(window)) {
 			// once per frame
@@ -52,17 +57,37 @@ int main() {
 			double time = glfwGetTime();
 			double frametime = time - lasttime;
 			lasttime = time;
+			
+			switch (gm->getGameState()) {
+			case 0:
+				Menu.initModels();
+				gm->setGameState(1);
+				break;
+			case 1:
+				Menu.update(time, frametime);
+				Menu.draw();
+				Menu.drawHUD();
+				break;
+			case 2:
+				App.initModels();
+				gm->setGameState(3);
+				break;
+			case 3:
+				App.update(time, frametime);
 
-			App.update(time, frametime);
+				App.draw();
+				App.drawHUD();
+				break;
+			default:
+				break;
+			}
 
-			App.draw();
-			App.drawHUD();
 
 			glfwSwapBuffers(window);
 		}
 		App.end();
 	}
-
+	delete gm;
 	glfwTerminate();
 	return 0;
 }
