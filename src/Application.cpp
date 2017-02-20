@@ -72,7 +72,12 @@ Application::Application(GLFWwindow* pWin) :
 	car->transform(m);
 	Models.push_back(car);
 
-	score = new Score(1.0f, 0.1f, 0.05f);
+	HUDElement* speedometer = new HUDElement(0.934f, 0.0f, 0.4f, 0.4f, Texture::LoadShared(ASSET_DIRECTORY "TachoMitFesterNadel.png"));
+	speedometer->shader(new HUDShader(), true);
+	speedometer->setTextureScale(1.0f, 1.0f);
+	HUDModels.push_back(speedometer);
+
+	score = new Score(1.0f, 0.015f, 0.04f);
 	HUDModels.push_back(score);
 	
 	/*
