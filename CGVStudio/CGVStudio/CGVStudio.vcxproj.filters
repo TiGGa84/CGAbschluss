@@ -118,6 +118,9 @@
     <ClCompile Include="..\..\src\RainbowShader.cpp">
       <Filter>Quelldateien\utils\shader</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Scenery.cpp">
+      <Filter>Quelldateien\utils\models</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Camera.h">
@@ -212,6 +215,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\RainbowShader.h">
       <Filter>Quelldateien\utils\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Scenery.h">
+      <Filter>Quelldateien\utils\models</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

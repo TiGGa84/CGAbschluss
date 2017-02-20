@@ -15,6 +15,7 @@
 #include "ConstantShader.h"
 #include "BaseModel.h"
 #include "Track.h"
+#include "Scenery.h"
 #include "Score.h"
 #include "HDRFramebuffer.h"
 #include "PostTonemap.h"
@@ -50,6 +51,7 @@ protected:
 	ModelList HUDModels;
 	
 	Track* track;
+	Scenery* scenery;
 	Score* score;
 	Car* car;
 

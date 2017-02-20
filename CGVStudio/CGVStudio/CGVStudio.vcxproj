@@ -112,6 +112,7 @@
     <ClCompile Include="..\..\src\PostTonemap.cpp" />
     <ClCompile Include="..\..\src\RainbowShader.cpp" />
     <ClCompile Include="..\..\src\Scene.cpp" />
+    <ClCompile Include="..\..\src\Scenery.cpp" />
     <ClCompile Include="..\..\src\Score.cpp" />
     <ClCompile Include="..\..\src\ShaderLightMapper.cpp" />
     <ClCompile Include="..\..\src\Texture.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="..\..\src\PostTonemap.h" />
     <ClInclude Include="..\..\src\RainbowShader.h" />
     <ClInclude Include="..\..\src\Scene.h" />
+    <ClInclude Include="..\..\src\Scenery.h" />
     <ClInclude Include="..\..\src\Score.h" />
     <ClInclude Include="..\..\src\ShaderLightMapper.h" />
     <ClInclude Include="..\..\src\Texture.h" />

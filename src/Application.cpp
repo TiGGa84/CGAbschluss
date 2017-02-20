@@ -20,7 +20,7 @@
 
 #define ASSET_DIRECTORY "../../assets/"
 
-#define CARSPEED 3.0f
+#define CARSPEED 4.0f
 
 
 Application::Application(GLFWwindow* pWin, GamestateManager* gm) :
@@ -38,12 +38,18 @@ Application::Application(GLFWwindow* pWin, GamestateManager* gm) :
 
 	HDRBuffer.createBuffer(w, h);
 	Blur.createBuffer(w, h);
-	Blur.setIterations(3);
+	Blur.setIterations(2);
 
 	Blur.addInputTexID(HDRBuffer.getOutputBloomTexID());
-	
+
 	Tonemap.addInputColorTexID(HDRBuffer.getOutputColorTexID());
 	Tonemap.addInputBloomTexID(Blur.getOutputTexID());
+
+	// globales licht für highlights
+	DirectionalLight* dl = new DirectionalLight();
+	dl->direction(Vector(0.5f, -1.0f, 1.0f));
+	dl->color(Color(0.1f, 0.1f, 0.2f));
+	ShaderLightMapper::instance().addLight(dl);
 
 }
 
@@ -51,23 +57,26 @@ void Application::initModels() {
 	BaseModel* pModel;
 	Matrix m;
 
-	pModel = new Model(ASSET_DIRECTORY"grid.dae");
-	pModel->shader(new PhongShader(), true);
-	m.translation(0, -0.1f, 0);
-	pModel->transform(m);
-	Models.push_back(pModel);
-
 	pModel = new Model(ASSET_DIRECTORY"street.dae");
 	pModel->shader(new PhongShader(), true);
 	Models.push_back(pModel);
 
-	Model* block = new Model(ASSET_DIRECTORY"block.dae");
-	block->shader(new PhongShader(), true);
-
-	track = new Track(block, CARSPEED, 40);
+	track = new Track(CARSPEED, 40);
+	track->shader(new PhongShader(), true);
+	track->loadModel(ASSET_DIRECTORY"block.dae");
 	m.translation(0, 0, 4.0f);
 	track->transform(m);
 	Models.push_back(track);
+
+	scenery = new Scenery(CARSPEED, 200);
+	scenery->shader(new PhongShader(), true);
+	scenery->loadModel(ASSET_DIRECTORY"bgmountains.dae", 40);
+	//scenery->loadModel(ASSET_DIRECTORY"bgtunnel.dae", 100);
+	//scenery->loadModel(ASSET_DIRECTORY"bgspiral.dae", 240);
+	//scenery->loadModel(ASSET_DIRECTORY"bgcity.dae", 240);
+	m.translation(0, -0.1f, 4.0f);
+	scenery->transform(m);
+	Models.push_back(scenery);
 
 	car = new Car();
 	car->shader(new PhongShader(), true);
@@ -98,7 +107,8 @@ void Application::update(double time, double frametime)
 	getInput();
 	Cam.update();
 	track->update(frametime);
-	score->setNumber((unsigned int)time);
+	scenery->update(frametime);
+	score->setNumber((unsigned int)(time * CARSPEED));
 	car->update(frametime, *this);
 }
 

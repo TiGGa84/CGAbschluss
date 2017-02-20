@@ -1,7 +1,6 @@
 
 #include "Track.h"
 #include "Matrix.h"
-#include "PhongShader.h"
 
 #include "FreeImage.h"
 
@@ -9,8 +8,7 @@
 
 #define ASSET_DIRECTORY "../../assets/"
 
-Track::Track(Model* model, double speed, int renderLimit) :
-	model(model),
+Track::Track(double speed, int renderLimit) :
 	speedPerS(speed),
 	renderLimit(renderLimit),
 	progress(0),
@@ -18,7 +16,7 @@ Track::Track(Model* model, double speed, int renderLimit) :
 	sectorQueLength(0)
 {
 
-	emptySector = new Sector(5);
+	emptySector = new Sector(10);
 	sectorQueLength += emptySector->length;
 	sectorQue.push_back(emptySector);
 
@@ -35,7 +33,13 @@ Track::~Track()
 {
 	delete model;
 	delete emptySector;
-	for (Sector* s : sectors) delete s;
+	for (auto s : sectors) delete s;
+}
+
+void Track::loadModel(std::string Filepath)
+{
+	model = new Model(Filepath.c_str());
+	model->shader(this->shader());
 }
 
 void Track::draw(const BaseCamera & Cam)
@@ -44,10 +48,10 @@ void Track::draw(const BaseCamera & Cam)
 	int currentSectorOffset = 0;
 
 	// Alle Sektoren rendern
-	std::deque<Sector*>::iterator it = sectorQue.begin();
+	auto it = sectorQue.begin();
 	while (it != sectorQue.end())
 	{
-		Sector* s = (*it++);
+		auto s = (*it++);
 		for (Obstacle& o : s->obstacles)
 		{
 			// z-Position relativ zum Track
@@ -99,7 +103,7 @@ void Track::readSector(std::string filepath)
 	if (width != 3) throw std::exception();
 	unsigned int height = FreeImage_GetHeight(pBitmap);
 
-	Sector* s = new Sector(height);
+	auto s = new Sector(height);
 	Color emit;
 	RGBQUAD c;
 	for (unsigned int i = 0; i < height; ++i)
@@ -123,7 +127,7 @@ void Track::cleanSectorQue(double offsetToRemove)
 {
 	while (offsetToRemove > sectorQue.front()->length)
 	{
-		Sector* s = sectorQue.front();
+		auto s = sectorQue.front();
 		offsetToRemove -= s->length;
 		sectorQueLength -= s->length;
 		sectorQueOffset += s->length;
@@ -137,7 +141,7 @@ void Track::fillSectorQue(double offsetToFill)
 	{
 		// Random int [0, n]
 		std::uniform_int_distribution<int> dist(0, sectors.size() - 1);
-		Sector* s = sectors[dist(gen)];
+		auto s = sectors[dist(gen)];
 		offsetToFill += s->length;
 		sectorQueLength += s->length;
 		sectorQue.push_back(s);

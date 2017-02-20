@@ -8,21 +8,19 @@
 #include <string>
 #include <random>
 
-class Track : public BaseModel
+class Scenery : public BaseModel
 {
 public:
-	Track(double speed, int renderLimit);
-	virtual ~Track();
+	Scenery(double speed, int renderLimit);
+	virtual ~Scenery();
 
-	void loadModel(std::string Filepath);
+	void loadModel(std::string Filepath, int gridLength);
 	virtual void draw(const BaseCamera& Cam);
 	void update(double dtime);
 protected:
-	void readSector(std::string Filepath);
 	void cleanSectorQue(double offsetToRemove);
 	void fillSectorQue(double offsetToFill);
 
-	Model* model;
 	double speedPerS;
 	int renderLimit;
 	// verstrichene Zeit
@@ -34,27 +32,15 @@ protected:
 	// Für random Zahlen
 	std::default_random_engine gen;
 
-	// Ein Hinderniss
-	struct Obstacle
+	struct Landscape
 	{
-		Obstacle(int zPos, int xPos, Color& emitColor) :
-			z(zPos), x(xPos), emitColor(emitColor) {}
-		int z;
-		int x;
-		Color emitColor;
-	};
-
-	// Ein Sektor mit Länge und Hindernissen
-	struct Sector
-	{
-		Sector(int len) : length(len) {}
+		Landscape(int len) : length(len) {}
 		int length;
-		std::vector<Obstacle> obstacles;
+		Model* model;
 	};
-	Sector* emptySector;
 
 	// Alle geladenen Sektoren
-	std::vector<Sector*> sectors;
+	std::vector<Landscape*> sectors;
 	// Aktive Sektoren
-	std::deque<Sector*> sectorQue;
+	std::deque<Landscape*> sectorQue;
 };
