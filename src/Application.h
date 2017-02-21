@@ -37,6 +37,7 @@ public:
 	void end();
 
 	void initModels();
+	void initDialog();
 
 	void getInput();
 
@@ -54,6 +55,8 @@ protected:
 	Scenery* scenery;
 	Score* score;
 	Car* car;
+	HUDElement* dialog;
+	Score* dialogScore;
 
 	HDRFramebuffer HDRBuffer;
 	PostTonemap Tonemap;
@@ -61,6 +64,8 @@ protected:
 
 	bool leftKeyPressedOnce;
 	bool rightKeyPressedOnce;
+	unsigned int gamescore;
+	bool crashed;
 };
 
 #endif /* Application_hpp */

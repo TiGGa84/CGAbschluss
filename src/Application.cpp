@@ -29,6 +29,8 @@ Application::Application(GLFWwindow* pWin, GamestateManager* gm) :
 	HUDCam(pWin),
 	gm(gm)
 {
+	crashed = false;
+	gamescore = 0;
 	leftKeyPressedOnce = false;
 	rightKeyPressedOnce = false;
 	Cam.setPosition(Vector(0.0f, 2.1f, 4.7f));
@@ -90,6 +92,23 @@ void Application::initModels() {
 
 	score = new Score(1.0f, 0.015f, 0.04f);
 	HUDModels.push_back(score);
+
+	//Dialog Fenster wird bereits geladen aber noch nicht gemalt
+	dialog = new HUDElement(0.367f, 0.4f, 0.6f, 0.0f, Texture::LoadShared(ASSET_DIRECTORY "Dialog.png"));
+	dialog->shader(new HUDShader(), true);
+	dialog->setTextureScale(1.0f, 1.0f);
+	
+	dialogScore = new Score(0.55f, 0.548f, 0.04f);
+
+	
+}
+
+void Application::initDialog() {
+	//Male Dialog nach Kollision
+	dialogScore->setNumber(gamescore);
+	HUDModels.push_back(dialog);
+	HUDModels.push_back(dialogScore);
+	crashed = true;
 }
 
 void Application::start()
@@ -103,11 +122,16 @@ void Application::start()
 void Application::update(double time, double frametime)
 {
 	getInput();
+	if (gm->getGameState() == 3) {
+		
+		track->update(frametime);
+		scenery->update(frametime);
+		gamescore = (unsigned int)(time * CARSPEED);
+		score->setNumber(gamescore);
+		car->update(frametime, *this);
+	}
 	Cam.update(frametime);
-	track->update(frametime);
-	scenery->update(frametime);
-	score->setNumber((unsigned int)(time * CARSPEED));
-	car->update(frametime, *this);
+	if (gm->getGameState() == 4 && !crashed) initDialog();
 }
 
 void Application::draw()
@@ -165,6 +189,8 @@ void Application::getInput() {
 
 	bool leftDown = glfwGetKey(pWindow, GLFW_KEY_LEFT) == GLFW_PRESS || glfwGetKey(pWindow, GLFW_KEY_A) == GLFW_PRESS;
 	bool rightDown = glfwGetKey(pWindow, GLFW_KEY_RIGHT) == GLFW_PRESS || glfwGetKey(pWindow, GLFW_KEY_D) == GLFW_PRESS;
+	bool escapeDown = glfwGetKey(pWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS;
+	bool spaceDown = glfwGetKey(pWindow, GLFW_KEY_SPACE) == GLFW_PRESS;
 
 	if (leftDown && !leftKeyPressedOnce) {
 		car->steer(-1);
@@ -182,4 +208,18 @@ void Application::getInput() {
 	if (!rightDown) {
 		rightKeyPressedOnce = false;
 	}
+	
+	if (gm->getGameState() == 4 && spaceDown) {
+		gm->setGameState(5);
+		gamescore = 0.0f;
+		crashed = false;
+		
+	}
+		
+	if (gm->getGameState() == 3 && escapeDown) {
+		Cam.setLane(0);
+		gm->setGameState(4);
+	}
+		
+	
 }

@@ -9,7 +9,7 @@
 #include "MainMenu.h"
 #include "SoundManager.h"
 
-#define SKIP_MENU
+#define SKIP_MENU1
 
 void PrintOpenGLVersion();
 
@@ -80,6 +80,7 @@ int main() {
 				break;
 			case 2:
 				//Spielwelt laden
+				glfwSetTime(0);
 				sm->stopAllSounds();
 				App.initModels();
 				sm->playDrivingMusic();

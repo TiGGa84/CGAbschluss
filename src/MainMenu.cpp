@@ -87,7 +87,7 @@ void MainMenu::end()
 
 void MainMenu::getInput() {
 
-	if (glfwGetKey(pWindow, GLFW_KEY_SPACE) == GLFW_PRESS) {
+	if (glfwGetKey(pWindow, GLFW_KEY_ENTER) == GLFW_PRESS) {
 		gm->setGameState(2);
 		end();
 	}
