@@ -9,8 +9,9 @@
 #include "MainMenu.h"
 #include "SoundManager.h"
 
-void PrintOpenGLVersion();
+#define SKIP_MENU
 
+void PrintOpenGLVersion();
 
 int main() {
 	GamestateManager* gm = new GamestateManager();
@@ -26,6 +27,7 @@ int main() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
 	const int WindowWidth = 800;
 	const int WindowHeight = 600;
@@ -45,6 +47,10 @@ int main() {
 	glfwSwapInterval(1);
 
 	PrintOpenGLVersion();
+
+#ifdef SKIP_MENU
+	gm->setGameState(2);
+#endif
 
 	{
 		double lasttime = glfwGetTime();
