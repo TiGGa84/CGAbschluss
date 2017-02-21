@@ -43,8 +43,9 @@ public:
 
 protected:
 	GamestateManager* gm;
-	LaneCamera Cam;
+	LaneCamera LaneCam;
 	HUDCamera HUDCam;
+	Camera Cam;
 
 	GLFWwindow* pWindow;
 

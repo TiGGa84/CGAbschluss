@@ -20,20 +20,20 @@
 
 #define CARSPEED 5.0f
 
-using namespace std;
-
+#define DEBUG_CAM1
 
 Application::Application(GLFWwindow* pWin, GamestateManager* gm) :
 	pWindow(pWin),
-	Cam(pWin),
+	LaneCam(pWin),
 	HUDCam(pWin),
+	Cam(pWin),
 	gm(gm)
 {
 	crashed = false;
 	gamescore = 0;
 	leftKeyPressedOnce = false;
 	rightKeyPressedOnce = false;
-	Cam.setPosition(Vector(0.0f, 2.1f, 4.7f));
+	LaneCam.setPosition(Vector(0.0f, 2.1f, 4.7f));
 
 	int w = 0, h = 0;
 	glfwGetFramebufferSize(pWin, &w, &h);
@@ -123,15 +123,19 @@ void Application::update(double time, double frametime)
 {
 	getInput();
 	if (gm->getGameState() == 3) {
-		
 		track->update(frametime);
 		scenery->update(frametime);
 		gamescore = (unsigned int)(time * CARSPEED);
 		score->setNumber(gamescore);
 		car->update(frametime, *this);
 	}
-	Cam.update(frametime);
 	if (gm->getGameState() == 4 && !crashed) initDialog();
+
+#ifdef DEBUG_CAM
+	Cam.update();
+#else
+	LaneCam.update(frametime);
+#endif
 }
 
 void Application::draw()
@@ -144,9 +148,13 @@ void Application::draw()
 	glEnable(GL_DEPTH_TEST);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	for (ModelList::iterator it = Models.begin(); it != Models.end(); ++it)
+	for (auto m : Models)
 	{
-		(*it)->draw(Cam);
+#ifdef DEBUG_CAM
+		m->draw(Cam);
+#else
+		m->draw(LaneCam);
+#endif
 	}
 
 	HDRBuffer.deactivate();
@@ -158,7 +166,8 @@ void Application::draw()
 
 	GLenum Error = glGetError();
 	assert(Error == 0);
-}
+	}
+
 void Application::drawHUD()
 {
 	glDisable(GL_DEPTH_TEST);
@@ -194,12 +203,12 @@ void Application::getInput() {
 
 	if (leftDown && !leftKeyPressedOnce) {
 		car->steer(-1);
-		Cam.switchLane(-1);
+		LaneCam.switchLane(-1);
 		leftKeyPressedOnce = true;
 	}
 	if (rightDown && !rightKeyPressedOnce) {
 		car->steer(1);
-		Cam.switchLane(1);
+		LaneCam.switchLane(1);
 		rightKeyPressedOnce = true;
 	}
 	if (!leftDown) {
@@ -217,7 +226,7 @@ void Application::getInput() {
 	}
 		
 	if (gm->getGameState() == 3 && escapeDown) {
-		Cam.setLane(0);
+		LaneCam.setLane(0);
 		gm->setGameState(4);
 	}
 		
