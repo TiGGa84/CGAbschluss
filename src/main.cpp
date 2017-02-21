@@ -81,6 +81,7 @@ int main() {
 			break;
 		case 2:
 			//Spiel starten
+			lasttime = 0;
 			glfwSetTime(0);
 			App.start();
 			sm->stopAllSounds();
@@ -89,6 +90,7 @@ int main() {
 			break;
 		case 3:
 			//Spiel neu starten
+			lasttime = 0;
 			glfwSetTime(0);
 			App.start();
 			gm->setGameState(4);

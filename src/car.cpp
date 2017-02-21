@@ -4,7 +4,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#define STEERSPEED 6.0f
+#define STEERSPEED 6.5f
 #define INV_WHEELRADIUS (1.0f / (0.35f))
 
 Car::Car(float speed) :

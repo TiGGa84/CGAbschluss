@@ -20,6 +20,7 @@ Track::Track(double speed, int renderLimit) :
 	readSector(ASSET_DIRECTORY"lane4.png");
 	readSector(ASSET_DIRECTORY"lane5.png");
 	readSector(ASSET_DIRECTORY"lane6.png");
+	readSector(ASSET_DIRECTORY"lane7.png");
 	reset();
 }
 
