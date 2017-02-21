@@ -4,7 +4,7 @@
 
 #include <exception>
 
-Scenery::Scenery(double speed, int renderLimit) :
+Scenery::Scenery(float speed, int renderLimit) :
 	speedPerS(speed),
 	renderLimit(renderLimit)
 {
@@ -37,7 +37,7 @@ void Scenery::loadModel(std::string Filepath, int gridLength)
 
 void Scenery::draw(const BaseCamera & Cam)
 {
-	double overflowStart = progress * speedPerS - sectorQueOffset;
+	float overflowStart = progress * speedPerS - sectorQueOffset;
 	int currentSectorOffset = 0;
 
 	// Alle Sektoren rendern
@@ -46,10 +46,10 @@ void Scenery::draw(const BaseCamera & Cam)
 	{
 		auto model = s->model;
 		// z-Position relativ zum Track
-		double zPos = currentSectorOffset - overflowStart;
+		float zPos = currentSectorOffset - overflowStart;
 
 		Matrix matPos;
-		matPos.translation(0, 0, (float)-zPos);
+		matPos.translation(0, 0, -zPos);
 		model->transform(matPos * transform());
 
 		model->draw(Cam);
@@ -58,21 +58,21 @@ void Scenery::draw(const BaseCamera & Cam)
 	}
 }
 
-void Scenery::update(double time, double frametime)
+void Scenery::update(float time)
 {
 	progress = time;
 	// Zurückgelegter weg
-	double dist = progress * speedPerS;
+	float dist = progress * speedPerS;
 	// Check queue end
-	double overflowStart = dist - sectorQueOffset;
-	double overflowEnd = sectorQueLength - overflowStart - renderLimit;
+	float overflowStart = dist - sectorQueOffset;
+	float overflowEnd = sectorQueLength - overflowStart - renderLimit;
 	fillSectorQue(overflowEnd);
 	// Check queue start
 	cleanSectorQue(overflowStart);
 
 }
 
-void Scenery::cleanSectorQue(double offsetToRemove)
+void Scenery::cleanSectorQue(float offsetToRemove)
 {
 	while (offsetToRemove > sectorQue.front()->length)
 	{
@@ -84,7 +84,7 @@ void Scenery::cleanSectorQue(double offsetToRemove)
 	}
 }
 
-void Scenery::fillSectorQue(double offsetToFill)
+void Scenery::fillSectorQue(float offsetToFill)
 {
 	while (offsetToFill < 0)
 	{

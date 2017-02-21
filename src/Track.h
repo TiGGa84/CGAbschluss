@@ -12,27 +12,27 @@
 class Track : public BaseModel
 {
 public:
-	Track(double speed, int renderLimit);
+	Track(float speed, int renderLimit);
 	virtual ~Track();
 
 	void reset();
 	void loadModel(std::string Filepath);
 	virtual void draw(const BaseCamera& Cam);
-	void update(double time, double frametime);
+	void update(float time);
 	bool testIntersesction(const AABB& testBox);
 protected:
 	void readSector(std::string Filepath);
-	void cleanSectorQue(double offsetToRemove);
-	void fillSectorQue(double offsetToFill);
+	void cleanSectorQue(float offsetToRemove);
+	void fillSectorQue(float offsetToFill);
 
 	Model* model;
 	AABB Box;
-	double speedPerS;
+	float speedPerS;
 	int renderLimit;
 	// verstrichene Zeit
-	double progress;
+	float progress;
 	// Abstand zurückgelegter weg -> erster Sektor im Queue
-	double sectorQueOffset;
+	float sectorQueOffset;
 	// Summe der Sektor Längen im Queue
 	int sectorQueLength;
 	// Für random Zahlen

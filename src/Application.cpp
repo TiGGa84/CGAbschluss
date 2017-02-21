@@ -136,9 +136,9 @@ void Application::update(double time, double frametime)
 		gamescore = (unsigned int)(time * CARSPEED);
 		score->setNumber(gamescore);
 
-		track->update(time, frametime);
-		scenery->update(time, frametime);
-		car->update(frametime, *this);
+		track->update((float)time);
+		scenery->update((float)time);
+		car->update((float)frametime, *this);
 
 		auto box = car->boundingBox();
 		if (track->testIntersesction(box)) {
@@ -153,7 +153,7 @@ void Application::update(double time, double frametime)
 #ifdef DEBUG_CAM
 	Cam.update();
 #else
-	LaneCam.update(frametime);
+	LaneCam.update((float)frametime);
 #endif
 	}
 

@@ -20,5 +20,4 @@ protected:
 	int number[10];
 	float width;
 	HUDElement* rect;
-	HUDShader* hShader;
 };

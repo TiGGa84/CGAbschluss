@@ -8,7 +8,7 @@
 
 #define ASSET_DIRECTORY "../../assets/"
 
-Track::Track(double speed, int renderLimit) :
+Track::Track(float speed, int renderLimit) :
 	speedPerS(speed),
 	renderLimit(renderLimit),
 	Box(-0.5f, 0.0f, -0.5f, 0.5f, 1.0f, 0.5f)
@@ -48,7 +48,7 @@ void Track::loadModel(std::string Filepath)
 
 void Track::draw(const BaseCamera & Cam)
 {
-	double overflowStart = progress * speedPerS - sectorQueOffset;
+	float overflowStart = progress * speedPerS - sectorQueOffset;
 	int currentSectorOffset = 0;
 
 	// Alle Sektoren rendern
@@ -57,12 +57,12 @@ void Track::draw(const BaseCamera & Cam)
 		for (Obstacle& o : s->obstacles)
 		{
 			// z-Position relativ zum Track
-			double zPos = currentSectorOffset - overflowStart + o.z;
+			float zPos = currentSectorOffset - overflowStart + o.z;
 			// Clip
 			if (zPos < 0 || zPos > renderLimit) continue;
 
 			Matrix matPos;
-			matPos.translation((float)o.x, 0, (float)-zPos);
+			matPos.translation((float)o.x, 0, -zPos);
 			model->transform(matPos * transform());
 
 			model->overrideEmit(o.emitColor);
@@ -74,14 +74,14 @@ void Track::draw(const BaseCamera & Cam)
 	}
 }
 
-void Track::update(double time, double frametime)
+void Track::update(float time)
 {
 	progress = time;
 	// Zurückgelegter weg
-	double dist = progress * speedPerS;
+	float dist = progress * speedPerS;
 	// Check queue end
-	double overflowStart = dist - sectorQueOffset;
-	double overflowEnd = sectorQueLength - overflowStart - renderLimit;
+	float overflowStart = dist - sectorQueOffset;
+	float overflowEnd = sectorQueLength - overflowStart - renderLimit;
 	fillSectorQue(overflowEnd);
 	// Check queue start
 	cleanSectorQue(overflowStart);
@@ -91,17 +91,17 @@ void Track::update(double time, double frametime)
 // Testet eine AABB gegen alle Hindernisse
 bool Track::testIntersesction(const AABB& testBox)
 {
-	double overflowStart = progress * speedPerS - sectorQueOffset;
+	float overflowStart = progress * speedPerS - sectorQueOffset;
 	int currentSectorOffset = 0;
 
 	for (auto s : sectorQue)
 	{
 		for (Obstacle& o : s->obstacles)
 		{
-			double zPos = currentSectorOffset - overflowStart + o.z;
+			float zPos = currentSectorOffset - overflowStart + o.z;
 
 			Matrix matPos;
-			matPos.translation((float)o.x, 0, (float)-zPos);
+			matPos.translation((float)o.x, 0, -zPos);
 			matPos *= transform();
 			if (testBox.intersects(Box * matPos)) return true;
 		}
@@ -148,7 +148,7 @@ void Track::readSector(std::string filepath)
 	sectors.push_back(s);
 }
 
-void Track::cleanSectorQue(double offsetToRemove)
+void Track::cleanSectorQue(float offsetToRemove)
 {
 	while (offsetToRemove > sectorQue.front()->length)
 	{
@@ -160,7 +160,7 @@ void Track::cleanSectorQue(double offsetToRemove)
 	}
 }
 
-void Track::fillSectorQue(double offsetToFill)
+void Track::fillSectorQue(float offsetToFill)
 {
 	while (offsetToFill < 0)
 	{
