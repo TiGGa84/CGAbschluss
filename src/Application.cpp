@@ -121,6 +121,7 @@ void Application::start()
 	car->reset();
 
 	LaneCam.setPosition(Vector(0.0f, 2.1f, 4.7f));
+	LaneCam.reset();
 
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);

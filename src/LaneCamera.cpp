@@ -182,6 +182,7 @@ void LaneCamera::update(float frametime)
 	pan(currentPos * CAM_PAN_DIRECTION, 0);
 
 	m_ViewMatrix.lookAt(Target, m_Up, Pos);
+	printf("%f\n", currentPos);
 }
 
 void LaneCamera::setLane(int lane) {
@@ -194,4 +195,8 @@ int LaneCamera::getLane() {
 void LaneCamera::switchLane(int direction) {
 	if (desiredLane > -1 && direction < 0) desiredLane--;
 	else if (desiredLane < 1 && direction > 0) desiredLane++;
+}
+
+void LaneCamera::reset() {
+	currentPos = 0;
 }

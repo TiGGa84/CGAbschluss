@@ -36,6 +36,7 @@ public:
 	void setLane(int lane);
 	int getLane();
 	void switchLane(int direction);
+	void reset();
 
 protected:
 
