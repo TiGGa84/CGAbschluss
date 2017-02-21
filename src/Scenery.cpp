@@ -6,10 +6,10 @@
 
 Scenery::Scenery(double speed, int renderLimit) :
 	speedPerS(speed),
-	renderLimit(renderLimit),
-	progress(0),
-	sectorQueOffset(0),
-	sectorQueLength(0) {}
+	renderLimit(renderLimit)
+{
+	reset();
+}
 
 Scenery::~Scenery()
 {
@@ -17,6 +17,14 @@ Scenery::~Scenery()
 		delete s->model;
 		delete s;
 	}
+}
+
+void Scenery::reset()
+{
+	progress = 0;
+	sectorQueOffset = 0;
+	sectorQueLength = 0;
+	sectorQue.clear();
 }
 
 void Scenery::loadModel(std::string Filepath, int gridLength)
@@ -51,9 +59,9 @@ void Scenery::draw(const BaseCamera & Cam)
 	}
 }
 
-void Scenery::update(double dtime)
+void Scenery::update(double time, double frametime)
 {
-	progress += dtime;
+	progress = time;
 	// Zurückgelegter weg
 	double dist = progress * speedPerS;
 	// Check queue end

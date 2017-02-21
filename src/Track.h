@@ -14,9 +14,10 @@ public:
 	Track(double speed, int renderLimit);
 	virtual ~Track();
 
+	void reset();
 	void loadModel(std::string Filepath);
 	virtual void draw(const BaseCamera& Cam);
-	void update(double dtime);
+	void update(double time, double frametime);
 protected:
 	void readSector(std::string Filepath);
 	void cleanSectorQue(double offsetToRemove);

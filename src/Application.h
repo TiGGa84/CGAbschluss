@@ -30,14 +30,13 @@ class Application
 public:
 	typedef std::list<BaseModel*> ModelList;
 	Application(GLFWwindow* pWin, GamestateManager* gm);
+	~Application();
 	void start();
 	void update(double time, double frametime);
 	void draw();
 	void drawHUD();
+	void drawDialog();
 	void end();
-
-	void initModels();
-	void initDialog();
 
 	void getInput();
 

@@ -52,71 +52,71 @@ int main() {
 	gm->setGameState(2);
 #endif
 
-	{
-		double lasttime = glfwGetTime();
-		MainMenu Menu(window, gm);
-		Application App(window, gm);
-		Menu.start();
-		App.start();
-		while (!glfwWindowShouldClose(window)) {
-			// once per frame
-			glfwPollEvents();
 
-			double time = glfwGetTime();
-			double frametime = time - lasttime;
-			lasttime = time;
-			
-			switch (gm->getGameState()) {
-			case 0:
-				//Menue laden
-				Menu.initModels();
-				sm->playMenuMusic();
-				gm->setGameState(1);
-				break;
-			case 1:
-				//Menue anzeigen und auf Leertaste warten
-				Menu.update(time, frametime);
-				Menu.draw();
-				break;
-			case 2:
-				//Spielwelt laden
-				sm->setBaseVolume(0.1f);
-				App.initModels();
-				glfwSetTime(0);
-				sm->stopAllSounds();
-				sm->setBaseVolume(0.4f);
-				sm->playDrivingMusic();
-				gm->setGameState(3);
-				break;
-			case 3:
-				//Spiel ablaufen lassen
-				App.update(time, frametime);
+	MainMenu Menu(window, gm);
+	Application App(window, gm);
 
-				App.draw();
-				App.drawHUD();
-				break;
-			case 4:
-				//Nach Kollision Dialogfenster anzeigen und auf Leertaste warten
-				App.update(time, frametime);
+	double lasttime = glfwGetTime();
 
-				App.draw();
-				App.drawHUD();
-				break;
-			case 5:
-				//Spielwelt entladen
-				sm->stopAllSounds();
-				App.end();
-				gm->setGameState(0);
-				break;
-			default:
-				break;
-			}
+	while (!glfwWindowShouldClose(window)) {
+		// once per frame
+		glfwPollEvents();
 
+		double time = glfwGetTime();
+		double frametime = time - lasttime;
+		lasttime = time;
 
-			glfwSwapBuffers(window);
+		switch (gm->getGameState()) {
+		case 0:
+			//Menue laden
+			Menu.start();
+			sm->playMenuMusic();
+			gm->setGameState(1);
+			break;
+		case 1:
+			//Menue anzeigen und auf Leertaste warten
+			Menu.update(time, frametime);
+			Menu.draw();
+			break;
+		case 2:
+			//Spielwelt laden
+			sm->setBaseVolume(0.1f);
+			Menu.end();
+			glfwSetTime(0);
+			App.start();
+			sm->stopAllSounds();
+			sm->setBaseVolume(0.4f);
+			sm->playDrivingMusic();
+			gm->setGameState(3);
+			break;
+		case 3:
+			//Spiel ablaufen lassen
+			App.update(time, frametime);
+
+			App.draw();
+			App.drawHUD();
+			break;
+		case 4:
+			//Nach Kollision Dialogfenster anzeigen und auf Leertaste warten
+			App.update(time, frametime);
+
+			App.draw();
+			App.drawHUD();
+			App.drawDialog();
+			break;
+		case 5:
+			//Spielwelt entladen
+			sm->stopAllSounds();
+			App.end();
+			gm->setGameState(0);
+			break;
+		default:
+			break;
 		}
-		App.end();
+
+		glfwSwapBuffers(window);
 	}
+
 	delete gm;
 	delete sm;
 	glfwTerminate();

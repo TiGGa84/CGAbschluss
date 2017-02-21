@@ -24,10 +24,6 @@ MainMenu::MainMenu(GLFWwindow* pWin, GamestateManager* gm) :
 	HUDCam(pWin),
 	gm(gm) {
 
-}
-
-void MainMenu::initModels() {
-
 	int w = 0, h = 0;
 	glfwGetFramebufferSize(pWindow, &w, &h);
 
@@ -47,6 +43,12 @@ void MainMenu::initModels() {
 	HUDElement* help = new HUDElement(0.4f, 0.2f, 0.55f, 0.0f, Texture::LoadShared(ASSET_DIRECTORY "Help.png"));
 	help->shader(new HUDShader(), true);
 	HUDModels.push_back(help);
+}
+
+MainMenu::~MainMenu()
+{
+	for (auto m : HUDModels) delete m;
+	HUDModels.clear();
 }
 
 void MainMenu::start()
@@ -69,27 +71,16 @@ void MainMenu::draw()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	for (ModelList::iterator it = HUDModels.begin(); it != HUDModels.end(); ++it)
-	{
-		(*it)->draw(HUDCam);
-	}
+	for (auto m : HUDModels) m->draw(HUDCam);
 
 	GLenum Error = glGetError();
 	assert(Error == 0);
 }
-void MainMenu::end()
-{
-	for (ModelList::iterator it = HUDModels.begin(); it != HUDModels.end(); ++it)
-		delete *it;
 
-	HUDModels.clear();
-}
+void MainMenu::end() {}
 
 void MainMenu::getInput() {
-
 	if (glfwGetKey(pWindow, GLFW_KEY_ENTER) == GLFW_PRESS) {
 		gm->setGameState(2);
-		end();
 	}
-		
 }

@@ -10,23 +10,16 @@
 
 Track::Track(double speed, int renderLimit) :
 	speedPerS(speed),
-	renderLimit(renderLimit),
-	progress(0),
-	sectorQueOffset(0),
-	sectorQueLength(0)
+	renderLimit(renderLimit)
 {
-
-	emptySector = new Sector(10);
-	sectorQueLength += emptySector->length;
-	sectorQue.push_back(emptySector);
-
+	emptySector = new Sector(20);
 	readSector(ASSET_DIRECTORY"lane1.png");
 	readSector(ASSET_DIRECTORY"lane2.png");
 	readSector(ASSET_DIRECTORY"lane3.png");
 	readSector(ASSET_DIRECTORY"lane4.png");
 	readSector(ASSET_DIRECTORY"lane5.png");
 	readSector(ASSET_DIRECTORY"lane6.png");
-
+	reset();
 }
 
 Track::~Track()
@@ -34,6 +27,15 @@ Track::~Track()
 	delete model;
 	delete emptySector;
 	for (auto s : sectors) delete s;
+}
+
+void Track::reset()
+{
+	progress = 0;
+	sectorQueOffset = 0;
+	sectorQueLength = emptySector->length;
+	sectorQue.clear();
+	sectorQue.push_back(emptySector);
 }
 
 void Track::loadModel(std::string Filepath)
@@ -72,9 +74,9 @@ void Track::draw(const BaseCamera & Cam)
 	}
 }
 
-void Track::update(double dtime)
+void Track::update(double time, double frametime)
 {
-	progress += dtime;
+	progress = time;
 	// Zurückgelegter weg
 	double dist = progress * speedPerS;
 	// Check queue end

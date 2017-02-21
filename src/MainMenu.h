@@ -12,12 +12,11 @@ class MainMenu
 public:
 	typedef std::list<BaseModel*> ModelList;
 	MainMenu(GLFWwindow* pWin, GamestateManager* gm);
+	~MainMenu();
 	void start();
 	void update(double time, double frametime);
 	void draw();
 	void end();
-
-	void initModels();
 
 	void getInput();
 

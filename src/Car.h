@@ -11,20 +11,23 @@ class Car : public BaseModel {
 public:
 	Car(float speed);
 	virtual ~Car();
+
+	void reset();
 	bool loadModels(std::string ChassisFile, std::string FrontWheelFile, std::string RearWheelFile);
 	void steer(int steer);
-	void update(float dtime, Application& app);
+	void update(float frametime, Application& app);
 	virtual void draw(const BaseCamera& Cam);
 
 protected:
+
+	float speedPerS;
+	int desiredLane;
+	float wheelAngle;
+	float currentPos;
+
 	BaseModel* chassis;
 	BaseModel* frontWheels;
 	BaseModel* rearWheels;
-
-	int desiredLane;
-	float speedPerS;
-	float wheelAngle;
-	float currentPos;
 
 	Matrix frontOffset;
 	Matrix rearOffset;

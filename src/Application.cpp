@@ -29,21 +29,16 @@ Application::Application(GLFWwindow* pWin, GamestateManager* gm) :
 	Cam(pWin),
 	gm(gm)
 {
-	crashed = false;
-	gamescore = 0;
-	leftKeyPressedOnce = false;
-	rightKeyPressedOnce = false;
-	LaneCam.setPosition(Vector(0.0f, 2.1f, 4.7f));
-
 	int w = 0, h = 0;
 	glfwGetFramebufferSize(pWin, &w, &h);
 
+	// Renderbuffer
 	HDRBuffer.createBuffer(w, h);
 	Blur.createBuffer(w, h);
 	Blur.setIterations(2);
-
+	// HDR-Bloombuffer -> Blur
 	Blur.addInputTexID(HDRBuffer.getOutputBloomTexID());
-
+	// HDR-Colorbuffer + Blur
 	Tonemap.addInputColorTexID(HDRBuffer.getOutputColorTexID());
 	Tonemap.addInputBloomTexID(Blur.getOutputTexID());
 
@@ -53,9 +48,6 @@ Application::Application(GLFWwindow* pWin, GamestateManager* gm) :
 	dl->color(Color(0.1f, 0.1f, 0.2f));
 	ShaderLightMapper::instance().addLight(dl);
 
-}
-
-void Application::initModels() {
 	BaseModel* pModel;
 	Matrix m;
 
@@ -87,7 +79,6 @@ void Application::initModels() {
 
 	HUDElement* speedometer = new HUDElement(0.934f, 0.0f, 0.4f, 0.4f, Texture::LoadShared(ASSET_DIRECTORY "TachoMitFesterNadel.png"));
 	speedometer->shader(new HUDShader(), true);
-	speedometer->setTextureScale(1.0f, 1.0f);
 	HUDModels.push_back(speedometer);
 
 	score = new Score(1.0f, 0.015f, 0.04f);
@@ -96,23 +87,41 @@ void Application::initModels() {
 	//Dialog Fenster wird bereits geladen aber noch nicht gemalt
 	dialog = new HUDElement(0.367f, 0.4f, 0.6f, 0.0f, Texture::LoadShared(ASSET_DIRECTORY "Dialog.png"));
 	dialog->shader(new HUDShader(), true);
-	dialog->setTextureScale(1.0f, 1.0f);
-	
+
 	dialogScore = new Score(0.55f, 0.548f, 0.04f);
 
-	
 }
 
-void Application::initDialog() {
-	//Male Dialog nach Kollision
-	dialogScore->setNumber(gamescore);
-	HUDModels.push_back(dialog);
-	HUDModels.push_back(dialogScore);
-	crashed = true;
+Application::~Application()
+{
+	// TODO Modele nicht doppelt löschen sonst crash :/
+	//for (auto m : Models) delete m;
+	Models.clear();
+	//for (auto m : HUDModels) delete m;
+	HUDModels.clear();
+	delete track;
+	delete scenery;
+	delete score;
+	delete car;
+	delete dialog;
+	delete dialogScore;
 }
 
 void Application::start()
 {
+	crashed = false;
+	gamescore = 0;
+	leftKeyPressedOnce = false;
+	rightKeyPressedOnce = false;
+
+	score->setNumber(0);
+	dialogScore->setNumber(0);
+	track->reset();
+	scenery->reset();
+	car->reset();
+
+	LaneCam.setPosition(Vector(0.0f, 2.1f, 4.7f));
+
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -123,24 +132,27 @@ void Application::update(double time, double frametime)
 {
 	getInput();
 	if (gm->getGameState() == 3) {
-		track->update(frametime);
-		scenery->update(frametime);
 		gamescore = (unsigned int)(time * CARSPEED);
 		score->setNumber(gamescore);
+
+		track->update(time, frametime);
+		scenery->update(time, frametime);
 		car->update(frametime, *this);
+
+	} else if (gm->getGameState() == 4 && !crashed) {
+		crashed = true;
+		dialogScore->setNumber(gamescore);
 	}
-	if (gm->getGameState() == 4 && !crashed) initDialog();
 
 #ifdef DEBUG_CAM
 	Cam.update();
 #else
 	LaneCam.update(frametime);
 #endif
-}
+	}
 
 void Application::draw()
 {
-
 	ShaderLightMapper::instance().activate();
 	HDRBuffer.activate();
 
@@ -166,33 +178,29 @@ void Application::draw()
 
 	GLenum Error = glGetError();
 	assert(Error == 0);
-	}
+}
 
 void Application::drawHUD()
 {
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 
-	for (ModelList::iterator it = HUDModels.begin(); it != HUDModels.end(); ++it)
-	{
-		(*it)->draw(HUDCam);
-	}
+	for (auto m : HUDModels) m->draw(HUDCam);
 
 	GLenum Error = glGetError();
 	assert(Error == 0);
 }
-void Application::end()
+
+void Application::drawDialog()
 {
-	for (ModelList::iterator it = Models.begin(); it != Models.end(); ++it)
-		delete *it;
+	dialog->draw(HUDCam);
+	dialogScore->draw(HUDCam);
 
-	Models.clear();
-
-	for (ModelList::iterator it = HUDModels.begin(); it != HUDModels.end(); ++it)
-		delete *it;
-
-	HUDModels.clear();
+	GLenum Error = glGetError();
+	assert(Error == 0);
 }
+
+void Application::end() {}
 
 void Application::getInput() {
 
@@ -217,18 +225,13 @@ void Application::getInput() {
 	if (!rightDown) {
 		rightKeyPressedOnce = false;
 	}
-	
+
 	if (gm->getGameState() == 4 && spaceDown) {
 		gm->setGameState(5);
-		gamescore = 0.0f;
-		crashed = false;
-		
 	}
-		
+
 	if (gm->getGameState() == 3 && escapeDown) {
 		LaneCam.setLane(0);
 		gm->setGameState(4);
 	}
-		
-	
 }

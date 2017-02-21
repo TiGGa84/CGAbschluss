@@ -14,9 +14,10 @@ public:
 	Scenery(double speed, int renderLimit);
 	virtual ~Scenery();
 
+	void reset();
 	void loadModel(std::string Filepath, int gridLength);
 	virtual void draw(const BaseCamera& Cam);
-	void update(double dtime);
+	void update(double time, double frametime);
 protected:
 	void cleanSectorQue(double offsetToRemove);
 	void fillSectorQue(double offsetToFill);

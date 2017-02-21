@@ -8,11 +8,9 @@
 #define INV_WHEELRADIUS (1.0f / (0.35f))
 
 Car::Car(float speed) :
-	desiredLane(0),
-	speedPerS(speed),
-	wheelAngle(0),
-	currentPos(0)
+	speedPerS(speed)
 {
+	reset();
 	frontOffset.translation(0, 0.12474f, -0.57477f);
 	rearOffset.translation(0, 0.14376f, 0.50472f);
 
@@ -47,6 +45,13 @@ Car::~Car()
 	delete chassis;
 	delete frontWheels;
 	delete rearWheels;
+}
+
+void Car::reset()
+{
+	desiredLane = 0;
+	wheelAngle = 0;
+	currentPos = 0;
 }
 
 bool Car::loadModels(std::string ChassisFile, std::string FrontWheelFile, std::string RearWheelFile)
