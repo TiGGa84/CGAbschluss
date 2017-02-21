@@ -115,6 +115,9 @@
     <ClCompile Include="..\..\src\Car.cpp">
       <Filter>Quelldateien\utils\models</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\LaneCamera.cpp">
+      <Filter>Quelldateien\utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Camera.h">
@@ -206,6 +209,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\SoundManager.h">
       <Filter>Quelldateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LaneCamera.h">
+      <Filter>Quelldateien\utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

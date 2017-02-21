@@ -10,6 +10,7 @@
 #define Application_hpp
 
 #include "Camera.h"
+#include "LaneCamera.h"
 #include "HUDCamera.h"
 #include "PhongShader.h"
 #include "BaseModel.h"
@@ -41,7 +42,7 @@ public:
 
 protected:
 	GamestateManager* gm;
-	Camera Cam;
+	LaneCamera Cam;
 	HUDCamera HUDCam;
 
 	GLFWwindow* pWindow;

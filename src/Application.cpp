@@ -103,7 +103,7 @@ void Application::start()
 void Application::update(double time, double frametime)
 {
 	getInput();
-	Cam.update();
+	Cam.update(frametime);
 	track->update(frametime);
 	scenery->update(frametime);
 	score->setNumber((unsigned int)(time * CARSPEED));
@@ -168,10 +168,12 @@ void Application::getInput() {
 
 	if (leftDown && !leftKeyPressedOnce) {
 		car->steer(-1);
+		Cam.switchLane(-1);
 		leftKeyPressedOnce = true;
 	}
 	if (rightDown && !rightKeyPressedOnce) {
 		car->steer(1);
+		Cam.switchLane(1);
 		rightKeyPressedOnce = true;
 	}
 	if (!leftDown) {
