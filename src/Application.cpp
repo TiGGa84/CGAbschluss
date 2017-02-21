@@ -31,7 +31,7 @@ Application::Application(GLFWwindow* pWin, GamestateManager* gm) :
 {
 	leftKeyPressedOnce = false;
 	rightKeyPressedOnce = false;
-	Cam.setPosition(Vector(0.0f, 2.0f, 5.0f));
+	Cam.setPosition(Vector(0.0f, 2.1f, 4.7f));
 
 	int w = 0, h = 0;
 	glfwGetFramebufferSize(pWin, &w, &h);
