@@ -24,13 +24,14 @@ class Model : public BaseModel
 {
 public:
 	Model();
-	Model(const char* ModelFile, bool FitSize = false, float Size = 1.0);
+	Model(std::string Filename, bool FitSize = false, float Size = 1.0);
 	virtual ~Model();
 
-	bool load(const char* ModelFile, bool FitSize = false, float Size = 1.0);
+	void load(std::string Filename, bool FitSize = false, float Size = 1.0);
 	virtual void draw(const BaseCamera& Cam);
 	const AABB& boundingBox() const { return BoundingBox; }
 	void overrideEmit(Color& c);
+
 protected: // protected types
 	struct Mesh
 	{

@@ -38,7 +38,7 @@ Track::~Track()
 
 void Track::loadModel(std::string Filepath)
 {
-	model = new Model(Filepath.c_str());
+	model = new Model(Filepath);
 	model->shader(this->shader());
 }
 

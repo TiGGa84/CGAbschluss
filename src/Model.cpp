@@ -12,6 +12,7 @@
 #include <list>
 #include <assert.h>
 #include <iostream>
+#include <exception>
 
 Model::Model() :
 	pMeshes(NULL),
@@ -20,15 +21,14 @@ Model::Model() :
 	MaterialCount(0),
 	hasEmitOverride(false) {}
 
-Model::Model(const char* ModelFile, bool FitSize, float Size) :
+Model::Model(std::string ModelFile, bool FitSize, float Size) :
 	pMeshes(NULL),
 	MeshCount(0),
 	pMaterials(NULL),
 	MaterialCount(0),
 	hasEmitOverride(false)
 {
-	bool ret = load(ModelFile, FitSize, Size);
-	if (!ret) throw std::exception();
+	load(ModelFile, FitSize, Size);
 }
 
 Model::~Model()
@@ -38,16 +38,16 @@ Model::~Model()
 	deleteNodes(&RootNode);
 }
 
-bool Model::load(const char* ModelFile, bool FitSize, float Size)
+void Model::load(std::string ModelFile, bool FitSize, float Size)
 {
 	Assimp::Importer importer;
 
-	const aiScene* pScene = importer.ReadFile(ModelFile,
+	const aiScene* pScene = importer.ReadFile(ModelFile.c_str(),
 		aiProcessPreset_TargetRealtime_Fast |
 		aiProcess_TransformUVCoords |
 		aiProcess_FlipUVs);
 
-	if (pScene == NULL || pScene->mNumMeshes <= 0) return false;
+	if (pScene == NULL || pScene->mNumMeshes <= 0) throw std::exception();
 
 	Filepath = ModelFile;
 	Path = Filepath;
@@ -60,8 +60,6 @@ bool Model::load(const char* ModelFile, bool FitSize, float Size)
 	loadMeshes(pScene, FitSize, Size);
 	loadMaterials(pScene);
 	loadNodes(pScene);
-
-	return true;
 }
 
 void Model::loadMeshes(const aiScene* pScene, bool FitSize, float Size)
@@ -101,8 +99,7 @@ void Model::loadMeshes(const aiScene* pScene, bool FitSize, float Size)
 		m.IB.begin();
 
 		for (unsigned int j = 0; j < aim.mNumFaces; j++) {
-			assert(aim.mFaces[j].mNumIndices == 3);
-
+			if(aim.mFaces[j].mNumIndices != 3) throw std::exception();
 			m.IB.addIndex(aim.mFaces[j].mIndices[0]);
 			m.IB.addIndex(aim.mFaces[j].mIndices[1]);
 			m.IB.addIndex(aim.mFaces[j].mIndices[2]);

@@ -22,7 +22,7 @@ Scenery::~Scenery()
 void Scenery::loadModel(std::string Filepath, int gridLength)
 {
 	auto s = new Landscape(gridLength);
-	s->model = new Model(Filepath.c_str());
+	s->model = new Model(Filepath);
 	s->model->shader(this->shader());
 	sectors.push_back(s);
 }
