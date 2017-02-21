@@ -53,7 +53,8 @@ void Car::update(float frametime, Application& app)
 	}
 
 	// Winkel nach Geschwindigkeit berechnen
-	wheelAngle += (speedPerS * frametime) * INV_WHEELRADIUS * M_PI;
+	wheelAngle += (speedPerS * frametime) * INV_WHEELRADIUS * (float)M_PI;
+	wheelAngle = fmod(wheelAngle, (float)M_PI * 2.0f);
 
 	Matrix steerMat;
 	steerMat.translation(currentPos, 0, 0);
