@@ -8,7 +8,8 @@
 #define INV_WHEELRADIUS (1.0f / (0.35f))
 
 Car::Car(float speed) :
-	speedPerS(speed)
+	speedPerS(speed),
+	Box(-0.4f, 0.0f, -0.9f, 0.4f, 1.0f, 0.7f)
 {
 	reset();
 	frontOffset.translation(0, 0.12474f, -0.57477f);
@@ -112,4 +113,9 @@ void Car::draw(const BaseCamera& Cam)
 	chassis->draw(Cam);
 	frontWheels->draw(Cam);
 	rearWheels->draw(Cam);
+}
+
+const AABB& Car::boundingBox() const
+{
+	return Box * chassis->transform();
 }

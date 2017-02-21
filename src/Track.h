@@ -2,6 +2,7 @@
 
 #include "BaseModel.h"
 #include "Model.h"
+#include "Aabb.h"
 
 #include <vector>
 #include <deque>
@@ -18,12 +19,14 @@ public:
 	void loadModel(std::string Filepath);
 	virtual void draw(const BaseCamera& Cam);
 	void update(double time, double frametime);
+	bool testIntersesction(const AABB& testBox);
 protected:
 	void readSector(std::string Filepath);
 	void cleanSectorQue(double offsetToRemove);
 	void fillSectorQue(double offsetToFill);
 
 	Model* model;
+	AABB Box;
 	double speedPerS;
 	int renderLimit;
 	// verstrichene Zeit

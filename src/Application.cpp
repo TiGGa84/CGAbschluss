@@ -139,9 +139,15 @@ void Application::update(double time, double frametime)
 		scenery->update(time, frametime);
 		car->update(frametime, *this);
 
+		auto box = car->boundingBox();
+		if (track->testIntersesction(box)) {
+			gm->setGameState(4);
+		}
+
 	} else if (gm->getGameState() == 4 && !crashed) {
 		crashed = true;
 		dialogScore->setNumber(gamescore);
+		LaneCam.setLane(0);
 	}
 
 #ifdef DEBUG_CAM
@@ -206,7 +212,6 @@ void Application::getInput() {
 
 	bool leftDown = glfwGetKey(pWindow, GLFW_KEY_LEFT) == GLFW_PRESS || glfwGetKey(pWindow, GLFW_KEY_A) == GLFW_PRESS;
 	bool rightDown = glfwGetKey(pWindow, GLFW_KEY_RIGHT) == GLFW_PRESS || glfwGetKey(pWindow, GLFW_KEY_D) == GLFW_PRESS;
-	bool escapeDown = glfwGetKey(pWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS;
 	bool spaceDown = glfwGetKey(pWindow, GLFW_KEY_SPACE) == GLFW_PRESS;
 
 	if (leftDown && !leftKeyPressedOnce) {
@@ -228,10 +233,5 @@ void Application::getInput() {
 
 	if (gm->getGameState() == 4 && spaceDown) {
 		gm->setGameState(5);
-	}
-
-	if (gm->getGameState() == 3 && escapeDown) {
-		LaneCam.setLane(0);
-		gm->setGameState(4);
 	}
 }

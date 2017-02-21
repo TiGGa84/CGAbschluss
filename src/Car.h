@@ -2,6 +2,7 @@
 
 #include "BaseModel.h"
 #include "ShaderLightMapper.h"
+#include "Aabb.h"
 
 #include <string>
 
@@ -17,6 +18,7 @@ public:
 	void steer(int steer);
 	void update(float frametime, Application& app);
 	virtual void draw(const BaseCamera& Cam);
+	const AABB& boundingBox() const;
 
 protected:
 
@@ -24,6 +26,8 @@ protected:
 	int desiredLane;
 	float wheelAngle;
 	float currentPos;
+
+	AABB Box;
 
 	BaseModel* chassis;
 	BaseModel* frontWheels;

@@ -10,6 +10,7 @@
 #define Aabb_hpp
 
 #include "vector.h"
+#include "Matrix.h"
 
 class AABB
 {
@@ -20,6 +21,8 @@ public:
 	AABB(const Vector& min, const Vector& max);
 	AABB(float minX, float minY, float minZ, float maxX, float maxY, float maxZ);
 	Vector size() const;
+	bool intersects(AABB& box) const;
+	AABB operator*(const Matrix& m) const;
 };
 
 

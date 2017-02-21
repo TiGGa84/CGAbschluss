@@ -42,9 +42,8 @@ void Scenery::draw(const BaseCamera & Cam)
 
 	// Alle Sektoren rendern
 	auto it = sectorQue.begin();
-	while (it != sectorQue.end())
+	for (auto s : sectorQue)
 	{
-		auto s = (*it++);
 		auto model = s->model;
 		// z-Position relativ zum Track
 		double zPos = currentSectorOffset - overflowStart;

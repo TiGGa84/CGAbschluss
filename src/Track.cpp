@@ -10,7 +10,8 @@
 
 Track::Track(double speed, int renderLimit) :
 	speedPerS(speed),
-	renderLimit(renderLimit)
+	renderLimit(renderLimit),
+	Box(-0.5f, 0.0f, -0.5f, 0.5f, 1.0f, 0.5f)
 {
 	emptySector = new Sector(20);
 	readSector(ASSET_DIRECTORY"lane1.png");
@@ -50,10 +51,8 @@ void Track::draw(const BaseCamera & Cam)
 	int currentSectorOffset = 0;
 
 	// Alle Sektoren rendern
-	auto it = sectorQue.begin();
-	while (it != sectorQue.end())
+	for (auto s : sectorQue)
 	{
-		auto s = (*it++);
 		for (Obstacle& o : s->obstacles)
 		{
 			// z-Position relativ zum Track
@@ -86,6 +85,29 @@ void Track::update(double time, double frametime)
 	// Check queue start
 	cleanSectorQue(overflowStart);
 	
+}
+
+// Testet eine AABB gegen alle Hindernisse
+bool Track::testIntersesction(const AABB& testBox)
+{
+	double overflowStart = progress * speedPerS - sectorQueOffset;
+	int currentSectorOffset = 0;
+
+	for (auto s : sectorQue)
+	{
+		for (Obstacle& o : s->obstacles)
+		{
+			double zPos = currentSectorOffset - overflowStart + o.z;
+
+			Matrix matPos;
+			matPos.translation((float)o.x, 0, (float)-zPos);
+			matPos *= transform();
+			if (testBox.intersects(Box * matPos)) return true;
+		}
+
+		currentSectorOffset += s->length;
+	}
+	return false;
 }
 
 // Bild auslesen und abschnitt erstellen
