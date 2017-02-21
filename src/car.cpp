@@ -1,15 +1,17 @@
 #include "Car.h"
 #include "Application.h"
-#include <stdio.h>
-#define M_PI 3.14159265
 
-Car::Car()
-{
-	carMat.identity();
-	wheelAngle = 0;
-	desiredLane = 0;
-	currentPos = 0.0f;
-}
+#define _USE_MATH_DEFINES
+#include <math.h>
+
+#define STEERSPEED 6.0f
+#define INV_WHEELRADIUS (1.0f / (0.35f))
+
+Car::Car(float speed) :
+	desiredLane(0),
+	speedPerS(speed),
+	wheelAngle(0),
+	currentPos(0) {}
 
 Car::~Car()
 {
@@ -18,11 +20,11 @@ Car::~Car()
 	delete rearWheels;
 }
 
-bool Car::loadModels(const char* ChassisFile, const char* FrontWheelFile, const char* RearWheelFile)
+bool Car::loadModels(std::string ChassisFile, std::string FrontWheelFile, std::string RearWheelFile)
 {
-	chassis = new Model(ChassisFile, false);
-	frontWheels = new Model(FrontWheelFile, false);
-	rearWheels = new Model(RearWheelFile, false);
+	chassis = new Model(ChassisFile);
+	frontWheels = new Model(FrontWheelFile);
+	rearWheels = new Model(RearWheelFile);
 
 	chassis->shader(this->shader());
 	frontWheels->shader(this->shader());
@@ -32,65 +34,43 @@ bool Car::loadModels(const char* ChassisFile, const char* FrontWheelFile, const 
 
 void Car::steer(int steer)
 {
-	
 	if (desiredLane > -1 && steer < 0) desiredLane--;
 	else if (desiredLane < 1 && steer > 0) desiredLane++;
-	std::cout << "Desired Lane: " << desiredLane << std::endl << "Steer: " << steer << std::endl;
-}
-
-void Car::aim(const Vector& Target)
-{
-	// TODO: Add your code
 }
 
 void Car::update(float frametime, Application& app)
 {
-	float carOffsetY = 0.0f;
-	float wheelSpeed = -50.0f;
+	// Lenk-Bewegung pro Zeit
+	float change = STEERSPEED * frametime;
+	float diff = abs(desiredLane - currentPos);
+
+	// An desiredLane angleichen, ohne diff zu überschreiten
+	if (desiredLane < currentPos) {
+		currentPos -= std::min(change, diff);
+	}
+	else if (desiredLane > currentPos) {
+		currentPos += std::min(change, diff);
+	}
+
+	// Winkel nach Geschwindigkeit berechnen
+	wheelAngle += (speedPerS * frametime) * INV_WHEELRADIUS * M_PI;
 
 	Matrix steerMat;
-	steerMat.translation(0, 0, 0);
-	float change = 0.0f;
-	if (desiredLane+0.00001f < currentPos) {
-		change = -0.1f;
-		currentPos += change;
-	}
-	else if (desiredLane-0.0001f > currentPos) {
-		change = 0.1f;
-		currentPos += change;
-	}
+	steerMat.translation(currentPos, 0, 0);
 
-	steerMat.translation(change, 0, 0);
-
-	carMat *= steerMat;
-	chassis->transform(carMat);
-
-	Vector CarPos = carMat.translation();
-
-	if (wheelAngle <= -360) {
-		wheelAngle += 360;
-		
-	}
-	wheelAngle += wheelSpeed * frametime;
-	std::cout << wheelAngle << std::endl;
-	Matrix chassisMat;
-	chassisMat.translation(CarPos);
-	Matrix carOffset;
-	carOffset.translation(0, carOffsetY, 0);
-	Matrix wheelsMat;
-	wheelsMat.translation(CarPos);
 	Matrix frontOffset;
-	frontOffset.translation(0, carOffsetY+0.12474f, -0.57477f);
+	frontOffset.translation(0, 0.12474f, -0.57477f);
+
 	Matrix rearOffset;
-	rearOffset.translation(0, carOffsetY+0.14376f, 0.50472f);
+	rearOffset.translation(0, 0.14376f, 0.50472f);
 
 	Matrix wheelsRotMat;
-	wheelsRotMat.rotationX(wheelAngle);
-	chassis->transform(chassisMat * carOffset);
-	frontWheels->transform(wheelsMat* frontOffset * wheelsRotMat);
+	wheelsRotMat.rotationX(-wheelAngle);
 
-	rearWheels->transform(wheelsMat * rearOffset * wheelsRotMat);
-	
+	// Bewegungen und Car-transform anwenden
+	chassis->transform(transform() * steerMat);
+	frontWheels->transform(transform() * steerMat * frontOffset * wheelsRotMat);
+	rearWheels->transform(transform() * steerMat * rearOffset * wheelsRotMat);
 }
 
 void Car::draw(const BaseCamera& Cam)

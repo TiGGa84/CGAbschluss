@@ -2,15 +2,16 @@
 
 #include "BaseModel.h"
 
+#include <string>
+
 class Application;
 
 class Car : public BaseModel {
 public:
-	Car();
+	Car(float speed);
 	virtual ~Car();
-	bool loadModels(const char* ChassisFile, const char* FrontWheelFile, const char* RearWheelFile);
+	bool loadModels(std::string ChassisFile, std::string FrontWheelFile, std::string RearWheelFile);
 	void steer(int steer);
-	void aim(const Vector& Target);
 	void update(float dtime, Application& app);
 	virtual void draw(const BaseCamera& Cam);
 
@@ -19,9 +20,8 @@ protected:
 	BaseModel* frontWheels;
 	BaseModel* rearWheels;
 
-	Matrix carMat;
-
-	float wheelAngle;
 	int desiredLane;
+	float speedPerS;
+	float wheelAngle;
 	float currentPos;
 };

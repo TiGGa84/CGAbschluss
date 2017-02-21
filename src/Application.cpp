@@ -18,7 +18,7 @@
 
 #define ASSET_DIRECTORY "../../assets/"
 
-#define CARSPEED 4.0f
+#define CARSPEED 5.0f
 
 using namespace std;
 
@@ -78,11 +78,9 @@ void Application::initModels() {
 	scenery->transform(m);
 	Models.push_back(scenery);
 
-	car = new Car();
+	car = new Car(CARSPEED);
 	car->shader(new PhongShader(), true);
 	car->loadModels(ASSET_DIRECTORY "NotDelorean.dae", ASSET_DIRECTORY "Vorderachse.dae", ASSET_DIRECTORY "Hinterachse.dae");
-	m.translation(0, 0, 0);
-	car->transform(m);
 	Models.push_back(car);
 
 	HUDElement* speedometer = new HUDElement(0.934f, 0.0f, 0.4f, 0.4f, Texture::LoadShared(ASSET_DIRECTORY "TachoMitFesterNadel.png"));
