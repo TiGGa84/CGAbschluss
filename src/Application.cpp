@@ -132,7 +132,7 @@ void Application::start()
 void Application::update(double time, double frametime)
 {
 	getInput();
-	if (gm->getGameState() == 3) {
+	if (gm->getGameState() == 4) {
 		gamescore = (unsigned int)(time * CARSPEED);
 		score->setNumber(gamescore);
 
@@ -142,10 +142,10 @@ void Application::update(double time, double frametime)
 
 		auto box = car->boundingBox();
 		if (track->testIntersesction(box)) {
-			gm->setGameState(4);
+			gm->setGameState(5);
 		}
-
-	} else if (gm->getGameState() == 4 && !crashed) {
+	}
+	else if (gm->getGameState() == 4 && !crashed) {
 		crashed = true;
 		dialogScore->setNumber(gamescore);
 		LaneCam.setLane(0);
@@ -214,6 +214,7 @@ void Application::getInput() {
 	bool leftDown = glfwGetKey(pWindow, GLFW_KEY_LEFT) == GLFW_PRESS || glfwGetKey(pWindow, GLFW_KEY_A) == GLFW_PRESS;
 	bool rightDown = glfwGetKey(pWindow, GLFW_KEY_RIGHT) == GLFW_PRESS || glfwGetKey(pWindow, GLFW_KEY_D) == GLFW_PRESS;
 	bool spaceDown = glfwGetKey(pWindow, GLFW_KEY_SPACE) == GLFW_PRESS;
+	bool escapeDown = glfwGetKey(pWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS;
 
 	if (leftDown && !leftKeyPressedOnce) {
 		car->steer(-1);
@@ -232,7 +233,13 @@ void Application::getInput() {
 		rightKeyPressedOnce = false;
 	}
 
-	if (gm->getGameState() == 4 && spaceDown) {
-		gm->setGameState(5);
+	// Neustart
+	if (gm->getGameState() == 5 && spaceDown) {
+		gm->setGameState(3);
+	}
+
+	// Beenden
+	if (gm->getGameState() == 5 && escapeDown) {
+		gm->setGameState(6);
 	}
 }

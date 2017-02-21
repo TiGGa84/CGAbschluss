@@ -70,44 +70,45 @@ int main() {
 		case 0:
 			//Menue laden
 			Menu.start();
+			sm->setBaseVolume(0.4f);
 			sm->playMenuMusic();
 			gm->setGameState(1);
 			break;
 		case 1:
-			//Menue anzeigen und auf Leertaste warten
+			//Menue anzeigen und auf Eingabe warten
 			Menu.update(time, frametime);
 			Menu.draw();
 			break;
 		case 2:
-			//Spielwelt laden
-			sm->setBaseVolume(0.1f);
-			Menu.end();
+			//Spiel starten
 			glfwSetTime(0);
 			App.start();
 			sm->stopAllSounds();
-			sm->setBaseVolume(0.4f);
 			sm->playDrivingMusic();
-			gm->setGameState(3);
+			gm->setGameState(4);
 			break;
 		case 3:
+			//Spiel neu starten
+			glfwSetTime(0);
+			App.start();
+			gm->setGameState(4);
+			break;
+		case 4:
 			//Spiel ablaufen lassen
 			App.update(time, frametime);
-
 			App.draw();
 			App.drawHUD();
 			break;
-		case 4:
-			//Nach Kollision Dialogfenster anzeigen und auf Leertaste warten
+		case 5:
+			//Nach Kollision Dialogfenster anzeigen und auf Eingabe warten
 			App.update(time, frametime);
-
 			App.draw();
 			App.drawHUD();
 			App.drawDialog();
 			break;
-		case 5:
+		case 6:
 			//Spielwelt entladen
 			sm->stopAllSounds();
-			App.end();
 			gm->setGameState(0);
 			break;
 		default:
