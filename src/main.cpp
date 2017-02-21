@@ -68,25 +68,42 @@ int main() {
 			
 			switch (gm->getGameState()) {
 			case 0:
+				//Menue laden
 				Menu.initModels();
 				sm->playMenuMusic();
 				gm->setGameState(1);
 				break;
 			case 1:
+				//Menue anzeigen und auf Leertaste warten
 				Menu.update(time, frametime);
 				Menu.draw();
 				break;
 			case 2:
+				//Spielwelt laden
 				sm->stopAllSounds();
 				App.initModels();
 				sm->playDrivingMusic();
 				gm->setGameState(3);
 				break;
 			case 3:
+				//Spiel ablaufen lassen
 				App.update(time, frametime);
 
 				App.draw();
 				App.drawHUD();
+				break;
+			case 4:
+				//Nach Kollision Dialogfenster anzeigen und auf Leertaste warten
+				App.update(time, frametime);
+
+				App.draw();
+				App.drawHUD();
+				break;
+			case 5:
+				//Spielwelt entladen
+				sm->stopAllSounds();
+				App.end();
+				gm->setGameState(0);
 				break;
 			default:
 				break;
