@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BaseModel.h"
+#include "ShaderLightMapper.h"
 
 #include <string>
 
@@ -24,4 +25,17 @@ protected:
 	float speedPerS;
 	float wheelAngle;
 	float currentPos;
+
+	Matrix frontOffset;
+	Matrix rearOffset;
+
+	SpotLight* frontLLight;
+	SpotLight* frontRLight;
+	SpotLight* backLLight;
+	SpotLight* backRLight;
+
+	Vector frontLOffset;
+	Vector frontROffset;
+	Vector backLOffset;
+	Vector backROffset;
 };

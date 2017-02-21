@@ -11,7 +11,36 @@ Car::Car(float speed) :
 	desiredLane(0),
 	speedPerS(speed),
 	wheelAngle(0),
-	currentPos(0) {}
+	currentPos(0)
+{
+	frontOffset.translation(0, 0.12474f, -0.57477f);
+	rearOffset.translation(0, 0.14376f, 0.50472f);
+
+	frontLOffset = Vector(-0.23f, 0.28f, -0.95f);
+	frontROffset = Vector(0.23f, 0.28f, -0.95f);
+	backLOffset = Vector(-0.135f, 0.34f, 0.9f);
+	backROffset = Vector(0.135f, 0.34f, 0.9f);
+
+	Color frontColor(3.0f, 3.0f, 2.95f);
+	Vector frontDir(0, -0.1f, -1.0f);
+	float frontInner = 15.0f;
+	float frontOuter = 30.0f;
+
+	Color backColor(0.1f, 0.0f, 0.0f);
+	Vector backDir(0, -0.4f, 1.0f);
+	float backInner = 40.0f;
+	float backOuter = 60.0f;
+
+	frontLLight = new SpotLight(frontLOffset, frontDir, frontInner, frontOuter, frontColor);
+	frontRLight = new SpotLight(frontROffset, frontDir, frontInner, frontOuter, frontColor);
+	backLLight = new SpotLight(backLOffset, backDir, backInner, backOuter, backColor);
+	backRLight = new SpotLight(backROffset, backDir, backInner, backOuter, backColor);
+
+	ShaderLightMapper::instance().addLight(frontLLight);
+	ShaderLightMapper::instance().addLight(frontRLight);
+	ShaderLightMapper::instance().addLight(backLLight);
+	ShaderLightMapper::instance().addLight(backRLight);
+}
 
 Car::~Car()
 {
@@ -59,12 +88,6 @@ void Car::update(float frametime, Application& app)
 	Matrix steerMat;
 	steerMat.translation(currentPos, 0, 0);
 
-	Matrix frontOffset;
-	frontOffset.translation(0, 0.12474f, -0.57477f);
-
-	Matrix rearOffset;
-	rearOffset.translation(0, 0.14376f, 0.50472f);
-
 	Matrix wheelsRotMat;
 	wheelsRotMat.rotationX(-wheelAngle);
 
@@ -72,6 +95,11 @@ void Car::update(float frametime, Application& app)
 	chassis->transform(transform() * steerMat);
 	frontWheels->transform(transform() * steerMat * frontOffset * wheelsRotMat);
 	rearWheels->transform(transform() * steerMat * rearOffset * wheelsRotMat);
+
+	frontLLight->position(steerMat * frontLOffset);
+	frontRLight->position(steerMat * frontROffset);
+	backLLight->position(steerMat * backROffset);
+	backRLight->position(steerMat * backLOffset);
 }
 
 void Car::draw(const BaseCamera& Cam)
