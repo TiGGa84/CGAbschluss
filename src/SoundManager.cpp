@@ -1,6 +1,5 @@
 #include "SoundManager.h"
 
-using namespace std;
 using namespace irrklang;
 
 #define ASSET_DIRECTORY "../../assets/"
@@ -17,6 +16,7 @@ SoundManager::~SoundManager() {
 ISound* SoundManager::playSound(const char* path) {
 	if (se)
 		return se->play2D(path, true, false, true);
+	return NULL;
 }
 void SoundManager::stopAllSounds() {
 	if (se)
@@ -29,7 +29,7 @@ void SoundManager::playMenuMusic() {
 }
 void SoundManager::playDrivingMusic() {
 	ISound* snd = se->play2D(ASSET_DIRECTORY "Neon and Kickboxing.mp3", true, false, true);
-	if (snd) snd->setVolume(0.4f);
+	if (snd) snd->setVolume(baseVolume);
 }
 
 float SoundManager::getBaseVolume() {

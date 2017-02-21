@@ -62,7 +62,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)..\thirdparty\irrKlang\lib;$(ProjectDir)..\thirdparty\glfw\lib;$(ProjectDir)..\thirdparty\glew\lib;$(ProjectDir)..\thirdparty\assimp\lib;$(ProjectDir)..\thirdparty\freeimage\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;FreeImage.lib;assimp-vc140-mt.lib;glfw3.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>irrKlang.lib;opengl32.lib;FreeImage.lib;assimp-vc140-mt.lib;glfw3.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>MSVCRT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -75,15 +75,15 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\thirdparty\glfw\include;$(ProjectDir)..\thirdparty\glew\include;$(ProjectDir)..\thirdparty\assimp\include;$(ProjectDir)..\thirdparty\freeimage\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\thirdparty\irrKlang\include;$(ProjectDir)..\thirdparty\glfw\include;$(ProjectDir)..\thirdparty\glew\include;$(ProjectDir)..\thirdparty\assimp\include;$(ProjectDir)..\thirdparty\freeimage\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\thirdparty\glfw\lib;$(ProjectDir)..\thirdparty\glew\lib;$(ProjectDir)..\thirdparty\assimp\lib;$(ProjectDir)..\thirdparty\freeimage\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;FreeImage.lib;assimp-vc140-mt.lib;glfw3.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\thirdparty\irrKlang\lib;$(ProjectDir)..\thirdparty\glfw\lib;$(ProjectDir)..\thirdparty\glew\lib;$(ProjectDir)..\thirdparty\assimp\lib;$(ProjectDir)..\thirdparty\freeimage\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>irrKlang.lib;opengl32.lib;FreeImage.lib;assimp-vc140-mt.lib;glfw3.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -92,16 +92,14 @@
     <ClCompile Include="..\..\src\BaseModel.cpp" />
     <ClCompile Include="..\..\src\BaseShader.cpp" />
     <ClCompile Include="..\..\src\Camera.cpp" />
-    <ClCompile Include="..\..\src\car.cpp" />
+    <ClCompile Include="..\..\src\Car.cpp" />
     <ClCompile Include="..\..\src\color.cpp" />
-    <ClCompile Include="..\..\src\ConstantShader.cpp" />
     <ClCompile Include="..\..\src\GamestateManager.cpp" />
     <ClCompile Include="..\..\src\HDRFramebuffer.cpp" />
     <ClCompile Include="..\..\src\HUDCamera.cpp" />
     <ClCompile Include="..\..\src\HUDElement.cpp" />
     <ClCompile Include="..\..\src\HUDShader.cpp" />
     <ClCompile Include="..\..\src\IndexBuffer.cpp" />
-    <ClCompile Include="..\..\src\LinePlaneModel.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\MainMenu.cpp" />
     <ClCompile Include="..\..\src\Matrix.cpp" />
@@ -111,7 +109,6 @@
     <ClCompile Include="..\..\src\PostBlur.cpp" />
     <ClCompile Include="..\..\src\PostTonemap.cpp" />
     <ClCompile Include="..\..\src\RainbowShader.cpp" />
-    <ClCompile Include="..\..\src\Scene.cpp" />
     <ClCompile Include="..\..\src\Scenery.cpp" />
     <ClCompile Include="..\..\src\Score.cpp" />
     <ClCompile Include="..\..\src\ShaderLightMapper.cpp" />
@@ -130,14 +127,12 @@
     <ClInclude Include="..\..\src\Camera.h" />
     <ClInclude Include="..\..\src\Car.h" />
     <ClInclude Include="..\..\src\color.h" />
-    <ClInclude Include="..\..\src\ConstantShader.h" />
     <ClInclude Include="..\..\src\GamestateManager.h" />
     <ClInclude Include="..\..\src\HDRFramebuffer.h" />
     <ClInclude Include="..\..\src\HUDCamera.h" />
     <ClInclude Include="..\..\src\HUDElement.h" />
     <ClInclude Include="..\..\src\HUDShader.h" />
     <ClInclude Include="..\..\src\IndexBuffer.h" />
-    <ClInclude Include="..\..\src\LinePlaneModel.h" />
     <ClInclude Include="..\..\src\MainMenu.h" />
     <ClInclude Include="..\..\src\Matrix.h" />
     <ClInclude Include="..\..\src\Model.h" />
@@ -146,7 +141,6 @@
     <ClInclude Include="..\..\src\PostBlur.h" />
     <ClInclude Include="..\..\src\PostTonemap.h" />
     <ClInclude Include="..\..\src\RainbowShader.h" />
-    <ClInclude Include="..\..\src\Scene.h" />
     <ClInclude Include="..\..\src\Scenery.h" />
     <ClInclude Include="..\..\src\Score.h" />
     <ClInclude Include="..\..\src\ShaderLightMapper.h" />

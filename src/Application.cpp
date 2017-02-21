@@ -11,10 +11,8 @@
 #include <GL/glew.h>
 #include <glfw/glfw3.h>
 
-#include "lineplanemodel.h"
-#include "model.h"
+#include "Model.h"
 #include "ShaderLightMapper.h"
-#include "Score.h"
 #include "HUDElement.h"
 #include "HUDShader.h"
 

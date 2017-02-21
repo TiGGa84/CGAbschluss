@@ -14,15 +14,9 @@
 #include "HUDElement.h"
 #include "HUDShader.h"
 
-
-
 #include <cassert>
 
-
 #define ASSET_DIRECTORY "../../assets/"
-
-using namespace std;
-
 
 
 MainMenu::MainMenu(GLFWwindow* pWin, GamestateManager* gm) :

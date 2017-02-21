@@ -2,8 +2,6 @@
 
 #include "irrKlang.h"
 
-#pragma comment(lib, "irrKlang.lib")
-
 class SoundManager {
 public:
 	SoundManager(float volume = 0.4f);

@@ -12,7 +12,6 @@
 #include "Camera.h"
 #include "HUDCamera.h"
 #include "PhongShader.h"
-#include "ConstantShader.h"
 #include "BaseModel.h"
 #include "Track.h"
 #include "Scenery.h"
