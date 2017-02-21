@@ -80,9 +80,11 @@ int main() {
 				break;
 			case 2:
 				//Spielwelt laden
+				sm->setBaseVolume(0.1f);
+				App.initModels();
 				glfwSetTime(0);
 				sm->stopAllSounds();
-				App.initModels();
+				sm->setBaseVolume(0.4f);
 				sm->playDrivingMusic();
 				gm->setGameState(3);
 				break;

@@ -6,7 +6,7 @@ using namespace irrklang;
 
 SoundManager::SoundManager(float volume) {
 	se = createIrrKlangDevice();
-	baseVolume = volume;
+	setBaseVolume(volume);
 }
 
 SoundManager::~SoundManager() {
@@ -19,17 +19,14 @@ ISound* SoundManager::playSound(const char* path) {
 	return NULL;
 }
 void SoundManager::stopAllSounds() {
-	if (se)
-		se->stopAllSounds();
+	if (se)	se->stopAllSounds();
 }
 
 void SoundManager::playMenuMusic() {
-	ISound* snd = se->play2D(ASSET_DIRECTORY "Stringed Disco.mp3", true, false, true);
-	if (snd) snd->setVolume(baseVolume);
+	se->play2D(ASSET_DIRECTORY "Stringed Disco.mp3", true, false, true);
 }
 void SoundManager::playDrivingMusic() {
-	ISound* snd = se->play2D(ASSET_DIRECTORY "Neon and Kickboxing.mp3", true, false, true);
-	if (snd) snd->setVolume(baseVolume);
+	se->play2D(ASSET_DIRECTORY "Neon and Kickboxing.mp3", true, false, true);
 }
 
 float SoundManager::getBaseVolume() {
@@ -37,4 +34,5 @@ float SoundManager::getBaseVolume() {
 }
 void SoundManager::setBaseVolume(float volume) {
 	baseVolume = volume;
+	if(se) se->setSoundVolume(volume);
 }
