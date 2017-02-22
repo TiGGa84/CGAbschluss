@@ -87,7 +87,7 @@ Application::Application(GLFWwindow* pWin, GamestateManager* gm) :
 	HUDModels.push_back(score);
 
 	//Dialog Fenster wird bereits geladen aber noch nicht gemalt
-	dialog = new HUDElement(0.367f, 0.4f, 0.6f, 0.0f, Texture::LoadShared(ASSET_DIRECTORY "Dialog.png"));
+	dialog = new HUDElement(0.417f, 0.38f, 0.5f, 0.0f, Texture::LoadShared(ASSET_DIRECTORY "Dialog.png"));
 	dialog->shader(new HUDShader(), true);
 
 	dialogScore = new Score(0.55f, 0.548f, 0.04f);
