@@ -1,6 +1,4 @@
-
-#ifndef HDRFramebuffer_hpp
-#define HDRFramebuffer_hpp
+#pragma once
 
 #include <GL/glew.h>
 #include <glfw/glfw3.h>
@@ -23,5 +21,3 @@ private:
 	GLuint ColorbufferID[2];
 	GLuint DepthbufferID;
 };
-
-#endif /* HDRFramebuffer_hpp */

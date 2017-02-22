@@ -4,6 +4,9 @@
 #include "VertexBuffer.h"
 #include "Texture.h"
 
+// Malt quadratische Geometrie und stellt eine Textur dar
+// Koordinaten werden durch sizeX / sizeY und Position angepasst
+// Textur kann durch Verschiebung / Skalierung angepasst werden
 class HUDElement : public BaseModel
 {
 public:

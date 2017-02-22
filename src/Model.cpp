@@ -234,14 +234,10 @@ void Model::deleteNodes(Node* pNode)
 
 void Model::applyMaterial(unsigned int index)
 {
-	if (index >= MaterialCount)
-		return;
+	if (index >= MaterialCount)	return;
 
 	PhongShader* pPhong = dynamic_cast<PhongShader*>(pShader);
-	if (!pPhong) {
-		//std::cout << "Model::applyMaterial(): WARNING Invalid shader-type. Please apply PhongShader for rendering models.\n";
-		return;
-	}
+	if (!pPhong) return;
 
 	Material* pMat = &pMaterials[index];
 	pPhong->diffuseColor(pMat->DiffColor);

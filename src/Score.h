@@ -6,6 +6,7 @@
 
 #include <vector>
 
+// Stellt eine Zahl bis zu 10 Ziffern dar
 class Score : public BaseModel
 {
 public:

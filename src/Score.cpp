@@ -48,9 +48,10 @@ void Score::draw(const BaseCamera & Cam)
 {
 	for (int i = 0; i < 10; i++) {
 		Matrix m;
+		// Objekt verschieben
 		m.translation(i * width, 0, 0);
 		rect->transform(transform() * m);
-
+		// Textur verschieben
 		rect->setTextureOffset((float)number[i] / 10.0f, 0);
 		rect->draw(Cam);
 	}

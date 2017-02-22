@@ -9,6 +9,7 @@
 #include <string>
 #include <random>
 
+// Generiert unendlich langen Weg aus Hindernissen
 class Track : public BaseModel
 {
 public:
@@ -25,7 +26,9 @@ protected:
 	void cleanSectorQue(float offsetToRemove);
 	void fillSectorQue(float offsetToFill);
 
+	// Modell für alle Hindernisse
 	Model* model;
+	// Kollisions-Box
 	AABB Box;
 	float speedPerS;
 	int renderLimit;
@@ -55,6 +58,7 @@ protected:
 		int length;
 		std::vector<Obstacle> obstacles;
 	};
+	// Leerer Sektor zum Starten
 	Sector* emptySector;
 
 	// Alle geladenen Sektoren

@@ -6,6 +6,7 @@
 #include "BaseShader.h"
 #include "Texture.h"
 
+// Viele Bunte Kreise
 class RainbowShader : public BaseShader
 {
 public:

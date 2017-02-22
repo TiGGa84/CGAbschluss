@@ -40,12 +40,11 @@ void Scenery::draw(const BaseCamera & Cam)
 	float overflowStart = progress * speedPerS - sectorQueOffset;
 	int currentSectorOffset = 0;
 
-	// Alle Sektoren rendern
 	auto it = sectorQue.begin();
 	for (auto s : sectorQue)
 	{
 		auto model = s->model;
-		// z-Position relativ zum Track
+
 		float zPos = currentSectorOffset - overflowStart;
 
 		Matrix matPos;

@@ -1,6 +1,4 @@
-
-#ifndef PostTonemap_hpp
-#define PostTonemap_hpp
+#pragma once
 
 #include <GL/glew.h>
 #include <glfw/glfw3.h>
@@ -25,5 +23,3 @@ protected:
 	GLint ColorTexLoc;
 	GLint BloomTexLoc;
 };
-
-#endif /* PostTonemap_hpp */

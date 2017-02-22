@@ -1,6 +1,4 @@
-
-#ifndef PostBlur_hpp
-#define PostBlur_hpp
+#pragma once
 
 #include <GL/glew.h>
 #include <glfw/glfw3.h>
@@ -28,5 +26,3 @@ protected:
 	GLuint FramebufferID[2];
 	GLuint ColorbufferID[2];
 };
-
-#endif /* PostBlur_hpp */

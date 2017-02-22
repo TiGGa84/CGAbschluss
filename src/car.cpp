@@ -12,9 +12,11 @@ Car::Car(float speed) :
 	Box(-0.4f, 0.0f, -0.9f, 0.4f, 1.0f, 0.7f)
 {
 	reset();
+	// Offset Achsen
 	frontOffset.translation(0, 0.12474f, -0.57477f);
 	rearOffset.translation(0, 0.14376f, 0.50472f);
 
+	// Lichter
 	frontLOffset = Vector(-0.23f, 0.28f, -0.95f);
 	frontROffset = Vector(0.23f, 0.28f, -0.95f);
 	backLOffset = Vector(-0.135f, 0.34f, 0.9f);
@@ -102,6 +104,7 @@ void Car::update(float frametime, Application& app)
 	frontWheels->transform(transform() * steerMat * frontOffset * wheelsRotMat);
 	rearWheels->transform(transform() * steerMat * rearOffset * wheelsRotMat);
 
+	// Lichter bewegen
 	frontLLight->position(steerMat * frontLOffset);
 	frontRLight->position(steerMat * frontROffset);
 	backLLight->position(steerMat * backROffset);
@@ -115,7 +118,7 @@ void Car::draw(const BaseCamera& Cam)
 	rearWheels->draw(Cam);
 }
 
-const AABB& Car::boundingBox() const
+const AABB Car::boundingBox() const
 {
 	return Box * chassis->transform();
 }

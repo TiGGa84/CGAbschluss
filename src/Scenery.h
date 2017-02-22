@@ -8,6 +8,7 @@
 #include <string>
 #include <random>
 
+// Generiert Unendliche Scene aus vordefinieren Abschnitten
 class Scenery : public BaseModel
 {
 public:
@@ -33,6 +34,7 @@ protected:
 	// Für random Zahlen
 	std::default_random_engine gen;
 
+	// Ein Abschnitt
 	struct Landscape
 	{
 		Landscape(int len) : length(len) {}

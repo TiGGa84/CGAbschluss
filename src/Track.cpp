@@ -136,10 +136,13 @@ void Track::readSector(std::string filepath)
 		for (unsigned int j = 0; j < width; ++j)
 		{
 			FreeImage_GetPixelColor(pBitmap, j, i, &c);
+			// Transparent -> leer
 			if (c.rgbReserved == 0) continue;
+			// Farbe speichern
 			emit.R = c.rgbRed / 255.0f;
 			emit.G = c.rgbGreen / 255.0f;
 			emit.B = c.rgbBlue / 255.0f;
+			// Position aus Bild Koordinaten
 			s->obstacles.push_back(Obstacle(i, j - 1, emit));
 		}
 	}

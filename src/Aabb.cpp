@@ -23,6 +23,7 @@ Vector AABB::size() const
 	return Max - Min;
 }
 
+// Prüft Überschneidung mit anderer AABB
 bool AABB::intersects(AABB & box) const
 {
 	return(
@@ -34,6 +35,7 @@ bool AABB::intersects(AABB & box) const
 		Min.Z < box.Max.Z);
 }
 
+// Wendet Matrix auf die AABB Vectoren an
 AABB AABB::operator*(const Matrix & m) const
 {
 	return AABB(m * Min, m * Max);

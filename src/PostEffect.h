@@ -1,6 +1,4 @@
-
-#ifndef PostEffect_hpp
-#define PostEffect_hpp
+#pragma once
 
 #include <GL/glew.h>
 #include <glfw/glfw3.h>
@@ -10,6 +8,7 @@
 #include <vector>
 
 // Abstrakte Klasse für Postprocessing Effekte
+// malt Geometire über gesammten Viewport
 class PostEffect
 {
 public:
@@ -25,5 +24,3 @@ protected:
 
 	BaseShader Shader;
 };
-
-#endif /* PostEffect_hpp */

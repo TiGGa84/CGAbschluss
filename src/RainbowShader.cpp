@@ -1,7 +1,5 @@
 #include "RainbowShader.h"
 
-
-
 RainbowShader::RainbowShader() :
 	time(0)
 {

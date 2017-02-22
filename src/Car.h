@@ -18,7 +18,7 @@ public:
 	void steer(int steer);
 	void update(float frametime, Application& app);
 	virtual void draw(const BaseCamera& Cam);
-	const AABB& boundingBox() const;
+	const AABB boundingBox() const;
 
 protected:
 
