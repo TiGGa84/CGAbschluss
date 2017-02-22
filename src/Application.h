@@ -50,6 +50,7 @@ protected:
 	ModelList Models;
 	ModelList HUDModels;
 	
+	Model* skybox;
 	Track* track;
 	Scenery* scenery;
 	Score* score;

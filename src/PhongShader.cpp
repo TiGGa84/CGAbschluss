@@ -10,7 +10,7 @@
 
 #include <assert.h>
 
-PhongShader::PhongShader() :
+PhongShader::PhongShader(bool isStatic) :
 	DiffuseColor(1, 1, 1),
 	SpecularColor(0.5f, 0.5f, 0.5f),
 	AmbientColor(0.2f, 0.2f, 0.2f),
@@ -18,7 +18,8 @@ PhongShader::PhongShader() :
 	EmitColor(0, 0, 0),
 	DiffuseTexture(Texture::defaultTex()),
 	EmitTexture(Texture::defaultEmitTex()),
-	UpdateState(0xFFFFFFFF)
+	UpdateState(0xFFFFFFFF),
+	isStatic(isStatic)
 {
 	load("vsphong.glsl", "fsphong.glsl");
 	assignLocations();
@@ -61,8 +62,10 @@ void PhongShader::activate(const BaseCamera& Cam) const
 		setParameter(EmitTexLoc, 1);
 
 	// update matrices
+	Matrix view = Cam.getViewMatrix();
+	if (isStatic) view.clearTranslation();
+	setParameter(ModelViewProjLoc, Cam.getProjectionMatrix() * view * modelTransform());
 	setParameter(ModelMatLoc, modelTransform());
-	setParameter(ModelViewProjLoc, Cam.getProjectionMatrix() * Cam.getViewMatrix() * modelTransform());
 	// update Eye Position
 	setParameter(EyePosLoc, Cam.position());
 

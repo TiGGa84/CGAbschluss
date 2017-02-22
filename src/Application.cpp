@@ -92,6 +92,8 @@ Application::Application(GLFWwindow* pWin, GamestateManager* gm) :
 
 	dialogScore = new Score(0.55f, 0.548f, 0.04f);
 
+	skybox = new Model(ASSET_DIRECTORY"skybox.dae");
+	skybox->shader(new PhongShader(true), true);
 }
 
 Application::~Application()
@@ -169,8 +171,17 @@ void Application::draw()
 	HDRBuffer.activate();
 
 	glDisable(GL_BLEND);
-	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_DEPTH_TEST);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+#ifdef DEBUG_CAM
+	skybox->draw(Cam);
+#else
+	skybox->draw(LaneCam);
+#endif
+
+	glEnable(GL_DEPTH_TEST);
+
 
 	for (auto m : Models)
 	{

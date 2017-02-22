@@ -22,7 +22,7 @@
 class PhongShader : public BaseShader
 {
 public:
-	PhongShader();
+	PhongShader(bool isStatic = false);
 	// setter
 	void diffuseColor(const Color& c);
 	void ambientColor(const Color& c);
@@ -43,6 +43,7 @@ public:
 	virtual void activate(const BaseCamera& Cam) const;
 private:
 	void assignLocations();
+	bool isStatic;
 
 	Color DiffuseColor;
 	Color SpecularColor;

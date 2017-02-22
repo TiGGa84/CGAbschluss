@@ -433,6 +433,11 @@ float Matrix::determinat()
     m02 * (m10 * m21 - m11 * m20);
 }
 
+void Matrix::clearTranslation()
+{
+	m03 = m13 = m23 = 0;
+}
+
 
 
 
