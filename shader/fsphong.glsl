@@ -16,7 +16,7 @@ uniform float SpecularExp;
 uniform sampler2D DiffuseTexture;
 uniform sampler2D EmitTexture;
 
-const int MAX_LIGHTS = 10;
+const int MAX_LIGHTS = 5;
 
 const uint POINT = 0;
 const uint DIRECTIONAL = 1;

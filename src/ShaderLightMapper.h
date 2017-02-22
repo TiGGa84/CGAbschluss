@@ -1,5 +1,4 @@
-#ifndef LIGHTMANAGER_H
-#define LIGHTMANAGER_H
+#pragma once
 
 #include <GL/glew.h>
 #include <glfw/glfw3.h>
@@ -87,7 +86,7 @@ protected:
 };
 
 
-#define MAXLIGHTCOUNT 10
+#define MAXLIGHTCOUNT 5
 
 class ShaderLightMapper
 {
@@ -126,6 +125,4 @@ protected:
 	GLuint UBO;
 	static ShaderLightMapper* pMapper;
 };
-
-#endif
 
