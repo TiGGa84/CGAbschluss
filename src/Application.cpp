@@ -115,6 +115,7 @@ void Application::start()
 	leftKeyPressedOnce = false;
 	rightKeyPressedOnce = false;
 
+	Tonemap.setOffset(0);
 	score->setNumber(0);
 	dialogScore->setNumber(0);
 	track->reset();
@@ -152,10 +153,14 @@ void Application::update(double time, double frametime)
 	}
 
 	// Crash
-	else if (gm->getGameState() == 5 && !crashed) {
-		crashed = true;
-		LaneCam.setLane(0);
-		dialogScore->setNumber(gamescore);
+	else if (gm->getGameState() == 5) {
+
+		if (Tonemap.getOffst() < 0.01) Tonemap.setOffset(Tonemap.getOffst() + 0.001);
+		if (!crashed) {
+			crashed = true;
+			LaneCam.setLane(0);
+			dialogScore->setNumber(gamescore);
+		}
 	}
 
 #ifdef DEBUG_CAM

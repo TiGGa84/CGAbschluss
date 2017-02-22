@@ -13,13 +13,19 @@ public:
 	PostTonemap();
 	virtual ~PostTonemap();
 
+	void setOffset(float o);
+	float getOffst();
+
 	void addInputColorTexID(GLuint textureBuffer);
 	void addInputBloomTexID(GLuint textureBuffer);
 
 	virtual void process();
 protected:
+	float offset;
+
 	GLuint ColorbufferID[2];
 
+	GLint OffsetLoc;
 	GLint ColorTexLoc;
 	GLint BloomTexLoc;
 };
