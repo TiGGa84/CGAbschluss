@@ -4,8 +4,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#define CAM_PAN_SPEED 10.0f
-#define CAM_PAN_DIRECTION -0.8f
+#define CAM_PAN_SPEED 15.0f
+#define CAM_PAN_DIRECTION 0.7f
 
 LaneCamera::LaneCamera(GLFWwindow* pWin) :
 	m_Position(0.0f, 5.0f, 5.0f),
@@ -75,8 +75,8 @@ const Matrix& LaneCamera::getProjectionMatrix() const
 
 void LaneCamera::update(float frametime)
 {
-	Vector Pos = position(); //m_Position + m_Panning + m_Zoom + m_Rotation;
-	Vector Target = target(); //m_Target + m_Panning;
+	Vector Pos = position();
+	Vector Target = target();
 
 	float change = 0.0f;
 	float diff = abs(desiredLane - currentPos);

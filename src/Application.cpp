@@ -118,7 +118,8 @@ void Application::start()
 	scenery->reset();
 	car->reset();
 
-	LaneCam.setPosition(Vector(0.0f, 2.1f, 4.7f));
+	LaneCam.setPosition(Vector(0.0f, 1.7f, 3.0f));
+	LaneCam.setTarget(Vector(0.0f, 0.4f, 0.0f));
 	LaneCam.reset();
 
 	glEnable(GL_CULL_FACE);
@@ -150,6 +151,7 @@ void Application::update(double time, double frametime)
 	// Crash
 	else if (gm->getGameState() == 5 && !crashed) {
 		crashed = true;
+		LaneCam.setLane(0);
 		dialogScore->setNumber(gamescore);
 	}
 
