@@ -8,9 +8,6 @@
 
 #pragma once
 
-#include <GL/glew.h>
-#include <glfw/glfw3.h>
-
 #include "BaseCamera.h"
 #include "vector.h"
 #include "Matrix.h"

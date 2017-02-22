@@ -2,7 +2,6 @@
 
 #include "BaseCamera.h"
 
-
 // Orthografische Camera um den HUD zu rendern
 class HUDCamera : public BaseCamera
 {

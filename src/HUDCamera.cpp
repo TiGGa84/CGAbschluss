@@ -1,7 +1,5 @@
 #include "HUDCamera.h"
 
-
-
 HUDCamera::HUDCamera(GLFWwindow* pWindow)
 {
 	glfwGetWindowSize(pWindow, &WindowWidth, &WindowHeight);
