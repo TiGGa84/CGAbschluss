@@ -24,6 +24,7 @@ Vector AABB::size() const
 }
 
 // Prüft Überschneidung mit anderer AABB
+// http://www.miguelcasillas.com/?mcportfolio=collision-detection-c
 bool AABB::intersects(AABB & box) const
 {
 	return(

@@ -6,6 +6,9 @@
 #include "PostEffect.h"
 #include "BaseShader.h"
 
+// Zwei-pass Gauss Blur, 5x5 Kernel größe
+// Wird iterativ angewannt
+// Nach Vorlage https://learnopengl.com/#!Advanced-Lighting/Bloom
 class PostBlur : public PostEffect
 {
 public:
