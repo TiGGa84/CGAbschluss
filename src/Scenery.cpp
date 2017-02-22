@@ -25,6 +25,7 @@ void Scenery::reset()
 	sectorQueOffset = 0;
 	sectorQueLength = 0;
 	sectorQue.clear();
+	nextSector = 0;
 }
 
 void Scenery::loadModel(std::string Filepath, int gridLength)
@@ -87,11 +88,10 @@ void Scenery::fillSectorQue(float offsetToFill)
 {
 	while (offsetToFill < 0)
 	{
-		// Random int [0, n]
-		std::uniform_int_distribution<int> dist(0, sectors.size() - 1);
-		auto s = sectors[dist(gen)];
+		auto s = sectors[nextSector];
 		offsetToFill += s->length;
 		sectorQueLength += s->length;
 		sectorQue.push_back(s);
+		nextSector = (nextSector + 1) % sectors.size();
 	}
 }

@@ -59,17 +59,18 @@ Application::Application(GLFWwindow* pWin, GamestateManager* gm) :
 	track = new Track(CARSPEED, 40);
 	track->shader(new PhongShader(), true);
 	track->loadModel(ASSET_DIRECTORY"block.dae");
-	m.translation(0, 0, 4.0f);
+	m.translation(0, 0, 3.0f);
 	track->transform(m);
 	Models.push_back(track);
 
 	scenery = new Scenery(CARSPEED, 200);
 	scenery->shader(new PhongShader(), true);
 	scenery->loadModel(ASSET_DIRECTORY"bgmountains.dae", 40);
-	//scenery->loadModel(ASSET_DIRECTORY"bgtunnel.dae", 100);
-	//scenery->loadModel(ASSET_DIRECTORY"bgspiral.dae", 240);
-	//scenery->loadModel(ASSET_DIRECTORY"bgcity.dae", 240);
-	m.translation(0, -0.1f, 4.0f);
+	scenery->loadModel(ASSET_DIRECTORY"bgspiral.dae", 120);
+	scenery->loadModel(ASSET_DIRECTORY"bgcity.dae", 120);
+	scenery->loadModel(ASSET_DIRECTORY"bgtunnel.dae", 100);
+	scenery->loadModel(ASSET_DIRECTORY"bgspiral2.dae", 140);
+	m.translation(0, -0.1f, 2.0f);
 	scenery->transform(m);
 	Models.push_back(scenery);
 
