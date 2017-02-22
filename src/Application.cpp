@@ -21,6 +21,7 @@
 #define CARSPEED 5.0f
 
 #define DEBUG_CAM1
+#define GODMODE1
 
 Application::Application(GLFWwindow* pWin, GamestateManager* gm) :
 	pWindow(pWin),
@@ -94,10 +95,7 @@ Application::Application(GLFWwindow* pWin, GamestateManager* gm) :
 
 Application::~Application()
 {
-	// TODO Modele nicht doppelt löschen sonst crash :/
-	//for (auto m : Models) delete m;
 	Models.clear();
-	//for (auto m : HUDModels) delete m;
 	HUDModels.clear();
 	delete track;
 	delete scenery;
@@ -132,6 +130,7 @@ void Application::start()
 void Application::update(double time, double frametime)
 {
 	getInput();
+	// Spiel aktiv
 	if (gm->getGameState() == 4) {
 		gamescore = (unsigned int)(time * CARSPEED);
 		score->setNumber(gamescore);
@@ -140,11 +139,15 @@ void Application::update(double time, double frametime)
 		scenery->update((float)time);
 		car->update((float)frametime, *this);
 
+#ifndef GODMODE
 		auto box = car->boundingBox();
 		if (track->testIntersesction(box)) {
 			gm->setGameState(5);
 		}
+#endif
 	}
+
+	// Crash
 	else if (gm->getGameState() == 5 && !crashed) {
 		crashed = true;
 		dialogScore->setNumber(gamescore);
@@ -155,7 +158,7 @@ void Application::update(double time, double frametime)
 #else
 	LaneCam.update((float)frametime);
 #endif
-	}
+}
 
 void Application::draw()
 {
@@ -206,8 +209,6 @@ void Application::drawDialog()
 	assert(Error == 0);
 }
 
-void Application::end() {}
-
 void Application::getInput() {
 
 	bool leftDown = glfwGetKey(pWindow, GLFW_KEY_LEFT) == GLFW_PRESS || glfwGetKey(pWindow, GLFW_KEY_A) == GLFW_PRESS;
@@ -215,6 +216,7 @@ void Application::getInput() {
 	bool spaceDown = glfwGetKey(pWindow, GLFW_KEY_SPACE) == GLFW_PRESS;
 	bool escapeDown = glfwGetKey(pWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS;
 
+	// Wenn Spiel aktiv
 	if (gm->getGameState() == 4) {
 		if (leftDown && !leftKeyPressedOnce) {
 			car->steer(-1);
@@ -233,7 +235,6 @@ void Application::getInput() {
 			rightKeyPressedOnce = false;
 		}
 	}
-	
 
 	// Neustart
 	if (gm->getGameState() == 5 && spaceDown) {
