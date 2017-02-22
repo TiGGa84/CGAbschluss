@@ -16,7 +16,6 @@ public:
 	void start();
 	void update(double time, double frametime);
 	void draw();
-	void end();
 
 	void getInput();
 

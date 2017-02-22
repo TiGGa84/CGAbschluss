@@ -36,7 +36,6 @@ public:
 	void draw();
 	void drawHUD();
 	void drawDialog();
-	void end();
 
 	void getInput();
 

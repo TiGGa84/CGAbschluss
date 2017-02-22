@@ -77,8 +77,6 @@ void MainMenu::draw()
 	assert(Error == 0);
 }
 
-void MainMenu::end() {}
-
 void MainMenu::getInput() {
 	if (glfwGetKey(pWindow, GLFW_KEY_ENTER) == GLFW_PRESS) {
 		gm->setGameState(2);

@@ -59,7 +59,7 @@ int main() {
 	double lasttime = glfwGetTime();
 
 	while (!glfwWindowShouldClose(window)) {
-		// once per frame
+
 		glfwPollEvents();
 
 		double time = glfwGetTime();
