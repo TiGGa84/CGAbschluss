@@ -21,14 +21,14 @@
 #define CARSPEED 5.0f
 
 #define DEBUG_CAM1
-#define GODMODE1
 
 Application::Application(GLFWwindow* pWin, GamestateManager* gm) :
 	pWindow(pWin),
 	LaneCam(pWin),
 	HUDCam(pWin),
 	Cam(pWin),
-	gm(gm)
+	gm(gm),
+	godmode(false)
 {
 	int w = 0, h = 0;
 	glfwGetFramebufferSize(pWin, &w, &h);
@@ -144,12 +144,12 @@ void Application::update(double time, double frametime)
 		scenery->update((float)time);
 		car->update((float)frametime, *this);
 
-#ifndef GODMODE
-		auto box = car->boundingBox();
-		if (track->testIntersesction(box)) {
-			gm->setGameState(5);
+		if (!godmode) {
+			auto box = car->boundingBox();
+			if (track->testIntersesction(box)) {
+				gm->setGameState(5);
+			}
 		}
-#endif
 	}
 
 	// Crash
@@ -234,6 +234,12 @@ void Application::getInput() {
 	bool rightDown = glfwGetKey(pWindow, GLFW_KEY_RIGHT) == GLFW_PRESS || glfwGetKey(pWindow, GLFW_KEY_D) == GLFW_PRESS;
 	bool spaceDown = glfwGetKey(pWindow, GLFW_KEY_SPACE) == GLFW_PRESS;
 	bool escapeDown = glfwGetKey(pWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS;
+	bool gDown = glfwGetKey(pWindow, GLFW_KEY_G) == GLFW_PRESS;
+	bool altDown = glfwGetKey(pWindow, GLFW_KEY_LEFT_ALT) == GLFW_PRESS;
+	// Godmod aktivieren / deaktivieren
+	if (gDown) {
+		godmode = !altDown;
+	}
 
 	// Wenn Spiel aktiv
 	if (gm->getGameState() == 4) {

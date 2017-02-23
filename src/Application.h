@@ -66,6 +66,7 @@ protected:
 	bool rightKeyPressedOnce;
 	unsigned int gamescore;
 	bool crashed;
+	bool godmode;
 };
 
 #endif /* Application_hpp */
